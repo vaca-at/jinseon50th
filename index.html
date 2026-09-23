@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>진선여자고등학교 개교 50주년</title>
-<meta name="description" content="1977 ~ 2027 진선여자고등학교 개교 50주년 기념 누리집 · 기념 사업, 기부금 현황, 추억 갤러리, 축하 방명록">
+<meta name="description" content="1977 ~ 2027 진선여자고등학교 개교 50주년 기념 누리집 · 기념 사업, 후원금 현황, 추억 갤러리, 축하 방명록">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="진선여자고등학교 개교 50주년">
 <meta property="og:title" content="진선여자고등학교 개교 50주년 · 진선의 50년, 함께 기록합니다">
-<meta property="og:description" content="개교 50주년 기념 사업 안내, 기부금 현황, 추억 갤러리, 축하 방명록">
+<meta property="og:description" content="개교 50주년 기념 사업 안내, 후원금 현황, 추억 갤러리, 축하 방명록">
 <meta property="og:url" content="https://jinseon50th.com/">
 <meta property="og:image" content="https://jinseon50th.com/og-v3.png">
 <meta property="og:image:width" content="1200">
@@ -178,7 +178,7 @@ body[data-theme="album"] .tile:hover{transform:rotate(0) translateY(-4px)}
   .tile-more svg{width:22px}
 }
 
-/* ───────── 기부금 전광판 (한 화면 30명) ───────── */
+/* ───────── 후원금 전광판 (한 화면 30명) ───────── */
 
 .admin-only{display:none!important}
 .is-admin .admin-only{display:revert!important}
@@ -341,7 +341,7 @@ body{--lotus:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' v
   .donate-contact{text-align:left}
 }
 
-/* ───────── 기부금 현황 (후원 계좌 · 합계 · 감사의 벽) ───────── */
+/* ───────── 후원금 현황 (후원 계좌 · 합계 · 감사의 벽) ───────── */
 .account{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:16px 26px;margin:0 0 26px;padding:26px 30px;background:linear-gradient(135deg,var(--tile-bg),color-mix(in srgb,var(--gold) 7%,var(--tile-bg)));border:1px solid color-mix(in srgb,var(--gold) 38%,var(--line));border-radius:var(--radius);box-shadow:0 20px 40px -34px rgba(0,0,0,.55)}
 .account::before{content:"";position:absolute;inset:6px;border:1px solid color-mix(in srgb,var(--gold) 18%,transparent);border-radius:max(0px,calc(var(--radius) - 3px));pointer-events:none}
 .acc-ic{position:relative;flex:none;display:grid;place-items:center;width:58px;height:58px;border-radius:50%;border:1px solid color-mix(in srgb,var(--gold) 55%,transparent);color:var(--gold)}
@@ -866,7 +866,7 @@ dialog::backdrop{background:rgba(10,15,30,.5)}
 .login-form input{width:100%}
 .err{color:#C62828;font-size:.85rem;min-height:1.3em;margin:8px 0 0}
 
-/* ───────── 기부금 관리 화면 ───────── */
+/* ───────── 후원금 관리 화면 ───────── */
 .mgr-open{display:flex;justify-content:flex-end;margin-top:12px}
 dialog.wide{width:min(1100px,calc(100% - 24px))}
 .mgr-tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
@@ -926,7 +926,7 @@ dialog.wide{width:min(1100px,calc(100% - 24px))}
         <span class="brand-txt"><b class="school">진선여자고등학교</b><small>개교 50주년 기념</small></span>
       </a>
       <nav class="gnb-menu" aria-label="주요 메뉴">
-        <a href="#projects">기념 사업</a><a href="#history">히스토리</a><a href="#donate">기부</a><a href="#gallery">갤러리</a><a href="#guest">방명록</a>
+        <a href="#projects">기념 사업</a><a href="#history">히스토리</a><a href="#donate">후원</a><a href="#gallery">갤러리</a><a href="#guest">방명록</a>
       </nav>
     </div>
   </header>
@@ -958,7 +958,7 @@ dialog.wide{width:min(1100px,calc(100% - 24px))}
         <p class="lead">반세기 동안 이어 온 배움과 우정을 돌아보고, 다음 50년을 함께 준비하는 기념 사업을 소개합니다.</p>
         <div class="hero-cta">
           <a class="btn btn-primary btn-lg" href="#projects">기념 사업 보기</a>
-          <a class="btn btn-lg btn-line" href="#donate">기부로 함께하기</a>
+          <a class="btn btn-lg btn-line" href="#donate">후원으로 함께하기</a>
         </div>
       </div>
     </div>
@@ -980,7 +980,7 @@ dialog.wide{width:min(1100px,calc(100% - 24px))}
 
   <section class="band" id="donate" aria-labelledby="donateTitle" data-track="donate">
     <div class="wrap">
-      <header class="sec-head"><span class="eyebrow">Donation</span><h2 id="donateTitle">기부금 현황</h2><p class="note">개교 50주년을 위해 마음을 보태 주신 분들께 감사드립니다.</p></header>
+      <header class="sec-head"><span class="eyebrow">Donation</span><h2 id="donateTitle">후원금 현황</h2><p class="note">개교 50주년을 위해 마음을 보태 주신 분들께 감사드립니다.</p></header>
       <div id="accountSlot"></div>
       <div class="summary">
         <div><b id="sumTotal">0원</b><span>모인 금액</span></div>
@@ -1039,7 +1039,7 @@ dialog.wide{width:min(1100px,calc(100% - 24px))}
       </div>
       <nav class="foot-col" aria-label="바로가기">
         <b>바로가기</b>
-        <a href="#projects">기념 사업</a><a href="#history">진선 히스토리</a><a href="#donate">기부금 현황</a><a href="#gallery">추억 갤러리</a><a href="#guest">축하 방명록</a>
+        <a href="#projects">기념 사업</a><a href="#history">진선 히스토리</a><a href="#donate">후원금 현황</a><a href="#gallery">추억 갤러리</a><a href="#guest">축하 방명록</a>
       </nav>
       <nav class="foot-col" aria-label="관련 사이트">
         <b>관련 사이트</b>
@@ -1091,7 +1091,7 @@ dialog.wide{width:min(1100px,calc(100% - 24px))}
     </div>
     <nav class="dash-tabs" role="tablist" aria-label="관리 메뉴">
       <button class="dash-tab" role="tab" data-tab="stats" aria-selected="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18M7 16v-5M12 16V7M17 16v-8"/></svg>접속 현황</button>
-      <button class="dash-tab" role="tab" data-tab="donate" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7z"/></svg>기부금 관리</button>
+      <button class="dash-tab" role="tab" data-tab="donate" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7z"/></svg>후원금 관리</button>
       <button class="dash-tab" role="tab" data-tab="account" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg>후원 계좌</button>
       <button class="dash-tab" role="tab" data-tab="menus" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>기념 사업</button>
       <button class="dash-tab" role="tab" data-tab="guest" aria-selected="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>방명록<span class="tab-badge" id="gbBadge" hidden></span></button>
@@ -1114,9 +1114,9 @@ dialog.wide{width:min(1100px,calc(100% - 24px))}
       <div class="stats-foot"><span id="statsTime"></span><button class="btn btn-sm" id="visitClear">접속 기록 비우기</button></div>
     </section>
 
-    <!-- 기부금 관리 -->
+    <!-- 후원금 관리 -->
     <section data-panel="donate" role="tabpanel" hidden>
-      <div class="dash-head"><div><h2>기부금 관리</h2><p class="note">여기서 추가·수정하면 첫 화면 전광판에 바로 반영됩니다.</p></div></div>
+      <div class="dash-head"><div><h2>후원금 관리</h2><p class="note">여기서 추가·수정하면 첫 화면 전광판에 바로 반영됩니다.</p></div></div>
       <div class="panel">
         <div class="mgr-tools">
           <p class="mgr-sum" id="mgrSum"></p>
@@ -1157,7 +1157,7 @@ dialog.wide{width:min(1100px,calc(100% - 24px))}
 
     <!-- 후원 계좌 -->
     <section data-panel="account" role="tabpanel" hidden>
-      <div class="dash-head"><div><h2>후원 계좌</h2><p class="note">저장하면 첫 화면 '기부금 현황' 맨 위에 바로 보입니다.</p></div></div>
+      <div class="dash-head"><div><h2>후원 계좌</h2><p class="note">저장하면 첫 화면 '후원금 현황' 맨 위에 바로 보입니다.</p></div></div>
       <div class="acc-grid">
         <form class="panel" id="accForm">
           <label class="fld">은행<input id="fBank" placeholder="예: 카카오뱅크" maxlength="20"></label>
@@ -1387,7 +1387,7 @@ dialog.wide{width:min(1100px,calc(100% - 24px))}
       <table>
         <tr><th>구분</th><th>항목</th><th>수집 방법</th></tr>
         <tr><td>방문 기록</td><td>기기 종류, 운영체제, 브라우저, 화면 너비 구간, 방문 날짜·시각, 머문 시간, 열어 본 메뉴와 머문 시간, 들어온 경로(사이트 주소), 기기 구분용 임의 값<br><span class="dim">이름·연락처·IP 주소는 저장하지 않습니다.</span></td><td>누리집 방문 시 자동 수집</td></tr>
-        <tr><td>기부자</td><td>성명, 기수, 구분(졸업생·학부모 등), 기부 금액, 입금 연월, 메모</td><td>기부 확인 후 관리자가 입력</td></tr>
+        <tr><td>후원자</td><td>성명, 기수, 구분(졸업생·학부모 등), 후원 금액, 입금 연월, 메모</td><td>후원 확인 후 관리자가 입력</td></tr>
         <tr><td>방명록</td><td>이용자가 적은 이름(또는 기수), 축하 메시지, 작성 시각</td><td>이용자가 직접 입력</td></tr>
         <tr><td>사진 제보</td><td>사진, 시기·설명, 보내는 분 이름 또는 기수(선택), 제보 시각<br><span class="dim">사진에 나온 분의 얼굴 등이 함께 담길 수 있습니다.</span></td><td>이용자가 직접 올림</td></tr>
         <tr><td>역대 교장·이사장</td><td>대수, 성명, 취임 연도·재임 기간</td><td>학교 홈페이지 연혁과 학교법인 회당학원 역대 이사장 명단(공개 자료)에서 옮겨 적음</td></tr>
@@ -1396,17 +1396,17 @@ dialog.wide{width:min(1100px,calc(100% - 24px))}
       <h4>2. 처리 목적</h4>
       <ul>
         <li>방문 기록: 누리집 이용 통계를 내어 화면과 안내를 고치는 데 씁니다.</li>
-        <li>기부자 정보: 기부금 현황 게시, 감사 인사, 기념 사업 기록 보존에 씁니다.</li>
+        <li>후원자 정보: 후원금 현황 게시, 감사 인사, 기념 사업 기록 보존에 씁니다.</li>
         <li>방명록: 관리자 확인 후 누리집에 축하 메시지를 게시합니다. 적은 이름은 그대로 공개되므로 연락처 등은 적지 마세요.</li>
         <li>사진 제보: 관리자 확인 후 추억 갤러리에 게시합니다. 게시하지 않기로 한 사진은 바로 지웁니다.</li>
         <li>역대 교장·이사장: 학교의 역사를 기록하고 알리는 데 씁니다.</li>
       </ul>
-      <h4>3. 기부자 이름의 공개 범위</h4>
-      <p>기부금 현황에는 <b>김*선(11기)</b>처럼 가운데 글자를 가린 이름과 기수, 구분, 금액, 입금 연월이 보입니다. 이름을 드러내고 싶지 않으면 문의처로 알려 주세요. '익명'으로 바꿔 드립니다. 실명은 관리자만 볼 수 있는 곳에 따로 저장합니다.</p>
+      <h4>3. 후원자 이름의 공개 범위</h4>
+      <p>후원금 현황에는 <b>김*선(11기)</b>처럼 가운데 글자를 가린 이름과 기수, 구분, 금액, 입금 연월이 보입니다. 이름을 드러내고 싶지 않으면 문의처로 알려 주세요. '익명'으로 바꿔 드립니다. 실명은 관리자만 볼 수 있는 곳에 따로 저장합니다.</p>
       <h4>4. 보유 및 파기</h4>
       <ul>
         <li>방문 기록: 수집한 날부터 1년이 지나거나 기념 사업이 끝나면 지체 없이 지웁니다.</li>
-        <li>기부자 정보: 개교 50주년 기념 사업이 끝날 때까지 보관하고, 이후에는 학교 기록물 관리 규정에 따릅니다.</li>
+        <li>후원자 정보: 개교 50주년 기념 사업이 끝날 때까지 보관하고, 이후에는 학교 기록물 관리 규정에 따릅니다.</li>
         <li>방명록: 기념 사업이 끝날 때까지 보관하며, 작성자가 삭제를 요청하면 바로 지웁니다.</li>
         <li>사진 제보: 게시한 사진은 기념 사업이 끝날 때까지 보관하고 학교 기록물로 넘길 수 있습니다. 게시하지 않은 사진과 게시 중단을 요청받은 사진은 바로 지웁니다.</li>
       </ul>
@@ -1414,14 +1414,14 @@ dialog.wide{width:min(1100px,calc(100% - 24px))}
       <p>이용자의 개인정보를 다른 곳에 제공하지 않습니다. 법령에 따라 요청받은 경우는 예외로 합니다.</p>
       <h4>6. 외부 서비스</h4>
       <ul>
-        <li>Google Firebase: 기부 내역·방문 기록·방명록·사진 저장 (서버가 국외에 있을 수 있습니다)</li>
+        <li>Google Firebase: 후원 내역·방문 기록·방명록·사진 저장 (서버가 국외에 있을 수 있습니다)</li>
         <li>Google Fonts: 글꼴 불러오기</li>
         <li>카카오 JavaScript SDK: '카카오톡 공유' 버튼을 누를 때만 불러와 공유 창을 엽니다 (이 누리집은 공유 과정에서 개인정보를 받지 않습니다)</li>
       </ul>
       <h4>7. 브라우저 저장 공간</h4>
       <p>고른 디자인·글꼴(창을 닫으면 지워짐), 기기 구분용 임의 값, 방명록·사진 제보를 마지막으로 보낸 시각(연속 작성 방지용)을 이용자의 브라우저에 저장합니다. 브라우저 설정에서 사이트 데이터를 지우면 함께 지워집니다.</p>
       <h4>8. 열람·정정·삭제 요청</h4>
-      <p>본인의 기부 내역·방명록 글·제보 사진, 또는 사진에 나온 본인 모습을 고치거나 내리고 싶으면 아래 문의처로 알려 주세요. 확인 후 바로 처리합니다.</p>
+      <p>본인의 후원 내역·방명록 글·제보 사진, 또는 사진에 나온 본인 모습을 고치거나 내리고 싶으면 아래 문의처로 알려 주세요. 확인 후 바로 처리합니다.</p>
       <h4>9. 개인정보 보호 문의</h4>
       <p>진선여자고등학교 개교 50주년 누리집 관리자 · <a class="contact-mail"></a></p>
       <p class="dim">시행일: 2026년 9월 23일</p>
@@ -1432,14 +1432,14 @@ dialog.wide{width:min(1100px,calc(100% - 24px))}
       <h4>제2조 (제공하는 내용)</h4>
       <ul>
         <li>개교 50주년 기념 사업 안내</li>
-        <li>기부금 현황과 후원 계좌 안내</li>
+        <li>후원금 현황과 후원 계좌 안내</li>
         <li>학교 연혁과 역대 교장·이사장, 숫자로 보는 학교 기록</li>
         <li>추억 갤러리와 사진 제보, 축하 방명록</li>
       </ul>
-      <h4>제3조 (기부금)</h4>
+      <h4>제3조 (후원금)</h4>
       <ul>
-        <li>누리집에서는 결제를 받지 않습니다. 기부는 안내된 계좌로 직접 보내 주세요.</li>
-        <li>입금 확인 후 관리자가 기부금 현황에 등록하므로 반영까지 며칠 걸릴 수 있습니다.</li>
+        <li>누리집에서는 결제를 받지 않습니다. 후원은 안내된 계좌로 직접 보내 주세요.</li>
+        <li>입금 확인 후 관리자가 후원금 현황에 등록하므로 반영까지 며칠 걸릴 수 있습니다.</li>
         <li>계좌 정보가 의심스러우면 입금 전에 학교로 꼭 확인해 주세요.</li>
       </ul>
       <h4>제4조 (게시 내용의 정정)</h4>
@@ -1549,7 +1549,7 @@ const HISTORY = [
   ["2023.03.02", "제47회 입학식 (11학급 338명)", 1]
 ];
 const OPEN_DAY = new Date(2027, 4, 20);  // 개교 50주년 기념일 (2027.05.20)
-const LAYOUT = "a";   // 메인 배치: a(기념 사업 크게) · b(기부 요약 나란히) · c(대표 화면에 기부 카드)
+const LAYOUT = "a";   // 메인 배치: a(기념 사업 크게) · b(후원 요약 나란히) · c(대표 화면에 후원 카드)
 /* 역대 이사장 (출처: 학교법인 회당학원 이사회 > 역대 이사장 명단). [대, 성명, 취임, 퇴임] */
 const CHAIRS = [
   [1, "손대련", "1964.03.25", "1968.03.24"],
@@ -1618,7 +1618,7 @@ const FONTS = [
 ];
 const DEFAULT_STYLE = {theme:"navy", font:"batang"};
 const LOCAL_KEY = "jinsun50-style-v4";   // 방문자가 고른 디자인은 이번 방문(탭)에서만 유지, 새로 들어오면 항상 기본값
-const PAGE_SIZE = 15;          // 기부 내역 한 화면에 보이는 인원
+const PAGE_SIZE = 15;          // 후원 내역 한 화면에 보이는 인원
 const ROTATE_MS = 10000;       // 한 화면이 넘으면 10초마다 다음 화면으로
 
 /* ═════════ 3. 도우미 ═════════ */
@@ -1933,7 +1933,7 @@ function openMenu(id){
   $("#menuDialog").showModal();
   track.menuOpen(id);
 }
-/* 기부 내역 표시: 김*선(11기) · 구분 · 입금연월 */
+/* 후원 내역 표시: 김*선(11기) · 구분 · 입금연월 */
 const DON_KINDS = ["졸업생","재학생","학부모","교직원","전 교직원","동문회·단체","기타"];
 const donorLabel = d => d.name === "익명" ? "익명" : d.name + (d.gi ? `(${d.gi})` : "");
 const donorYm = d => d.ym || (d.createdAtMs ? (t => `${t.getFullYear()}.${String(t.getMonth()+1).padStart(2,"0")}`)(new Date(d.createdAtMs)) : "-");
@@ -1958,7 +1958,7 @@ function renderDonations(){
   const slice = rows.slice(state.page * PAGE_SIZE, (state.page + 1) * PAGE_SIZE);
 
   $("#boardBody").innerHTML = `<div class="dt-wrap"><table class="don-table">
-    <thead><tr><th class="c-no">번호</th><th class="c-nm">성명</th><th class="c-kd">구분</th><th class="c-am">기부금</th><th class="c-ym">입금연월</th></tr></thead>
+    <thead><tr><th class="c-no">번호</th><th class="c-nm">성명</th><th class="c-kd">구분</th><th class="c-am">후원금</th><th class="c-ym">입금연월</th></tr></thead>
     <tbody>${slice.map(d => `<tr>
       <td class="c-no">${d.no}</td>
       <td class="c-nm"><b>${esc(donorLabel(d))}</b>${d.kind ? `<small class="kd-m">${esc(d.kind)}</small>` : ""}</td>
@@ -2005,7 +2005,7 @@ function setAdmin(on){
 /* ═════════ 5-1. 관리자 대시보드 ═════════ */
 const SHORT = {"overseas":"교직원 해외연수","history-hall":"역사 홀","book":"50년사 책","anniversary":"개교기념일",
   "festival":"학교 축제","alumni-night":"진선인의 밤","souvenir":"기념품 제작","video-contest":"홍보 영상 대회"};
-const SEC_NAMES = {top:"첫 화면", menus:"기념 사업 목록", donate:"기부금 현황", history:"50년 발자취", community:"갤러리·방명록 미리보기", gallery:"추억 갤러리", guest:"축하 방명록"};
+const SEC_NAMES = {top:"첫 화면", menus:"기념 사업 목록", donate:"후원금 현황", history:"50년 발자취", community:"갤러리·방명록 미리보기", gallery:"추억 갤러리", guest:"축하 방명록"};
 const svgI = p => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
 const fmtDur = s => {
   s = Math.round(s || 0);
@@ -2156,7 +2156,7 @@ function accountHTML(a){
   const notes = [
     a.holder ? `이체 시 받는 분 이름이 관리 위원 명의(${esc(a.holder)})로 표시될 수 있습니다.` : "",
     "입금자명에 이름과 기수(예: 김진선11기)를 적어 주시면 확인이 빠릅니다.",
-    "모금 현황은 이 페이지의 기부금 전광판에서 투명하게 공개됩니다.",
+    "모금 현황은 이 페이지의 후원금 전광판에서 투명하게 공개됩니다.",
     a.note ? esc(a.note) : ""
   ].filter(Boolean);
   return `<section class="donate-box" aria-label="후원 계좌 안내">
@@ -2324,7 +2324,7 @@ function renderSubAdmin(){
     </div>`).join("");
 }
 
-/* ═════════ 5-1d. 메인 배치 · 히스토리 탭 · 기부 요약 ═════════ */
+/* ═════════ 5-1d. 메인 배치 · 히스토리 탭 · 후원 요약 ═════════ */
 function renderDonSummary(){
   const list = state.donations;
   const total = list.reduce((s, d) => s + (Number(d.amount) || 0), 0);
@@ -2446,7 +2446,7 @@ async function shrinkImage(file, max, quality, limit){
   }finally{ URL.revokeObjectURL(url); }
 }
 
-/* ─── 기부금 관리 화면 ─── */
+/* ─── 후원금 관리 화면 ─── */
 const fmtDate = ms => { if(!ms) return ""; const d = new Date(ms); return `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,"0")}.${String(d.getDate()).padStart(2,"0")}`; };
 const KEYS = {
   no: d => d.no, date: d => d.createdAtMs || 0, real: d => state.priv[d.id] || "",
@@ -2519,7 +2519,7 @@ function renderMgr(){
       <td>${esc(d.memo || "")}</td>
       <td><div class="acts"><button class="btn btn-sm" data-act="edit">수정</button><button class="btn btn-sm" data-act="del">삭제</button></div></td>
     </tr>`;
-  }).join("") : `<tr><td colspan="10" class="dim" style="text-align:center;padding:28px">${state.search ? "찾는 내역이 없습니다." : "아직 등록된 기부 내역이 없습니다. 위 칸에 입력해 추가하세요."}</td></tr>`;
+  }).join("") : `<tr><td colspan="10" class="dim" style="text-align:center;padding:28px">${state.search ? "찾는 내역이 없습니다." : "아직 등록된 후원 내역이 없습니다. 위 칸에 입력해 추가하세요."}</td></tr>`;
 }
 function publicName(real, anon, fallback){
   if(anon) return "익명";
@@ -2541,7 +2541,7 @@ async function exportExcel(){
   const head = ["번호","등록일","실명","기수","전광판 표시","구분","금액","입금연월","메모"];
   const body = rows.map(d => [d.no, fmtDate(d.createdAtMs), state.priv[d.id] || "", d.gi || "", donorLabel(d), d.kind || "", Number(d.amount) || 0, donorYm(d), d.memo || ""]);
   const t = new Date(), ymd = `${t.getFullYear()}${String(t.getMonth()+1).padStart(2,"0")}${String(t.getDate()).padStart(2,"0")}`;
-  const fname = `진선50주년_기부금_${ymd}`;
+  const fname = `진선50주년_후원금_${ymd}`;
   try{
     const X = await loadXLSX();
     const ws = X.utils.aoa_to_sheet([head, ...body, [], ["", "", "", "", "", "합계", total, `${rows.length}건`, ""]]);
@@ -2551,7 +2551,7 @@ async function exportExcel(){
       if(c && c.t === "n") c.z = "#,##0";
     }
     const wb = X.utils.book_new();
-    X.utils.book_append_sheet(wb, ws, "기부금");
+    X.utils.book_append_sheet(wb, ws, "후원금");
     X.writeFile(wb, fname + ".xlsx");
     toast("엑셀 파일로 저장했습니다");
   }catch(e){
@@ -2756,7 +2756,7 @@ $("#subAdmin").addEventListener("click", async e => {
    키가 없으면 휴대폰은 공유 창(카카오톡 선택), PC는 링크 복사로 안내한다. */
 const KAKAO_JS_KEY = "6753c93841703eb4a00a32208e3c1eca";   // 카카오 개발자 앱 1586520의 JavaScript 키 (공개용)
 const SHARE = {url:"https://jinseon50th.com/", title:"진선여자고등학교 개교 50주년",
-  text:"개교 50주년 기념 사업 안내, 기부금 현황, 추억 갤러리, 축하 방명록", image:"https://jinseon50th.com/og-v3.png"};
+  text:"개교 50주년 기념 사업 안내, 후원금 현황, 추억 갤러리, 축하 방명록", image:"https://jinseon50th.com/og-v3.png"};
 async function shareKakao(){
   if(KAKAO_JS_KEY){
     try{
