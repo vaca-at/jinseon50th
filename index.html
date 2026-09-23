@@ -1,1 +1,810 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>진선여자고등학교 개교 50주년</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Jua&family=Gowun+Dodum&family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;700&family=Nanum+Pen+Script&family=Gaegu:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ▼ 온글잎 윤탱체: 눈누에서 복사한 @font-face 코드를 아래에 붙여넣으세요.
+   붙여넣기 전에는 '나눔펜'으로 대신 표시됩니다. (font-family 이름: 'OwnglyphYuntaeng') */
 
+
+/* ───────── 디자인 4가지 ───────── */
+:root, body[data-theme="navy"]{
+  --bg:#F3F5F9;--surface:#FFFFFF;--tile-bg:#FFFFFF;--ink:#13233F;--muted:#5A6782;
+  --accent:#1F3A6B;--accent-2:#B8923A;--on-accent:#FFFFFF;--line:#D6DCE6;--hero50:#B8923A;
+  --board-bg:#13233F;--board-ink:#FFFFFF;--board-amt:#E2C27A;--board-line:rgba(255,255,255,.14);
+  --radius:6px;--radius-sm:4px;--bg-img:none;
+}
+body[data-theme="lotus"]{
+  --bg:#F1F6EF;--surface:#FFFFFF;--tile-bg:#FFFFFF;--ink:#1E3326;--muted:#5E7466;
+  --accent:#B0245A;--accent-2:#4E8A5E;--on-accent:#FFFFFF;--line:#D3E2D2;--hero50:#B0245A;
+  --board-bg:#1E3326;--board-ink:#FFFFFF;--board-amt:#F59BBE;--board-line:rgba(255,255,255,.14);
+  --radius:14px;--radius-sm:10px;--bg-img:none;
+}
+body[data-theme="night"]{
+  --bg:#0D1330;--surface:#172048;--tile-bg:#141C42;--ink:#ECEEFF;--muted:#A9B0D6;
+  --accent:#FFC857;--accent-2:#7FD1FF;--on-accent:#0D1330;--line:#2C3670;--hero50:#FFC857;
+  --board-bg:#070B1F;--board-ink:#ECEEFF;--board-amt:#FFC857;--board-line:rgba(127,209,255,.2);
+  --radius:12px;--radius-sm:8px;
+  --bg-img:radial-gradient(1.4px 1.4px at 12% 18%, #fff 50%, transparent 51%),radial-gradient(1px 1px at 38% 62%, #cfd6ff 50%, transparent 51%),radial-gradient(1.6px 1.6px at 71% 27%, #fff 50%, transparent 51%),radial-gradient(1px 1px at 86% 78%, #fff 50%, transparent 51%),radial-gradient(1.2px 1.2px at 55% 90%, #cfd6ff 50%, transparent 51%);
+}
+body[data-theme="album"]{
+  --bg:#E6DBC8;--surface:#F5EEE1;--tile-bg:#FFFDF8;--ink:#3A2B1F;--muted:#7A6652;
+  --accent:#7A4E2D;--accent-2:#B38A4E;--on-accent:#FFFFFF;--line:#D2C3A8;--hero50:#7A4E2D;
+  --board-bg:#3A2B1F;--board-ink:#F5EEE1;--board-amt:#E0B878;--board-line:rgba(245,238,225,.16);
+  --radius:2px;--radius-sm:2px;--bg-img:none;
+}
+
+/* ───────── 글꼴 조합 4가지 (제목 / 본문) ───────── */
+:root, body[data-font="batang"]{--f-head:'Gowun Batang',serif;--f-body:'Gowun Batang',serif;--head-w:700}
+body[data-font="jua"]{--f-head:'Jua',sans-serif;--f-body:'Gowun Dodum',sans-serif;--head-w:400}
+body[data-font="blackhan"]{--f-head:'Black Han Sans',sans-serif;--f-body:'Noto Sans KR',sans-serif;--head-w:400}
+body[data-font="yuntaeng"]{--f-head:'OwnglyphYuntaeng','Nanum Pen Script',cursive;--f-body:'Gaegu',cursive;--head-w:400;font-size:18px}
+
+/* ───────── 기본 레이아웃 ───────── */
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background-color:var(--bg);background-image:var(--bg-img);background-attachment:fixed;color:var(--ink);font-family:var(--f-body);line-height:1.65;font-size:16px;word-break:keep-all}
+a{color:var(--accent)}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent-2);outline-offset:2px}
+
+.demo-banner{background:var(--accent-2);color:#111;font-size:.85rem;text-align:center;padding:8px 12px}
+.topbar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px 16px;padding:16px 0}
+.school{font-family:var(--f-head);font-weight:var(--head-w);font-size:1.1rem}
+.style-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.style-group{display:flex;align-items:center;gap:2px;padding:3px 4px 3px 10px;background:var(--surface);border:1px solid var(--line);border-radius:999px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.style-group>.gi{width:16px;height:16px;color:var(--muted);margin-right:4px;flex:none}
+.style-group .pick{position:relative;width:30px;height:30px;padding:0;border:none;background:transparent;justify-content:center;border-radius:50%;transition:background .15s,box-shadow .15s}
+.style-group .pick:hover{background:var(--line)}
+.style-group .dot{width:20px;height:20px;border:none;box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
+#themePicks .pick[aria-pressed="true"]{background:transparent;box-shadow:inset 0 0 0 2px var(--accent)}
+#fontPicks .pick{font-size:1.05rem;line-height:1}
+#fontPicks .pick[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+.icon-btn{cursor:pointer;width:38px;height:38px;padding:0;border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:50%;position:relative}
+.icon-btn:hover{color:var(--accent);border-color:var(--accent)}
+.icon-btn svg{width:18px;height:18px;display:block;margin:auto}
+[data-tip]::after{content:attr(data-tip);position:absolute;top:calc(100% + 8px);left:50%;transform:translate(-50%,-4px);background:var(--ink);color:var(--bg);font-family:var(--f-body);font-size:.75rem;line-height:1.3;white-space:nowrap;padding:5px 9px;border-radius:6px;opacity:0;pointer-events:none;transition:opacity .15s,transform .15s;z-index:20}
+[data-tip]:hover::after,[data-tip]:focus-visible::after{opacity:1;transform:translate(-50%,0)}
+.pick{cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:4px 10px;border-radius:999px;font-size:.8rem;display:inline-flex;align-items:center;gap:6px}
+.pick[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.dot{width:12px;height:12px;border-radius:50%;border:1px solid rgba(0,0,0,.2)}
+
+.btn{cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:8px 14px;border-radius:var(--radius-sm);font-size:.92rem}
+.btn:hover{border-color:var(--accent)}
+.btn-primary{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.btn-sm{padding:4px 10px;font-size:.8rem}
+
+.hero{display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:end;padding:28px 0 48px;border-bottom:1px solid var(--line)}
+.big50{font-family:var(--f-head);font-weight:var(--head-w);font-size:clamp(7rem,24vw,15rem);line-height:.8;color:var(--hero50);letter-spacing:-.04em}
+.kicker{margin:0 0 6px;color:var(--accent);font-weight:600}
+.hero h1{font-family:var(--f-head);font-weight:var(--head-w);font-size:clamp(2rem,5.2vw,3.3rem);line-height:1.15;margin:0 0 14px}
+.lead{color:var(--muted);max-width:30em;margin:0}
+@media (max-width:640px){.hero{grid-template-columns:1fr;gap:10px;padding-top:16px}}
+
+section.block{padding:44px 0 8px}
+h2{font-family:var(--f-head);font-weight:var(--head-w);font-size:1.7rem;line-height:1.25;margin:0 0 6px}
+.note{color:var(--muted);margin:0 0 22px}
+
+.menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.tile{position:relative;overflow:hidden;cursor:pointer;text-align:left;background:var(--tile-bg);color:var(--ink);border:1px solid var(--line);border-radius:var(--radius);padding:22px 20px 16px;min-height:188px;display:flex;flex-direction:column;justify-content:space-between;gap:18px;box-shadow:0 1px 2px rgba(0,0,0,.04);transition:transform .2s,border-color .2s,box-shadow .2s}
+.tile::before{content:"";position:absolute;left:0;top:0;width:100%;height:4px;background:linear-gradient(90deg,var(--accent),var(--accent-2));transform:scaleX(0);transform-origin:left;transition:transform .3s ease}
+.tile:hover{border-color:color-mix(in srgb,var(--accent) 45%,var(--line));transform:translateY(-4px);box-shadow:0 14px 30px -14px color-mix(in srgb,var(--accent) 55%,transparent)}
+.tile:hover::before{transform:scaleX(1)}
+.tile-head{display:flex;flex-direction:column;gap:14px}
+.tile-icon{width:46px;height:46px;border-radius:calc(var(--radius-sm) + 6px);display:grid;place-items:center;background:color-mix(in srgb,var(--accent) 10%,transparent);color:var(--accent);transition:background .2s,color .2s}
+.tile-icon svg{width:24px;height:24px}
+.tile:hover .tile-icon{background:var(--accent);color:var(--on-accent)}
+.tile-no{position:absolute;right:16px;top:10px;font-family:var(--f-head);font-weight:var(--head-w);font-size:2.8rem;line-height:1;color:var(--accent-2);opacity:.25;letter-spacing:-.03em;pointer-events:none}
+.tile-title{font-family:var(--f-head);font-weight:var(--head-w);font-size:1.2rem;line-height:1.35}
+.tile-foot{display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px dashed var(--line)}
+.tile-status{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;padding:3px 10px;border-radius:999px;color:var(--muted);background:color-mix(in srgb,var(--muted) 12%,transparent)}
+.tile-status::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.tile-status.ready{color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent);font-weight:600}
+.tile-arrow{width:18px;height:18px;color:var(--muted);transition:transform .2s,color .2s}
+.tile:hover .tile-arrow{transform:translateX(4px);color:var(--accent)}
+body[data-theme="lotus"] .tile::before{transform:scaleX(1);background:var(--accent-2)}
+body[data-theme="lotus"] .tile:hover::before{background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+body[data-theme="album"] .tile{border:none;box-shadow:0 2px 8px rgba(60,40,20,.22);padding:16px 16px 26px}
+body[data-theme="album"] .tile:nth-child(odd){transform:rotate(-1.2deg)}
+body[data-theme="album"] .tile:nth-child(even){transform:rotate(1deg)}
+body[data-theme="album"] .tile:hover{transform:rotate(0) translateY(-4px);box-shadow:0 12px 24px rgba(60,40,20,.28)}
+
+/* ───────── 기부금 전광판 (한 화면 30명) ───────── */
+.summary{display:flex;flex-wrap:wrap;gap:36px;margin:0 0 20px}
+.summary b{display:block;font-family:var(--f-head);font-weight:var(--head-w);font-size:clamp(1.7rem,5vw,2.5rem);line-height:1.2;color:var(--accent);font-variant-numeric:tabular-nums}
+.summary span{color:var(--muted);font-size:.9rem}
+.board{background:var(--board-bg);color:var(--board-ink);border-radius:var(--radius);padding:14px}
+.board-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}
+.sortbar,.pager{display:flex;align-items:center;gap:6px}
+.board .pick{background:transparent;color:var(--board-ink);border-color:var(--board-line)}
+.board .pick[aria-pressed="true"]{background:var(--board-amt);color:var(--board-bg);border-color:var(--board-amt)}
+.pager span{font-size:.85rem;opacity:.8;font-variant-numeric:tabular-nums;min-width:4.5em;text-align:center}
+.board-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+@media (max-width:900px){.board-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:560px){.board-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.cell{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:8px;align-items:center;padding:7px 10px;border:1px solid var(--board-line);border-radius:var(--radius-sm);min-height:52px}
+.cell .no{grid-row:1/4;font-size:.75rem;opacity:.55;min-width:1.9em;font-variant-numeric:tabular-nums}
+.cell .nm{font-weight:700;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cell .memo{font-size:.72rem;line-height:1.25;opacity:.78;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cell .am{color:var(--board-amt);font-size:.9rem;line-height:1.3;font-variant-numeric:tabular-nums;white-space:nowrap}
+.cell.blank{border-style:dashed;opacity:.28}
+.cell .x{position:absolute;top:2px;right:2px;cursor:pointer;border:none;background:rgba(255,255,255,.15);color:var(--board-ink);width:20px;height:20px;border-radius:50%;font-size:.75rem;line-height:1}
+.board-empty{text-align:center;padding:40px 0;opacity:.7}
+
+.admin-only{display:none!important}
+.is-admin .admin-only{display:revert!important}
+.admin-form{margin-top:14px;padding:14px;border:1px dashed var(--accent);border-radius:var(--radius)}
+.admin-form .row{display:flex;flex-wrap:wrap;gap:8px}
+.admin-form input{flex:1 1 140px}
+.admin-form p{margin:8px 0 0;font-size:.82rem;color:var(--muted)}
+
+input,textarea{font:inherit;padding:9px 12px;border:1px solid var(--line);border-radius:var(--radius-sm);background:var(--bg);color:var(--ink)}
+textarea{width:100%;min-height:240px;resize:vertical;line-height:1.6}
+
+footer{padding:56px 0 80px;color:var(--muted);font-size:.85rem;text-align:center}
+
+.admin-fab{position:fixed;right:12px;bottom:12px;z-index:50;cursor:pointer;font-size:.72rem;padding:5px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);opacity:.65}
+.admin-fab:hover{opacity:1}
+.is-admin .admin-fab{background:var(--accent);color:var(--on-accent);border-color:var(--accent);opacity:1}
+
+dialog{border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);color:var(--ink);padding:0;width:min(660px,calc(100% - 24px));max-height:86vh}
+dialog::backdrop{background:rgba(10,15,30,.5)}
+.dlg-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:20px 22px 14px;border-bottom:1px solid var(--line)}
+.dlg-head h3{margin:0;font-family:var(--f-head);font-weight:var(--head-w);font-size:1.4rem;line-height:1.3}
+.dlg-body{padding:18px 22px 22px}
+.content{white-space:pre-wrap;overflow-wrap:anywhere}
+.empty{color:var(--muted);text-align:center;padding:32px 0}
+.editor{margin-top:18px;padding-top:16px;border-top:1px dashed var(--line)}
+.editor-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.login-form label{display:block;font-size:.85rem;color:var(--muted);margin:10px 0 4px}
+.login-form input{width:100%}
+.err{color:#C62828;font-size:.85rem;min-height:1.3em;margin:8px 0 0}
+
+/* ───────── 기부금 관리 화면 ───────── */
+.mgr-open{display:flex;justify-content:flex-end;margin-top:12px}
+dialog.wide{width:min(1100px,calc(100% - 24px))}
+.mgr-tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.mgr-sum{margin:0 auto 0 0;font-weight:600}
+.mgr-tools input{flex:0 1 220px}
+.mgr-add{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:12px;border:1px dashed var(--accent);border-radius:var(--radius)}
+.mgr-add input:not([type=checkbox]){flex:1 1 130px}
+.chk{display:inline-flex;align-items:center;gap:4px;font-size:.88rem;white-space:nowrap;cursor:pointer}
+.mgr-help{font-size:.8rem;color:var(--muted);margin:6px 0 14px}
+.table-wrap{overflow:auto;max-height:55vh;border:1px solid var(--line);border-radius:var(--radius-sm)}
+.mgr-table{width:100%;border-collapse:collapse;font-size:.9rem;min-width:820px}
+.mgr-table th,.mgr-table td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap;vertical-align:middle}
+.mgr-table th{position:sticky;top:0;z-index:1;background:var(--surface)}
+.mgr-table th button{border:none;background:none;cursor:pointer;font-weight:700;padding:0;color:var(--ink)}
+.mgr-table th[aria-sort] button{color:var(--accent)}
+.mgr-table .r{text-align:right;font-variant-numeric:tabular-nums}
+.mgr-table .dim{color:var(--muted)}
+.mgr-table td input:not([type=checkbox]){width:100%;min-width:80px;padding:5px 8px}
+.mgr-table tr.editing td{background:var(--bg)}
+.mgr-table .acts{display:flex;gap:4px}
+.mgr-table .name-edit{display:flex;gap:8px;align-items:center}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-size:.9rem;z-index:100;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.show{opacity:1}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body data-theme="navy" data-font="batang">
+
+<div id="demoBanner" class="demo-banner" hidden>미리보기 모드입니다. Firebase 설정값을 넣기 전이라 입력한 내용은 저장되지 않습니다.</div>
+
+<div class="wrap">
+  <header class="topbar">
+    <span class="school">진선여자고등학교</span>
+    <div class="style-bar">
+      <div class="style-group" id="themePicks" role="group" aria-label="디자인 선택"><svg class="gi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22a10 10 0 1 1 10-10c0 2.8-2.2 4-4 4h-2a2 2 0 0 0-1.5 3.3A1.6 1.6 0 0 1 12 22z"/><circle cx="7.5" cy="10.5" r="1.2" fill="currentColor"/><circle cx="12" cy="7" r="1.2" fill="currentColor"/><circle cx="16.5" cy="10.5" r="1.2" fill="currentColor"/></svg></div>
+      <div class="style-group" id="fontPicks" role="group" aria-label="글꼴 선택"><svg class="gi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7V5h16v2M12 5v14M9 19h6"/></svg></div>
+      <button class="icon-btn admin-only" id="saveDefault" aria-label="모두의 기본값으로 저장" data-tip="모두의 기본값으로 저장"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg></button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="big50" aria-hidden="true">50</div>
+    <div>
+      <p class="kicker">개교 50주년 기념</p>
+      <h1>진선의 50년,<br>함께 기록합니다</h1>
+      <p class="lead">반세기 동안 이어 온 배움과 우정을 돌아보고, 다음 50년을 함께 준비하는 기념 사업을 소개합니다.</p>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="menuTitle">
+    <h2 id="menuTitle">기념 사업</h2>
+    <p class="note">항목을 누르면 자세한 안내를 볼 수 있습니다.</p>
+    <div class="menu-grid" id="menuGrid"></div>
+  </section>
+
+  <section class="block" aria-labelledby="donateTitle">
+    <h2 id="donateTitle">기부금 현황</h2>
+    <p class="note">개교 50주년을 위해 마음을 보태 주신 분들께 감사드립니다.</p>
+    <div class="summary">
+      <div><b id="sumTotal">0원</b><span>모인 금액</span></div>
+      <div><b id="sumCount">0명</b><span>참여해 주신 분</span></div>
+    </div>
+
+    <div class="board" id="board">
+      <div class="board-top">
+        <div class="sortbar" role="group" aria-label="정렬">
+          <button class="pick" data-sort="reg" aria-pressed="true">등록순</button>
+          <button class="pick" data-sort="amt" aria-pressed="false">금액순</button>
+        </div>
+        <div class="pager" id="pager" hidden>
+          <button class="pick" id="prevPage" aria-label="이전 30명">이전</button>
+          <span id="pageInfo">1 / 1</span>
+          <button class="pick" id="nextPage" aria-label="다음 30명">다음</button>
+        </div>
+      </div>
+      <div id="boardBody"></div>
+    </div>
+
+    <div class="mgr-open admin-only">
+      <button class="btn btn-primary" id="openMgr">기부금 관리 화면 열기</button>
+    </div>
+  </section>
+
+  <footer>진선여자고등학교 개교 50주년 기념 누리집</footer>
+</div>
+
+<button class="admin-fab" id="adminFab">관리자</button>
+
+<dialog id="menuDialog" aria-labelledby="menuDlgTitle">
+  <div class="dlg-head">
+    <h3 id="menuDlgTitle"></h3>
+    <button class="btn btn-sm" data-close>닫기</button>
+  </div>
+  <div class="dlg-body">
+    <div id="menuContent"></div>
+    <div class="editor admin-only">
+      <label for="menuEditor" style="font-size:.85rem;color:var(--muted)">내용 입력 (주소를 넣으면 자동으로 링크가 됩니다)</label>
+      <textarea id="menuEditor"></textarea>
+      <div class="editor-actions">
+        <button class="btn btn-primary" id="menuSave">저장</button>
+        <button class="btn" id="menuClear">준비중으로 되돌리기</button>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="loginDialog" aria-labelledby="loginTitle">
+  <div class="dlg-head">
+    <h3 id="loginTitle">관리자 로그인</h3>
+    <button class="btn btn-sm" data-close>닫기</button>
+  </div>
+  <form class="dlg-body login-form" id="loginForm">
+    <label for="adminEmail">관리자 계정</label>
+    <input id="adminEmail" readonly>
+    <label for="adminPw">비밀번호</label>
+    <input id="adminPw" type="password" autocomplete="current-password" required>
+    <p class="err" id="loginErr"></p>
+    <button class="btn btn-primary" type="submit" style="width:100%;margin-top:6px">로그인</button>
+  </form>
+</dialog>
+
+<dialog id="mgrDialog" class="wide" aria-labelledby="mgrTitle">
+  <div class="dlg-head">
+    <h3 id="mgrTitle">기부금 관리</h3>
+    <button class="btn btn-sm" data-close>닫기</button>
+  </div>
+  <div class="dlg-body">
+    <div class="mgr-tools">
+      <p class="mgr-sum" id="mgrSum"></p>
+      <input id="mgrSearch" type="search" placeholder="이름이나 메모로 찾기" aria-label="이름이나 메모로 찾기">
+      <button class="btn btn-primary" id="mgrExport">엑셀로 저장</button>
+    </div>
+    <form class="mgr-add" id="mgrAdd">
+      <input id="aReal" placeholder="이름 (예: 김진선)" maxlength="20" aria-label="이름">
+      <label class="chk"><input type="checkbox" id="aAnon"> 익명으로 표시</label>
+      <input id="aAmount" type="number" inputmode="numeric" min="1" step="1" placeholder="금액 (원)" required aria-label="금액">
+      <input id="aMemo" placeholder="메모 (선택, 예: 11기)" maxlength="30" aria-label="메모 (선택)">
+      <button class="btn btn-primary" type="submit">추가</button>
+    </form>
+    <p class="mgr-help">전광판에는 김*선처럼 가린 이름만 보입니다. 실명은 관리자만 볼 수 있는 곳에 따로 저장되고, 엑셀 파일에는 실명과 가린 이름이 모두 들어갑니다. 제목을 누르면 정렬됩니다.</p>
+    <div class="table-wrap">
+      <table class="mgr-table">
+        <thead><tr id="mgrHead">
+          <th data-key="no"><button>번호</button></th>
+          <th data-key="date"><button>등록일</button></th>
+          <th data-key="real"><button>실명</button></th>
+          <th data-key="name"><button>전광판 표시</button></th>
+          <th data-key="amount" class="r"><button>금액</button></th>
+          <th data-key="memo"><button>메모</button></th>
+          <th>관리</th>
+        </tr></thead>
+        <tbody id="mgrBody"></tbody>
+      </table>
+    </div>
+  </div>
+</dialog>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script type="module">
+/* ═════════ 1. Firebase 설정 (Firebase 콘솔 > 프로젝트 설정 > 내 앱 에서 복사) ═════════ */
+const firebaseConfig = {
+  apiKey: "여기에_API_KEY",
+  authDomain: "moon-d528d.firebaseapp.com",
+  projectId: "moon-d528d",
+  storageBucket: "moon-d528d.firebasestorage.app",
+  messagingSenderId: "여기에_SENDER_ID",
+  appId: "여기에_APP_ID"
+};
+const ADMIN_EMAIL = "anstjsdud@sen.go.kr";
+const PREFIX = "jinsun50_";          // 다른 웹앱과 컬렉션이 섞이지 않도록 붙이는 이름표
+const DEMO = firebaseConfig.apiKey.startsWith("여기에");
+
+/* ═════════ 2. 메뉴 (내용은 관리자 모드에서 입력) ═════════ */
+const MENUS = [
+  {id:"overseas",      title:"50주년 기념 교직원 해외연수",
+   icon:'<path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>'},
+  {id:"history-hall",  title:"진선여고 역사 홀",
+   icon:'<path d="M3 21h18M5 21V11M9.5 21V11M14.5 21V11M19 21V11M2.5 11h19M12 3l9 5H3z"/>'},
+  {id:"book",          title:"진선 50년사 책 발간",
+   icon:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V2H6.5A2.5 2.5 0 0 0 4 4.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5M9 7h7"/>'},
+  {id:"anniversary",   title:"개교기념일 행사",
+   icon:'<path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1M2 21h20M7 8v3M12 8v3M17 8v3M7 4h.01M12 4h.01M17 4h.01"/>'},
+  {id:"festival",      title:"축제(연화제)",
+   icon:'<path d="M12 3l1.9 5.8L20 10.5l-6.1 1.7L12 18l-1.9-5.8L4 10.5l6.1-1.7z"/><path d="M19 17v4M17 19h4M5 3v3M3.5 4.5h3"/>'},
+  {id:"alumni-night",  title:"진선인의 밤(총동문회)",
+   icon:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>'},
+  {id:"souvenir",      title:"기념품 준비",
+   icon:'<path d="M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>'},
+  {id:"video-contest", title:"개교 50주년 기념 홍보 동영상 제작 대회",
+   icon:'<path d="m16 13 5.2 3.5a.5.5 0 0 0 .8-.4V7.9a.5.5 0 0 0-.8-.4L16 11"/><rect x="2" y="6" width="14" height="12" rx="2"/>'}
+];
+
+const THEMES = [
+  {id:"navy",  name:"네이비와 골드",  c:["#1F3A6B","#B8923A"]},
+  {id:"lotus", name:"연화",          c:["#B0245A","#4E8A5E"]},
+  {id:"night", name:"밤하늘",        c:["#0D1330","#FFC857"]},
+  {id:"album", name:"동문 앨범",      c:["#7A4E2D","#E6DBC8"]}
+];
+const FONTS = [
+  {id:"batang",   name:"고운바탕",           head:"'Gowun Batang',serif"},
+  {id:"jua",      name:"주아 + 고운돋움",     head:"'Jua',sans-serif"},
+  {id:"blackhan", name:"검은고딕 + 노토산스", head:"'Black Han Sans',sans-serif"},
+  {id:"yuntaeng", name:"윤탱 + 나눔펜 + 개구", head:"'OwnglyphYuntaeng','Nanum Pen Script',cursive"}
+];
+const DEFAULT_STYLE = {theme:"navy", font:"batang"};
+const LOCAL_KEY = "jinsun50-style-v2";
+const PAGE_SIZE = 30;          // 전광판 한 화면에 보이는 인원
+const ROTATE_MS = 8000;        // 30명이 넘으면 8초마다 다음 화면으로
+
+/* ═════════ 3. 도우미 ═════════ */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const linkify = t => esc(t).replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+const won = n => (Number(n)||0).toLocaleString("ko-KR") + "원";
+const validTheme = t => THEMES.some(x => x.id === t) ? t : DEFAULT_STYLE.theme;
+const validFont  = f => FONTS.some(x => x.id === f) ? f : DEFAULT_STYLE.font;
+function maskName(raw){
+  const n = raw.trim().replace(/\s+/g,"");
+  if(!n || n === "익명") return "익명";
+  const c = [...n];
+  if(c.length === 1) return c[0];
+  if(c.length === 2) return c[0] + "*";
+  return c[0] + "*".repeat(c.length - 2) + c[c.length - 1];
+}
+let toastTimer;
+function toast(msg){
+  const t = $("#toast"); t.textContent = msg; t.classList.add("show");
+  clearTimeout(toastTimer); toastTimer = setTimeout(()=>t.classList.remove("show"), 2400);
+}
+function loadLocal(){ try{ return JSON.parse(localStorage.getItem(LOCAL_KEY)); }catch{ return null; } }
+function saveLocal(v){ try{ localStorage.setItem(LOCAL_KEY, JSON.stringify(v)); }catch{} }
+
+/* ═════════ 4. 데이터 연결 ═════════ */
+async function firebaseApi(){
+  const V = "10.12.2";
+  const [{initializeApp}, fs, au] = await Promise.all([
+    import(`https://www.gstatic.com/firebasejs/${V}/firebase-app.js`),
+    import(`https://www.gstatic.com/firebasejs/${V}/firebase-firestore.js`),
+    import(`https://www.gstatic.com/firebasejs/${V}/firebase-auth.js`)
+  ]);
+  const app = initializeApp(firebaseConfig);
+  const db = fs.getFirestore(app);
+  const auth = au.getAuth(app);
+  const col = n => fs.collection(db, PREFIX + n);
+  const ref = (n, id) => fs.doc(db, PREFIX + n, id);
+  const fail = e => toast("데이터를 불러오지 못했습니다 (" + (e.code || e.message) + ")");
+  return {
+    watchMenus: cb => fs.onSnapshot(col("menus"), s => { const o={}; s.forEach(d => o[d.id] = d.data().body || ""); cb(o); }, fail),
+    watchDonations: cb => fs.onSnapshot(fs.query(col("donations"), fs.orderBy("createdAtMs","asc")), s => cb(s.docs.map(d => ({id:d.id, ...d.data()}))), fail),
+    watchSettings: cb => fs.onSnapshot(ref("settings","app"), s => cb(s.exists() ? s.data() : null), fail),
+    saveMenu: (id, body) => fs.setDoc(ref("menus", id), {body, updatedAt: fs.serverTimestamp()}),
+    watchPrivate: cb => fs.onSnapshot(col("donors_private"), s => { const o={}; s.forEach(d => o[d.id] = d.data().realName || ""); cb(o); }, fail),
+    saveDonation: async (id, pub, realName) => {
+      const b = fs.writeBatch(db);
+      const r = id ? ref("donations", id) : fs.doc(col("donations"));
+      if(id) b.set(r, {...pub, updatedAt: fs.serverTimestamp()}, {merge:true});
+      else   b.set(r, {...pub, createdAtMs: Date.now(), createdAt: fs.serverTimestamp()});
+      if(realName) b.set(ref("donors_private", r.id), {realName});
+      await b.commit();
+    },
+    removeDonation: async id => {
+      const b = fs.writeBatch(db);
+      b.delete(ref("donations", id)); b.delete(ref("donors_private", id));
+      await b.commit();
+    },
+    saveSettings: o => fs.setDoc(ref("settings","app"), o, {merge:true}),
+    login: pw => au.signInWithEmailAndPassword(auth, ADMIN_EMAIL, pw),
+    logout: () => au.signOut(auth),
+    onAuth: cb => au.onAuthStateChanged(auth, u => cb(!!u && u.email === ADMIN_EMAIL))
+  };
+}
+function demoApi(){
+  const L = {m:[], d:[], a:[]};
+  let menus = {};
+  const sur = "김이박최정강조윤장임한오서신권황안송류홍".split("");
+  const last = "선희준아진민서연지수현은영".split("");
+  let dons = Array.from({length:42}, (_, i) => ({
+    id:"s"+i, createdAtMs: Date.now() - (42 - i) * 86400000,
+    name: i % 11 === 5 ? "익명" : sur[i % sur.length] + "*" + last[(i*7) % last.length],
+    amount: [100000,200000,300000,500000,1000000,50000][(i*5) % 6],
+    memo: ["", "11기", "", "3기 동문회", "", "", "00대 교장선생님", "", "25기", ""][i % 10]
+  }));
+  let priv = {};
+  const emit = () => { L.m.forEach(f => f({...menus})); L.d.forEach(f => f([...dons])); L.p.forEach(f => f({...priv})); };
+  L.p = [];
+  return {
+    watchMenus: cb => { L.m.push(cb); cb({...menus}); },
+    watchDonations: cb => { L.d.push(cb); cb([...dons]); },
+    watchSettings: cb => cb(null),
+    saveMenu: async (id, b) => { menus[id] = b; emit(); },
+    watchPrivate: cb => { L.p.push(cb); cb({...priv}); return () => { L.p = L.p.filter(f => f !== cb); }; },
+    saveDonation: async (id, pub, realName) => {
+      if(id) dons = dons.map(d => d.id === id ? {...d, ...pub} : d);
+      else { id = "d" + Date.now(); dons.push({id, ...pub, createdAtMs: Date.now()}); }
+      if(realName) priv[id] = realName;
+      emit();
+    },
+    removeDonation: async id => { dons = dons.filter(d => d.id !== id); delete priv[id]; emit(); },
+    saveSettings: async () => {},
+    login: async () => L.a.forEach(f => f(true)),
+    logout: async () => L.a.forEach(f => f(false)),
+    onAuth: cb => { L.a.push(cb); cb(false); }
+  };
+}
+
+/* ═════════ 5. 화면 그리기 ═════════ */
+const state = {menus:{}, donations:[], sort:"reg", page:0, pages:1, paused:false, isAdmin:false, openId:null, defaults:null,
+  priv:{}, unsubPriv:null, mgrKey:"no", mgrDir:"asc", editId:null, search:""};
+
+function renderMenus(){
+  $("#menuGrid").innerHTML = MENUS.map((m, i) => {
+    const has = (state.menus[m.id] || "").trim();
+    return `<button class="tile" data-id="${m.id}">
+      <span class="tile-no" aria-hidden="true">${String(i + 1).padStart(2, "0")}</span>
+      <span class="tile-head">
+        <span class="tile-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${m.icon}</svg></span>
+        <span class="tile-title">${esc(m.title)}</span>
+      </span>
+      <span class="tile-foot">
+        <span class="tile-status ${has ? "ready" : ""}">${has ? "안내 보기" : "준비중"}</span>
+        <svg class="tile-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </span>
+    </button>`;
+  }).join("");
+}
+function renderMenuContent(){
+  if(!state.openId) return;
+  const body = (state.menus[state.openId] || "").trim();
+  $("#menuContent").innerHTML = body
+    ? `<div class="content">${linkify(body)}</div>`
+    : `<p class="empty">준비 중입니다.<br>내용이 정해지면 이곳에 안내합니다.</p>`;
+}
+function openMenu(id){
+  const m = MENUS.find(x => x.id === id); if(!m) return;
+  state.openId = id;
+  $("#menuDlgTitle").textContent = m.title;
+  $("#menuEditor").value = state.menus[id] || "";
+  renderMenuContent();
+  $("#menuDialog").showModal();
+}
+function renderDonations(){
+  const list = state.donations.map((d, i) => ({...d, no: i + 1}));
+  const total = list.reduce((s, d) => s + (Number(d.amount) || 0), 0);
+  $("#sumTotal").textContent = won(total);
+  $("#sumCount").textContent = list.length.toLocaleString("ko-KR") + "명";
+
+  if(!list.length){
+    $("#boardBody").innerHTML = `<p class="board-empty">아직 등록된 기부 내역이 없습니다.</p>`;
+    $("#pager").hidden = true; state.pages = 1; return;
+  }
+  const rows = state.sort === "amt" ? [...list].sort((a, b) => b.amount - a.amount || a.no - b.no) : list;
+  state.pages = Math.ceil(rows.length / PAGE_SIZE);
+  if(state.page >= state.pages) state.page = 0;
+  const slice = rows.slice(state.page * PAGE_SIZE, (state.page + 1) * PAGE_SIZE);
+
+  let cells = slice.map(d => `<div class="cell">
+      <span class="no">${d.no}</span>
+      <span class="nm">${esc(d.name)}</span>
+      ${d.memo ? `<span class="memo" title="${esc(d.memo)}">${esc(d.memo)}</span>` : ""}
+      <span class="am">${won(d.amount)}</span>
+      <button class="x admin-only" data-del="${d.id}" aria-label="${esc(d.name)} 기부 내역 삭제">×</button>
+    </div>`).join("");
+  for(let i = slice.length; i < PAGE_SIZE; i++) cells += `<div class="cell blank" aria-hidden="true"></div>`;
+  $("#boardBody").innerHTML = `<div class="board-grid">${cells}</div>`;
+
+  $("#pager").hidden = state.pages <= 1;
+  $("#pageInfo").textContent = `${state.page + 1} / ${state.pages}`;
+}
+function buildPicks(){
+  $("#themePicks").insertAdjacentHTML("beforeend", THEMES.map(t =>
+    `<button class="pick" data-theme="${t.id}" aria-pressed="false" aria-label="${t.name}" data-tip="${t.name}"><span class="dot" style="background:linear-gradient(135deg,${t.c[0]} 50%,${t.c[1]} 50%)"></span></button>`).join(""));
+  $("#fontPicks").insertAdjacentHTML("beforeend", FONTS.map(f =>
+    `<button class="pick" data-font="${f.id}" aria-pressed="false" aria-label="${f.name}" data-tip="${f.name}" style="font-family:${f.head}">가</button>`).join(""));
+}
+function applyStyle(theme, font){
+  theme = validTheme(theme); font = validFont(font);
+  document.body.dataset.theme = theme;
+  document.body.dataset.font = font;
+  document.querySelectorAll("#themePicks .pick").forEach(b => b.setAttribute("aria-pressed", b.dataset.theme === theme));
+  document.querySelectorAll("#fontPicks .pick").forEach(b => b.setAttribute("aria-pressed", b.dataset.font === font));
+}
+function setAdmin(on){
+  state.isAdmin = on;
+  if(on && !state.unsubPriv && api){
+    state.unsubPriv = api.watchPrivate(o => { state.priv = o; renderMgr(); });
+  }
+  if(!on){
+    if(typeof state.unsubPriv === "function") state.unsubPriv();
+    state.unsubPriv = null; state.priv = {}; state.editId = null;
+    if($("#mgrDialog").open) $("#mgrDialog").close();
+  }
+  document.body.classList.toggle("is-admin", on);
+  $("#adminFab").textContent = on ? "관리자 모드 끄기" : "관리자";
+}
+
+/* ─── 기부금 관리 화면 ─── */
+const fmtDate = ms => { if(!ms) return ""; const d = new Date(ms); return `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,"0")}.${String(d.getDate()).padStart(2,"0")}`; };
+const KEYS = {
+  no: d => d.no, date: d => d.createdAtMs || 0, real: d => state.priv[d.id] || "",
+  name: d => d.name || "", amount: d => Number(d.amount) || 0, memo: d => d.memo || ""
+};
+function mgrRows(useSearch){
+  let rows = state.donations.map((d, i) => ({...d, no: i + 1}));
+  if(useSearch && state.search){
+    const q = state.search;
+    rows = rows.filter(d => [d.name, d.memo, state.priv[d.id]].some(v => (v || "").includes(q)));
+  }
+  const f = KEYS[state.mgrKey], dir = state.mgrDir === "asc" ? 1 : -1;
+  return rows.sort((a, b) => {
+    const x = f(a), y = f(b);
+    const c = typeof x === "number" ? x - y : String(x).localeCompare(String(y), "ko");
+    return (c || a.no - b.no) * dir;
+  });
+}
+function renderMgr(){
+  if(!$("#mgrDialog").open) return;
+  const all = state.donations;
+  const total = all.reduce((s, d) => s + (Number(d.amount) || 0), 0);
+  $("#mgrSum").textContent = `모두 ${all.length}건, ${won(total)}`;
+  document.querySelectorAll("#mgrHead th[data-key]").forEach(th => {
+    const on = th.dataset.key === state.mgrKey;
+    th.toggleAttribute("aria-sort", on);
+    if(on) th.setAttribute("aria-sort", state.mgrDir === "asc" ? "ascending" : "descending");
+    th.querySelector("button").dataset.arrow = on ? (state.mgrDir === "asc" ? " ▲" : " ▼") : "";
+    const label = th.querySelector("button").textContent.replace(/ [▲▼]$/, "");
+    th.querySelector("button").textContent = label + th.querySelector("button").dataset.arrow;
+  });
+  const rows = mgrRows(true);
+  $("#mgrBody").innerHTML = rows.length ? rows.map(d => {
+    const real = state.priv[d.id] || "";
+    if(d.id === state.editId) return `<tr class="editing" data-id="${d.id}">
+      <td class="dim">${d.no}</td>
+      <td class="dim">${fmtDate(d.createdAtMs)}</td>
+      <td colspan="2"><div class="name-edit">
+        <input data-f="real" value="${esc(real)}" placeholder="${esc(d.name)} (바꿀 때만 입력)" maxlength="20" aria-label="이름">
+        <label class="chk"><input type="checkbox" data-f="anon" ${d.name === "익명" ? "checked" : ""}> 익명</label>
+      </div></td>
+      <td><input data-f="amount" type="number" min="1" step="1" value="${Number(d.amount) || ""}" aria-label="금액"></td>
+      <td><input data-f="memo" value="${esc(d.memo || "")}" maxlength="30" aria-label="메모"></td>
+      <td><div class="acts"><button class="btn btn-sm btn-primary" data-act="save">저장</button><button class="btn btn-sm" data-act="cancel">취소</button></div></td>
+    </tr>`;
+    return `<tr data-id="${d.id}">
+      <td class="dim">${d.no}</td>
+      <td class="dim">${fmtDate(d.createdAtMs)}</td>
+      <td>${real ? esc(real) : '<span class="dim">없음</span>'}</td>
+      <td>${esc(d.name)}</td>
+      <td class="r">${won(d.amount)}</td>
+      <td>${esc(d.memo || "")}</td>
+      <td><div class="acts"><button class="btn btn-sm" data-act="edit">수정</button><button class="btn btn-sm" data-act="del">삭제</button></div></td>
+    </tr>`;
+  }).join("") : `<tr><td colspan="7" class="dim" style="text-align:center;padding:28px">${state.search ? "찾는 내역이 없습니다." : "아직 등록된 기부 내역이 없습니다. 위 칸에 입력해 추가하세요."}</td></tr>`;
+}
+function publicName(real, anon, fallback){
+  if(anon) return "익명";
+  if(real) return maskName(real);
+  return fallback || "";
+}
+function loadXLSX(){
+  if(window.XLSX) return Promise.resolve(window.XLSX);
+  return new Promise((res, rej) => {
+    const sc = document.createElement("script");
+    sc.src = "https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js";
+    sc.onload = () => res(window.XLSX); sc.onerror = rej;
+    document.head.appendChild(sc);
+  });
+}
+async function exportExcel(){
+  const rows = mgrRows(false);
+  const total = rows.reduce((s, d) => s + (Number(d.amount) || 0), 0);
+  const head = ["번호","등록일","실명","전광판 표시","금액","메모"];
+  const body = rows.map(d => [d.no, fmtDate(d.createdAtMs), state.priv[d.id] || "", d.name, Number(d.amount) || 0, d.memo || ""]);
+  const t = new Date(), ymd = `${t.getFullYear()}${String(t.getMonth()+1).padStart(2,"0")}${String(t.getDate()).padStart(2,"0")}`;
+  const fname = `진선50주년_기부금_${ymd}`;
+  try{
+    const X = await loadXLSX();
+    const ws = X.utils.aoa_to_sheet([head, ...body, [], ["", "", "", "합계", total, `${rows.length}건`]]);
+    ws["!cols"] = [{wch:6},{wch:12},{wch:12},{wch:12},{wch:14},{wch:26}];
+    for(let r = 1; r <= body.length + 2; r++){
+      const c = ws[X.utils.encode_cell({r, c:4})];
+      if(c && c.t === "n") c.z = "#,##0";
+    }
+    const wb = X.utils.book_new();
+    X.utils.book_append_sheet(wb, ws, "기부금");
+    X.writeFile(wb, fname + ".xlsx");
+    toast("엑셀 파일로 저장했습니다");
+  }catch(e){
+    const csv = [head, ...body, [], ["","","","합계",total,""]]
+      .map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(",")).join("\r\n");
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob(["\ufeff" + csv], {type:"text/csv;charset=utf-8"}));
+    a.download = fname + ".csv"; a.click();
+    toast("엑셀 도구를 불러오지 못해 CSV 파일로 저장했습니다 (엑셀에서 열 수 있어요)");
+  }
+}
+
+/* ═════════ 6. 시작 ═════════ */
+buildPicks();
+const local = loadLocal();
+applyStyle(local?.theme, local?.font);
+renderMenus(); renderDonations();
+$("#adminEmail").value = ADMIN_EMAIL;
+if(DEMO) $("#demoBanner").hidden = false;
+
+let api;
+try{ api = DEMO ? demoApi() : await firebaseApi(); }
+catch(e){ toast("Firebase를 불러오지 못해 미리보기 모드로 실행합니다"); api = demoApi(); $("#demoBanner").hidden = false; }
+
+api.watchMenus(o => { state.menus = o; renderMenus(); renderMenuContent(); });
+api.watchDonations(d => { state.donations = d; renderDonations(); renderMgr(); });
+api.watchSettings(s => {
+  state.defaults = s;
+  if(!loadLocal() && s?.theme) applyStyle(s.theme, s.font);
+});
+api.onAuth(setAdmin);
+
+/* 30명이 넘으면 전광판처럼 자동으로 다음 화면 */
+setInterval(() => {
+  if(state.pages > 1 && !state.paused){ state.page = (state.page + 1) % state.pages; renderDonations(); }
+}, ROTATE_MS);
+const board = $("#board");
+board.addEventListener("mouseenter", () => state.paused = true);
+board.addEventListener("mouseleave", () => state.paused = false);
+board.addEventListener("focusin",  () => state.paused = true);
+board.addEventListener("focusout", () => state.paused = false);
+
+/* ═════════ 7. 이벤트 ═════════ */
+$("#menuGrid").addEventListener("click", e => { const b = e.target.closest(".tile"); if(b) openMenu(b.dataset.id); });
+document.querySelectorAll("[data-close]").forEach(b => b.addEventListener("click", () => b.closest("dialog").close()));
+$("#menuDialog").addEventListener("close", () => { state.openId = null; });
+
+$("#menuSave").addEventListener("click", async () => {
+  try{ await api.saveMenu(state.openId, $("#menuEditor").value); toast("저장했습니다"); }
+  catch(e){ toast("저장하지 못했습니다 (" + (e.code || e.message) + ")"); }
+});
+$("#menuClear").addEventListener("click", async () => {
+  if(!confirm("이 메뉴의 내용을 지우고 '준비중'으로 되돌릴까요?")) return;
+  try{ await api.saveMenu(state.openId, ""); $("#menuEditor").value = ""; toast("준비중으로 되돌렸습니다"); }
+  catch(e){ toast("되돌리지 못했습니다 (" + (e.code || e.message) + ")"); }
+});
+
+document.querySelector(".sortbar").addEventListener("click", e => {
+  const b = e.target.closest("[data-sort]"); if(!b) return;
+  state.sort = b.dataset.sort; state.page = 0;
+  document.querySelectorAll(".sortbar .pick").forEach(x => x.setAttribute("aria-pressed", x === b));
+  renderDonations();
+});
+$("#prevPage").addEventListener("click", () => { state.page = (state.page - 1 + state.pages) % state.pages; renderDonations(); });
+$("#nextPage").addEventListener("click", () => { state.page = (state.page + 1) % state.pages; renderDonations(); });
+
+$("#boardBody").addEventListener("click", async e => {
+  const b = e.target.closest("[data-del]"); if(!b) return;
+  if(!confirm("이 기부 내역을 삭제할까요?")) return;
+  try{ await api.removeDonation(b.dataset.del); toast("삭제했습니다"); }
+  catch(err){ toast("삭제하지 못했습니다 (" + (err.code || err.message) + ")"); }
+});
+$("#openMgr").addEventListener("click", () => {
+  state.editId = null; $("#mgrDialog").showModal(); renderMgr();
+});
+$("#mgrHead").addEventListener("click", e => {
+  const th = e.target.closest("th[data-key]"); if(!th) return;
+  const k = th.dataset.key;
+  if(state.mgrKey === k) state.mgrDir = state.mgrDir === "asc" ? "desc" : "asc";
+  else { state.mgrKey = k; state.mgrDir = k === "amount" ? "desc" : "asc"; }
+  renderMgr();
+});
+$("#mgrSearch").addEventListener("input", e => { state.search = e.target.value.trim(); renderMgr(); });
+$("#mgrExport").addEventListener("click", exportExcel);
+$("#mgrAdd").addEventListener("submit", async e => {
+  e.preventDefault();
+  const real = $("#aReal").value.trim(), anon = $("#aAnon").checked;
+  const amount = Math.round(Number($("#aAmount").value));
+  const memo = $("#aMemo").value.trim().slice(0, 30);
+  if(!real && !anon){ toast("이름을 입력하거나 '익명으로 표시'를 고르세요"); return; }
+  if(!(amount > 0)){ toast("금액을 1원 이상으로 입력하세요"); return; }
+  const name = publicName(real, anon);
+  try{ await api.saveDonation(null, {name, amount, memo}, real); e.target.reset(); $("#aReal").focus(); toast(`${name} ${won(amount)} 추가했습니다`); }
+  catch(err){ toast("추가하지 못했습니다 (" + (err.code || err.message) + ")"); }
+});
+$("#mgrBody").addEventListener("click", async e => {
+  const b = e.target.closest("[data-act]"); if(!b) return;
+  const tr = b.closest("tr"), id = tr.dataset.id;
+  const d = state.donations.find(x => x.id === id);
+  if(b.dataset.act === "edit"){ state.editId = id; renderMgr(); $('#mgrBody tr.editing input[data-f="amount"]')?.focus(); return; }
+  if(b.dataset.act === "cancel"){ state.editId = null; renderMgr(); return; }
+  if(b.dataset.act === "del"){
+    if(!confirm(`${d?.name || ""} ${won(d?.amount)} 내역을 삭제할까요?`)) return;
+    try{ await api.removeDonation(id); toast("삭제했습니다"); }
+    catch(err){ toast("삭제하지 못했습니다 (" + (err.code || err.message) + ")"); }
+    return;
+  }
+  if(b.dataset.act === "save"){
+    const v = f => tr.querySelector(`[data-f="${f}"]`);
+    const real = v("real").value.trim(), anon = v("anon").checked;
+    const amount = Math.round(Number(v("amount").value));
+    const memo = v("memo").value.trim().slice(0, 30);
+    if(!(amount > 0)){ toast("금액을 1원 이상으로 입력하세요"); return; }
+    const name = publicName(real, anon, d.name === "익명" && !anon ? "" : d.name);
+    if(!name){ toast("익명을 해제하려면 이름을 입력하세요"); return; }
+    try{ await api.saveDonation(id, {name, amount, memo}, real); state.editId = null; renderMgr(); toast("수정했습니다"); }
+    catch(err){ toast("수정하지 못했습니다 (" + (err.code || err.message) + ")"); }
+  }
+});
+$("#mgrDialog").addEventListener("close", () => { state.editId = null; });
+
+$("#adminFab").addEventListener("click", async () => {
+  if(state.isAdmin){ if(confirm("관리자 모드를 끌까요?")) { await api.logout(); toast("관리자 모드를 껐습니다"); } return; }
+  $("#loginErr").textContent = ""; $("#adminPw").value = "";
+  $("#loginDialog").showModal(); $("#adminPw").focus();
+});
+$("#loginForm").addEventListener("submit", async e => {
+  e.preventDefault();
+  try{ await api.login($("#adminPw").value); $("#loginDialog").close(); toast("관리자 모드를 켰습니다"); }
+  catch(err){
+    const c = err.code || "";
+    $("#loginErr").textContent =
+      c.includes("invalid-credential") || c.includes("wrong-password") ? "비밀번호가 맞지 않습니다." :
+      c.includes("too-many-requests") ? "시도가 너무 많습니다. 잠시 후 다시 해 보세요." :
+      "로그인하지 못했습니다 (" + (c || err.message) + ")";
+  }
+});
+
+$("#themePicks").addEventListener("click", e => {
+  const b = e.target.closest("[data-theme]"); if(!b) return;
+  applyStyle(b.dataset.theme, document.body.dataset.font);
+  saveLocal({theme:b.dataset.theme, font:document.body.dataset.font});
+});
+$("#fontPicks").addEventListener("click", e => {
+  const b = e.target.closest("[data-font]"); if(!b) return;
+  applyStyle(document.body.dataset.theme, b.dataset.font);
+  saveLocal({theme:document.body.dataset.theme, font:b.dataset.font});
+});
+$("#saveDefault").addEventListener("click", async () => {
+  try{
+    await api.saveSettings({theme:document.body.dataset.theme, font:document.body.dataset.font});
+    toast("모든 방문자의 기본 디자인으로 저장했습니다");
+  }catch(e){ toast("저장하지 못했습니다 (" + (e.code || e.message) + ")"); }
+});
+</script>
+</body>
+</html>
