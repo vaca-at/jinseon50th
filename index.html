@@ -831,6 +831,17 @@ dialog.lightbox::backdrop{background:transparent}
 .fld textarea{min-height:72px}
 .sub-drop kbd,.dash kbd{padding:0 5px;border:1px solid var(--line);border-radius:4px;font:inherit;font-size:.78rem;background:var(--surface)}
 .gala textarea{min-height:56px;padding:6px 10px;font-size:.85rem}
+/* 사진 여러 장 담기 · 붙여 넣기 · 끌어다 놓기 */
+.sub-prevs{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:6px;width:100%}
+.sub-drop .sub-prevs img{width:100%;max-height:none;aspect-ratio:1;object-fit:cover;border-radius:4px}
+.sub-picked{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:-6px 0 14px;font-size:.8rem;color:var(--muted)}
+.sub-picked span:first-child{font-weight:700;color:var(--accent)}
+.sub-picked .btn{margin-left:auto}
+.paste-zone{display:flex;flex-direction:column;align-items:center;gap:4px;margin:0 0 18px;padding:18px 14px;border:2px dashed var(--line);border-radius:var(--radius);background:var(--bg);color:var(--muted);font-size:.82rem;text-align:center;cursor:pointer;transition:border-color .2s,background .2s}
+.paste-zone b{color:var(--ink);font-size:.9rem}
+.paste-zone:hover,.paste-zone:focus{outline:none;border-color:var(--accent);background:color-mix(in srgb,var(--accent) 6%,var(--bg))}
+.paste-zone:focus b::after{content:" · 붙여 넣을 준비가 됐습니다";color:var(--accent)}
+.drag-on{border-color:var(--accent)!important;background:color-mix(in srgb,var(--accent) 10%,var(--bg))!important}
 /* 추억 갤러리 정렬 */
 .gal-sort{display:inline-flex;gap:4px;margin:0 0 16px;padding:3px;border:1px solid var(--line);border-radius:999px}
 .gal-sort .pick{border-color:transparent;background:transparent}
@@ -1234,11 +1245,15 @@ dialog.wide{width:min(1100px,calc(100% - 24px))}
     <!-- 갤러리 -->
     <section data-panel="gallery" role="tabpanel" hidden>
       <div class="dash-head">
-        <div><h2>갤러리</h2><p class="note">사진은 올릴 때 자동으로 알맞은 크기로 줄여 저장합니다. 설명과 시기를 적고 저장하세요.</p></div>
+        <div><h2>갤러리</h2><p class="note">사진은 올릴 때 자동으로 알맞은 크기로 줄여 저장합니다. 연도·제목·메모를 적고 저장하세요.</p></div>
         <label class="btn btn-primary gal-up">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
           사진 올리기<input type="file" id="galFile" accept="image/*" multiple hidden>
         </label>
+      </div>
+      <div class="paste-zone" id="galPaste" tabindex="0" role="button" aria-label="사진 붙여 넣기 칸">
+        <b>여기를 누른 뒤 <kbd>Ctrl</kbd>+<kbd>V</kbd>로 사진을 붙여 넣으세요</b>
+        <span>사진 파일을 끌어다 놓아도 바로 올라갑니다</span>
       </div>
       <div class="sub-wait" id="subWait" hidden>
         <h3 class="sub-wait-title">제보 대기 <span class="tab-badge" id="subCount"></span></h3>
@@ -1396,10 +1411,11 @@ dialog.wide{width:min(1100px,calc(100% - 24px))}
   </div>
   <form class="dlg-body sub-form" id="subForm">
     <label class="sub-drop">
-      <input type="file" id="subFile" accept="image/*" hidden>
-      <img id="subPrev" alt="고른 사진 미리 보기" hidden>
-      <span id="subHint"><b>사진 고르기</b><br>JPG·PNG 한 장, 자동으로 알맞은 크기로 줄여 보냅니다<br>복사한 사진은 <kbd>Ctrl</kbd>+<kbd>V</kbd>로 붙여 넣어도 됩니다</span>
+      <input type="file" id="subFile" accept="image/*" multiple hidden>
+      <span class="sub-prevs" id="subPrevs" hidden></span>
+      <span id="subHint"><b>사진 고르기</b><br>JPG·PNG 최대 10장, 자동으로 알맞은 크기로 줄여 보냅니다<br>복사한 사진은 <kbd>Ctrl</kbd>+<kbd>V</kbd>로 붙여 넣거나 끌어다 놓아도 됩니다</span>
     </label>
+    <p class="sub-picked" id="subPickedBar" hidden><span id="subPickedN"></span><span>칸을 누르거나 붙여 넣으면 더 담깁니다</span><button class="btn btn-sm" type="button" id="subClear">다시 고르기</button></p>
     <label class="fld">사진 연도<input id="subYear" inputmode="numeric" maxlength="4" placeholder="예: 1985"></label>
     <label class="fld">사진 제목<input id="subCaption" maxlength="60" placeholder="예: 3학년 5반 체육대회"></label>
     <label class="fld">메모 (선택)<textarea id="subMemo" maxlength="200" placeholder="예: 운동장에서 반 친구들과 찍은 사진입니다"></textarea></label>
@@ -2745,6 +2761,18 @@ document.addEventListener("paste", e => {
   const files = pastedImages(e); if(!files.length) return;
   e.preventDefault(); uploadPhotos(files);
 });
+/* 사진 파일을 끌어다 놓으면 cb(사진 파일 배열) */
+function dropImages(el, cb){
+  el.addEventListener("dragover", e => { e.preventDefault(); el.classList.add("drag-on"); });
+  el.addEventListener("dragleave", () => el.classList.remove("drag-on"));
+  el.addEventListener("drop", e => {
+    e.preventDefault(); el.classList.remove("drag-on");
+    const files = [...(e.dataTransfer?.files || [])].filter(f => f.type.startsWith("image/"));
+    if(files.length) cb(files);
+  });
+}
+dropImages($("#galPaste"), files => uploadPhotos(files));
+$("#galPaste").addEventListener("click", () => $("#galPaste").focus());
 async function uploadPhotos(files){
   let ok = 0;
   for(const [i, f] of files.entries()){
@@ -2794,43 +2822,68 @@ document.addEventListener("click", e => {
 });
 
 /* 사진 제보 */
-let subPicked = null;
+/* 한 번에 10장까지 담아 같은 연도·제목·메모로 보낸다. 보낸 뒤 10초는 쉬었다가 다시 보낼 수 있다 */
+const SUB_MAX = 10, SUB_WAIT = 10000;
+let subPicked = [], subUrls = [];
 $("#subOpen").addEventListener("click", () => { $("#submitDialog").showModal(); });
-$("#subFile").addEventListener("change", e => pickSubPhoto(e.target.files[0]));
+$("#subFile").addEventListener("change", e => { addSubPhotos([...e.target.files]); e.target.value = ""; });
 $("#submitDialog").addEventListener("paste", e => {
-  const [f] = pastedImages(e); if(!f) return;
-  e.preventDefault(); pickSubPhoto(f); toast("붙여 넣은 사진을 골랐습니다");
+  const files = pastedImages(e); if(!files.length) return;
+  e.preventDefault(); const n = addSubPhotos(files); if(n) toast(`붙여 넣은 사진 ${n}장을 담았습니다`);
 });
+dropImages($(".sub-drop"), files => addSubPhotos(files));
+$("#subClear").addEventListener("click", () => { subPicked = []; renderSubPicked(); });
+function addSubPhotos(files){
+  const imgs = files.filter(f => f && f.type.startsWith("image/"));
+  const room = SUB_MAX - subPicked.length;
+  if(!imgs.length) return 0;
+  if(room <= 0){ toast(`한 번에 ${SUB_MAX}장까지 보낼 수 있습니다`); return 0; }
+  const add = imgs.slice(0, room);
+  if(imgs.length > room) toast(`한 번에 ${SUB_MAX}장까지라 ${add.length}장만 담았습니다`);
+  subPicked.push(...add); renderSubPicked();
+  return add.length;
+}
+function renderSubPicked(){
+  subUrls.forEach(u => URL.revokeObjectURL(u));
+  subUrls = subPicked.map(f => URL.createObjectURL(f));
+  $("#subPrevs").innerHTML = subUrls.map(u => `<img src="${u}" alt="">`).join("");
+  $("#subPrevs").hidden = !subPicked.length; $("#subHint").hidden = !!subPicked.length;
+  $("#subPickedBar").hidden = !subPicked.length;
+  $("#subPickedN").textContent = `${subPicked.length}장 담음`;
+}
 $("#galSort").addEventListener("click", e => {
   const b = e.target.closest("[data-gs]"); if(!b) return;
   state.galSort = b.dataset.gs;
   document.querySelectorAll("#galSort .pick").forEach(x => x.setAttribute("aria-pressed", x === b));
   renderGallery();
 });
-function pickSubPhoto(f){
-  if(!f) return;
-  subPicked = f;
-  const url = URL.createObjectURL(f);
-  $("#subPrev").onload = () => URL.revokeObjectURL(url);
-  $("#subPrev").src = url; $("#subPrev").hidden = false; $("#subHint").hidden = true;
-}
 $("#subForm").addEventListener("submit", async e => {
   e.preventDefault();
-  if(!subPicked){ toast("먼저 사진을 골라 주세요"); return; }
+  if(!subPicked.length){ toast("먼저 사진을 골라 주세요"); return; }
   if(!$("#subAgree").checked){ toast("게시 동의에 체크해 주세요"); return; }
-  const last = Number(lsGet("jinsun50-sub-last")) || 0;
-  if(Date.now() - last < 120000){ toast("잠시 후 다시 보내 주세요 (2분에 한 장)"); return; }
-  const btn = e.target.querySelector('[type="submit"]'); btn.disabled = true; btn.textContent = "보내는 중…";
-  try{
-    const [thumb, full] = await Promise.all([shrinkImage(subPicked, 560, .72, 150000), shrinkImage(subPicked, 1800, .85, 880000)]);
-    await api.addSubmission({thumb, year: normYear($("#subYear").value), caption: $("#subCaption").value.trim().slice(0, 60),
-      memo: $("#subMemo").value.trim().slice(0, 200), by: $("#subBy").value.trim().slice(0, 20)}, full);
-    lsSet("jinsun50-sub-last", String(Date.now()));
-    e.target.reset(); subPicked = null; $("#subPrev").hidden = true; $("#subHint").hidden = false;
+  const wait = SUB_WAIT - (Date.now() - (Number(lsGet("jinsun50-sub-last")) || 0));
+  if(wait > 0){ toast(`잠시 후 다시 보내 주세요 (${Math.ceil(wait / 1000)}초 뒤)`); return; }
+  const meta = {year: normYear($("#subYear").value), caption: $("#subCaption").value.trim().slice(0, 60),
+                memo: $("#subMemo").value.trim().slice(0, 200), by: $("#subBy").value.trim().slice(0, 20)};
+  const btn = e.target.querySelector('[type="submit"]'); btn.disabled = true;
+  const todo = [...subPicked], failed = [];
+  let err = null;
+  for(const [i, f] of todo.entries()){
+    btn.textContent = `보내는 중… (${i + 1} / ${todo.length})`;
+    try{
+      const [thumb, full] = await Promise.all([shrinkImage(f, 560, .72, 150000), shrinkImage(f, 1800, .85, 880000)]);
+      await api.addSubmission({thumb, ...meta}, full);
+    }catch(x){ failed.push(f); err = x; }
+  }
+  btn.disabled = false; btn.textContent = "제보하기";
+  const sent = todo.length - failed.length;
+  if(sent) lsSet("jinsun50-sub-last", String(Date.now()));
+  subPicked = failed; renderSubPicked();
+  if(!failed.length){
+    e.target.reset();
     $("#submitDialog").close();
-    toast("소중한 사진 고맙습니다! 관리자 확인 후 갤러리에 실립니다");
-  }catch(err){ toast("보내지 못했습니다 (" + (err?.code || "JPG·PNG 사진인지 확인해 주세요") + ")"); }
-  finally{ btn.disabled = false; btn.textContent = "제보하기"; }
+    toast(`소중한 사진 ${sent}장 고맙습니다! 관리자 확인 후 갤러리에 실립니다`);
+  }else toast(`${sent}장은 보냈고 ${failed.length}장은 보내지 못했습니다 (${err?.code || "JPG·PNG 사진인지 확인해 주세요"}). 남은 사진은 다시 보내 주세요`);
 });
 $("#subAdmin").addEventListener("click", async e => {
   const b = e.target.closest("[data-sa]"); if(!b) return;
