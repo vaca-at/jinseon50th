@@ -138,7 +138,7 @@ h2{font-family:var(--f-head);font-weight:var(--head-w);font-size:clamp(1.75rem,3
 .tile-icon{flex:none;display:grid;place-items:center;width:40px;height:40px;border-radius:50%;border:1px solid color-mix(in srgb,var(--gold) 45%,transparent);color:var(--gold);transition:background .35s,color .35s,border-color .35s}
 .tile-icon svg{width:19px;height:19px}
 .tile:hover .tile-icon{background:var(--gold);border-color:var(--gold);color:var(--tile-bg)}
-.tile-title{min-height:2.8em;font-family:var(--f-head);font-weight:var(--head-w);font-size:1.22rem;line-height:1.4}
+.tile-title{min-height:2.8em;white-space:pre-line;font-family:var(--f-head);font-weight:var(--head-w);font-size:1.22rem;line-height:1.4}
 .tile-memo{display:flex;flex-direction:column;min-height:6.1rem;font-size:.84rem;line-height:1.45}
 .tile-memo span{display:flex;gap:12px;padding:6px 0;border-top:1px solid var(--line)}
 .tile-memo span:last-child{border-bottom:1px solid var(--line)}
@@ -200,6 +200,10 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;op
 .util-links a:hover{color:var(--accent)}
 .util-band{display:inline-flex;align-items:center;gap:5px}
 .util-band svg{width:14px;height:14px;flex:none}
+/* 바깥 사이트 바로 가기: 둥근 네모 안 오른쪽 화살표 */
+a svg.go{width:1.05em;height:1.05em;margin-left:.3em;vertical-align:-.17em;flex:none;opacity:.75}
+a:hover svg.go{opacity:1}
+.fav svg.go,.util-band svg.go{margin-left:0}
 .util-style{display:flex;align-items:center;gap:6px}
 .util-lbl{color:var(--muted);font-weight:600;margin-left:6px}
 .util .style-group{padding:2px 4px;box-shadow:none}
@@ -228,6 +232,8 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;op
 .gnb .brand-mark b{top:7px;font-size:27px;line-height:27px}
 .gnb .brand-mark svg{top:30px;bottom:auto;width:52px;height:30px}
 .gnb .brand-txt{height:auto;justify-content:center;gap:3px}
+/* 보이는 50+연꽃 높이를 두 줄 글의 위아래 끝에 맞춤 */
+.gnb .brand-mark{margin:0 6px;transform:translateY(-2px) scale(1.33)}
 .gnb-menu{display:flex;gap:2px;margin-left:auto}
 .gnb-menu a{position:relative;padding:8px 13px;color:var(--ink);text-decoration:none;font-size:.95rem;white-space:nowrap}
 .gnb-menu a::after{content:"";position:absolute;left:13px;right:13px;bottom:2px;height:2px;border-radius:2px;background:var(--gold);transform:scaleX(0);transition:transform .2s}
@@ -907,9 +913,9 @@ dialog.wide{width:min(1100px,calc(100% - 24px))}
   <div class="util">
     <div class="wrap util-in">
       <nav class="util-links" aria-label="관련 사이트">
-        <a href="https://jinseon.sen.hs.kr/" target="_blank" rel="noopener">진선여자고등학교 ↗</a>
-        <a href="https://hoedang.uu.ac.kr/" target="_blank" rel="noopener">학교법인 회당학원 ↗</a>
-        <a class="util-band" href="https://www.band.us/band/82268288/post" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="5.5" fill="#00DE6A"/><g fill="#062E17"><rect x="5.2" y="3.6" width="4.4" height="11"/><circle cx="11" cy="14.4" r="5.8"/></g><path d="M7.4 3.6v10.8a3.6 3.6 0 1 0 3.6-3.6" fill="none" stroke="#00DE6A" stroke-width=".75"/><circle cx="11" cy="14.4" r="1.7" fill="#00DE6A"/></svg>총동문회 밴드 ↗</a>
+        <a href="https://jinseon.sen.hs.kr/" target="_blank" rel="noopener">진선여자고등학교<svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M8 12h8M12.5 8.5 16 12l-3.5 3.5"/></svg></a>
+        <a href="https://hoedang.uu.ac.kr/" target="_blank" rel="noopener">학교법인 회당학원<svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M8 12h8M12.5 8.5 16 12l-3.5 3.5"/></svg></a>
+        <a class="util-band" href="https://www.band.us/band/82268288/post" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="5.5" fill="#00DE6A"/><g fill="#062E17"><rect x="5.2" y="3.6" width="4.4" height="11"/><circle cx="11" cy="14.4" r="5.8"/></g><path d="M7.4 3.6v10.8a3.6 3.6 0 1 0 3.6-3.6" fill="none" stroke="#00DE6A" stroke-width=".75"/><circle cx="11" cy="14.4" r="1.7" fill="#00DE6A"/></svg>총동문회 밴드<svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M8 12h8M12.5 8.5 16 12l-3.5 3.5"/></svg></a>
       </nav>
       <div class="util-style" aria-label="화면 꾸미기">
         <span class="util-lbl">디자인</span>
@@ -1292,7 +1298,7 @@ dialog.wide{width:min(1100px,calc(100% - 24px))}
       <ol class="tl" id="timeline"></ol>
       <div class="tl-more">
         <button class="btn" id="tlToggle" aria-expanded="true" hidden></button>
-        <a class="fav" href="https://jinseon.sen.hs.kr/77443/subMenu.do" target="_blank" rel="noopener">학교 홈페이지 연혁 ↗</a>
+        <a class="fav" href="https://jinseon.sen.hs.kr/77443/subMenu.do" target="_blank" rel="noopener">학교 홈페이지 연혁<svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M8 12h8M12.5 8.5 16 12l-3.5 3.5"/></svg></a>
       </div>
     </div>
 
@@ -1493,13 +1499,13 @@ const DEMO = firebaseConfig.apiKey.startsWith("여기에");
 
 /* ═════════ 2. 메뉴 (내용은 관리자 모드에서 입력) ═════════ */
 const MENUS = [
-  {id:"book",          title:"진선 50년사 책", memo:[["발간일","2027년 5월"]],
+  {id:"book",          title:"진선 50년사 책자 발간", memo:[["발간일","2027년 5월"]],
    icon:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V2H6.5A2.5 2.5 0 0 0 4 4.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5M9 7h7"/>'},
   {id:"anniversary",   title:"2027 개교기념일 행사", memo:[["날짜","2027년 5월 20일(목)"]],
    icon:'<path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1M2 21h20M7 8v3M12 8v3M17 8v3M7 4h.01M12 4h.01M17 4h.01"/>'},
   {id:"festival",      title:"2027 학교 축제", memo:[["날짜","2027년 10월 22일(금)"]],
    icon:'<path d="M12 3l1.9 5.8L20 10.5l-6.1 1.7L12 18l-1.9-5.8L4 10.5l6.1-1.7z"/><path d="M19 17v4M17 19h4M5 3v3M3.5 4.5h3"/>'},
-  {id:"alumni-night",  title:"2027 진선인의 밤(총동문회)", memo:[["날짜","2027년 5월 또는 10월"]],
+  {id:"alumni-night",  title:"2027 진선인의 밤\n(총동문회)", memo:[["날짜","2027년 5월 또는 10월"]],
    icon:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>'},
   {id:"overseas",      title:"개교 50주년 기념 교직원 해외연수", memo:[["시기","2027년 2월"],["참석 인원","44명"]],
    icon:'<path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>'},
@@ -2285,7 +2291,7 @@ function renderPress(){
       <p class="press-hl">${esc(p.hl)}</p>
       <h4>${esc(p.title)}</h4>
       <p class="sum">${esc(p.sum)}</p>
-      <a class="press-go" href="${esc(p.url)}" target="_blank" rel="noopener">기사 원문 보기 ↗</a>
+      <a class="press-go" href="${esc(p.url)}" target="_blank" rel="noopener">기사 원문 보기<svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M8 12h8M12.5 8.5 16 12l-3.5 3.5"/></svg></a>
     </article>`).join("");
 }
 function renderNumbers(){
