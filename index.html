@@ -150,10 +150,10 @@ h2{font-family:var(--f-head);font-weight:var(--head-w);font-size:clamp(1.75rem,3
 .tile-status::before{content:"";width:7px;height:7px;border-radius:50%;background:#F08A24;box-shadow:0 0 0 3px color-mix(in srgb,#F08A24 22%,transparent)}
 .tile-status.ready{color:var(--accent);font-weight:700}
 .tile-status.ready::before{background:#2E9E5B;box-shadow:0 0 0 3px color-mix(in srgb,#2E9E5B 22%,transparent)}
-.tile-more{display:inline-flex;align-items:center;gap:10px;font-size:.74rem;font-weight:700;letter-spacing:.16em}
-/* 자세히: 금박 글자 + 금박 두 겹 원 (메인 50처럼 7초마다 빛이 지나감), 올리면 원 안이 금으로 차오름 */
-.more-tx,.more-seal i{background:var(--foil);background-size:220% 100%;animation:shine 7s ease-in-out infinite}
-.more-tx{-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.tile-more{display:inline-flex;align-items:center;gap:10px;font-size:.74rem;letter-spacing:.14em;color:var(--muted);transition:color .3s}
+.tile:hover .tile-more{color:var(--accent)}
+/* 자세히: 글자는 차분하게, 금박 두 겹 원만 메인 50처럼 7초마다 빛이 지나감. 올리면 원 안이 금으로 차오름 */
+.more-seal i{background:var(--foil);background-size:220% 100%;animation:shine 7s ease-in-out infinite}
 .more-seal{position:relative;flex:none;width:30px;height:30px}
 .more-seal i{position:absolute;inset:0}
 .ms-ring{--r:radial-gradient(circle closest-side,transparent 10.6px,#000 11px,#000 11.6px,transparent 12px,transparent 14px,#000 14.4px,#000 15px,transparent 15.4px);-webkit-mask:var(--r);mask:var(--r)}
