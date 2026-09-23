@@ -150,10 +150,13 @@ h2{font-family:var(--f-head);font-weight:var(--head-w);font-size:clamp(1.75rem,3
 .tile-status::before{content:"";width:7px;height:7px;border-radius:50%;background:#F08A24;box-shadow:0 0 0 3px color-mix(in srgb,#F08A24 22%,transparent)}
 .tile-status.ready{color:var(--accent);font-weight:700}
 .tile-status.ready::before{background:#2E9E5B;box-shadow:0 0 0 3px color-mix(in srgb,#2E9E5B 22%,transparent)}
-.tile-more{display:inline-flex;align-items:center;gap:8px;font-size:.76rem;letter-spacing:.1em;color:var(--muted);transition:color .3s}
-.tile-more svg{width:30px;height:10px;transition:transform .3s}
+.tile-more{display:inline-flex;align-items:center;gap:10px;font-size:.74rem;letter-spacing:.14em;color:var(--muted);transition:color .3s}
+/* 자세히: 얇은 금빛 원 안의 짧은 화살표, 올리면 원이 채워지며 화살표가 살짝 나아감 */
+.more-dot{display:grid;place-items:center;width:28px;height:28px;border:1px solid color-mix(in srgb,var(--gold) 55%,transparent);border-radius:50%;color:var(--gold);transition:background .3s,border-color .3s,color .3s}
+.tile-more svg{width:13px;height:13px;transition:transform .3s}
 .tile:hover .tile-more{color:var(--accent)}
-.tile:hover .tile-more svg{transform:translateX(5px)}
+.tile:hover .more-dot{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.tile:hover .tile-more svg{transform:translateX(2px)}
 body[data-theme="album"] .tile:hover{transform:translateY(-4px)}
 /* 휴대폰: 기념 사업 2개씩 4줄, 간단히 */
 @media (max-width:600px){
@@ -173,7 +176,8 @@ body[data-theme="album"] .tile:hover{transform:translateY(-4px)}
   .tile-memo.none{font-size:.72rem}
   .tile-status{gap:5px;font-size:.68rem;letter-spacing:.04em}
   .tile-more{gap:0;font-size:0}
-  .tile-more svg{width:22px}
+  .more-dot{width:24px;height:24px}
+  .tile-more svg{width:11px;height:11px}
 }
 
 /* ───────── 후원금 전광판 (한 화면 30명) ───────── */
@@ -1949,7 +1953,7 @@ function renderMenus(){
                : `<span class="tile-memo none">세부 일정은 추후 안내합니다</span>`}
       <span class="tile-foot">
         <span class="tile-status ${has ? "ready" : ""}">${has ? "안내 있음" : "준비중"}</span>
-        <span class="tile-more">자세히<svg viewBox="0 0 30 10" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 5h27M24 1.5 28 5l-4 3.5"/></svg></span>
+        <span class="tile-more">자세히<span class="more-dot"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h9.5M9 4.5 12.5 8 9 11.5"/></svg></span></span>
       </span>
     </button>`;
   }).join("");
