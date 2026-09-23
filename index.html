@@ -18,8 +18,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Jua&family=Gowun+Dodum&family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;700&family=Nanum+Pen+Script&family=Gaegu:wght@400;700&display=swap" rel="stylesheet">
 <style>
-/* ▼ 온글잎 윤탱체: 눈누에서 복사한 @font-face 코드를 아래에 붙여넣으세요.
-   붙여넣기 전에는 '나눔펜'으로 대신 표시됩니다. (font-family 이름: 'OwnglyphYuntaeng') */
+/* 온글잎 윤탱체 (눈누). 불러오지 못하면 '나눔펜'으로 대신 표시됩니다. */
+@font-face{font-family:'OwnglyphYuntaeng';src:url('https://cdn.jsdelivr.net/gh/Project-Noonnu/2608211801@font-160/font-160/온글잎 윤탱체.woff2') format('woff2');font-weight:400;font-display:swap}
 
 
 /* ───────── 디자인 4가지 ───────── */
@@ -820,7 +820,18 @@ dialog.lightbox::backdrop{background:transparent}
 .me-grid{display:grid;grid-template-columns:minmax(230px,320px) 1fr;gap:14px;align-items:start}
 @media (max-width:760px){.acc-grid,.me-grid{grid-template-columns:1fr}}
 .fld{display:flex;flex-direction:column;gap:4px;margin-bottom:12px;font-size:.85rem;color:var(--muted)}
-.fld input,.fld select{color:var(--ink)}
+.fld input,.fld select,.fld textarea{color:var(--ink)}
+.fld textarea{min-height:72px}
+.sub-drop kbd,.dash kbd{padding:0 5px;border:1px solid var(--line);border-radius:4px;font:inherit;font-size:.78rem;background:var(--surface)}
+.gala textarea{min-height:56px;padding:6px 10px;font-size:.85rem}
+/* 추억 갤러리 정렬 */
+.gal-sort{display:inline-flex;gap:4px;margin:0 0 16px;padding:3px;border:1px solid var(--line);border-radius:999px}
+.gal-sort .pick{border-color:transparent;background:transparent}
+.gal-sort .pick[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);border-color:var(--accent);font-weight:700}
+.lb-fig figcaption small{display:block;margin-top:4px;font-size:.85rem;opacity:.8;white-space:pre-line}
+/* 첫 화면 방문자 수: 작고 조용하게 */
+.visit-count{margin:12px 0 0;text-align:center;font-size:.74rem;letter-spacing:.02em;color:var(--muted);font-variant-numeric:tabular-nums}
+.visit-count b{font-weight:700;color:var(--ink);opacity:.75}
 .pv-label{margin:0 0 8px;font-size:.8rem;color:var(--muted);font-weight:600}
 .pv-box{padding:16px;border:1px dashed var(--line);border-radius:var(--radius);background:var(--bg)}
 .pv-box .account{margin:0}
@@ -975,6 +986,7 @@ dialog.wide{width:min(1100px,calc(100% - 24px))}
       <ul class="hero-stats">
         <li><b id="dday">D-0</b><span>개교 50주년 기념일 2027. 5. 20.(목)까지</span></li>
       </ul>
+      <p class="visit-count" id="visitCount" hidden>오늘 <b id="visitToday">0</b> · 누적 <b id="visitTotal">0</b></p>
     </div>
   </section>
 
@@ -1335,6 +1347,11 @@ dialog.wide{width:min(1100px,calc(100% - 24px))}
   </div>
   <div class="board-body">
     <p class="board-lead">사진으로 돌아보는 진선의 50년. 사진을 누르면 크게 볼 수 있습니다.</p>
+    <div class="gal-sort" id="galSort" role="group" aria-label="사진 정렬">
+      <button class="pick" data-gs="old" aria-pressed="false">등록순</button>
+      <button class="pick" data-gs="new" aria-pressed="true">최신순</button>
+      <button class="pick" data-gs="year" aria-pressed="false">사진 연도순</button>
+    </div>
     <div class="gal-grid gal-masonry" id="galGrid"></div>
     <div class="gg-more"><button class="btn" id="galMore" hidden>사진 더 보기</button></div>
   </div>
@@ -1374,10 +1391,11 @@ dialog.wide{width:min(1100px,calc(100% - 24px))}
     <label class="sub-drop">
       <input type="file" id="subFile" accept="image/*" hidden>
       <img id="subPrev" alt="고른 사진 미리 보기" hidden>
-      <span id="subHint"><b>사진 고르기</b><br>JPG·PNG 한 장, 자동으로 알맞은 크기로 줄여 보냅니다</span>
+      <span id="subHint"><b>사진 고르기</b><br>JPG·PNG 한 장, 자동으로 알맞은 크기로 줄여 보냅니다<br>복사한 사진은 <kbd>Ctrl</kbd>+<kbd>V</kbd>로 붙여 넣어도 됩니다</span>
     </label>
-    <label class="fld">시기<input id="subPeriod" maxlength="20" placeholder="예: 1985년 체육대회"></label>
-    <label class="fld">설명<input id="subCaption" maxlength="60" placeholder="예: 3학년 5반 친구들과 운동장에서"></label>
+    <label class="fld">사진 연도<input id="subYear" inputmode="numeric" maxlength="4" placeholder="예: 1985"></label>
+    <label class="fld">사진 제목<input id="subCaption" maxlength="60" placeholder="예: 3학년 5반 체육대회"></label>
+    <label class="fld">메모 (선택)<textarea id="subMemo" maxlength="200" placeholder="예: 운동장에서 반 친구들과 찍은 사진입니다"></textarea></label>
     <label class="fld">보내는 분 (선택)<input id="subBy" maxlength="20" placeholder="예: 9기 김진선"></label>
     <label class="chk sub-agree"><input type="checkbox" id="subAgree"> 제가 찍었거나 게시해도 되는 사진이며, 사진에 나온 분들의 동의를 받아 누리집 게시에 동의합니다.</label>
     <p class="sub-help">관리자 확인 후 갤러리에 실립니다. 이름표·연락처 등 개인정보가 보이는 사진은 싣지 않습니다.</p>
@@ -1795,7 +1813,7 @@ async function firebaseApi(){
       const f = await fs.getDoc(ref("submissions_full", s.id));
       const data = f.exists() ? f.data().data : s.thumb;
       const r = fs.doc(col("gallery")), b = fs.writeBatch(db);
-      b.set(r, {thumb: s.thumb, caption: edit.caption, period: edit.period, by: s.by || "", createdAtMs: Date.now()});
+      b.set(r, {thumb: s.thumb, ...edit, by: s.by || "", createdAtMs: Date.now()});
       b.set(ref("gallery_full", r.id), {data});
       b.delete(ref("submissions", s.id)); b.delete(ref("submissions_full", s.id));
       await b.commit();
@@ -1826,6 +1844,13 @@ async function firebaseApi(){
     saveSettings: o => fs.setDoc(ref("settings","app"), o, {merge:true}),
     saveVisit: (id, v) => fs.setDoc(ref("visits", id), v),
     deleteVisit: id => fs.deleteDoc(ref("visits", id)),
+    /* 첫 화면 방문자 수: 숫자 칸 두 개(오늘·누적)를 1씩만 올리고 누구나 읽는다 */
+    countVisit: async (day, add) => {
+      const t = ref("counts", "total"), d = ref("counts", "d" + day);
+      if(add){ const b = fs.writeBatch(db); b.set(t, {n: fs.increment(1)}, {merge:true}); b.set(d, {n: fs.increment(1)}, {merge:true}); await b.commit(); }
+      const [ts, ds] = await Promise.all([fs.getDoc(t), fs.getDoc(d)]);
+      return {today: ds.exists() ? ds.data().n || 0 : 0, total: ts.exists() ? ts.data().n || 0 : 0};
+    },
     listVisits: async sinceMs => {
       const q = sinceMs ? fs.query(col("visits"), fs.where("startMs", ">=", sinceMs)) : col("visits");
       return (await fs.getDocs(q)).docs.map(d => ({id:d.id, ...d.data()}));
@@ -1878,12 +1903,13 @@ function demoApi(){
     watchSubmissions: cb => { const f = () => cb([...subs]); L.sb.push(f); f(); return () => { L.sb = L.sb.filter(x => x !== f); }; },
     addSubmission: async (meta, data) => { const id = "s" + Date.now(); subs.push({id, ...meta, createdAtMs: Date.now()}); subFull[id] = data; emit(); },
     approveSubmission: async (s, edit) => {
-      const id = "p" + Date.now(); photos.push({id, thumb: s.thumb, caption: edit.caption, period: edit.period, by: s.by || "", createdAtMs: Date.now()});
+      const id = "p" + Date.now(); photos.push({id, thumb: s.thumb, ...edit, by: s.by || "", createdAtMs: Date.now()});
       full[id] = subFull[s.id] || s.thumb; subs = subs.filter(x => x.id !== s.id); delete subFull[s.id]; emit();
     },
     rejectSubmission: async id => { subs = subs.filter(x => x.id !== id); delete subFull[id]; emit(); },
     saveVisit: async () => {},
     deleteVisit: async () => {},
+    countVisit: async () => ({today: 37, total: 1284}),
     listVisits: async sinceMs => visits.filter(v => !sinceMs || v.startMs >= sinceMs),
     clearVisits: async () => { const n = visits.length; visits = []; return n; },
     saveMenu: async (id, b) => { menus[id] = b; emit(); },
@@ -1907,7 +1933,7 @@ function demoApi(){
 const state = {menus:{}, donations:[], sort:"reg", page:0, pages:1, paused:false, isAdmin:false, openId:null, defaults:null,
   priv:{}, unsubPriv:null, mgrKey:"no", mgrDir:"asc", editId:null, search:"", sel:new Set(),
   view:"site", tab:"stats", period:"7", visits:[], account:null, meId:null, meDirty:false,
-  guests:[], gbShow:12, gbFilter:"wait", unsubGuest:null, photos:[], lbIndex:0, photoCache:new Map(), tlAll:true, subs:[], unsubSub:null, galShow:24};
+  guests:[], gbShow:12, gbFilter:"wait", unsubGuest:null, photos:[], lbIndex:0, photoCache:new Map(), tlAll:true, subs:[], unsubSub:null, galShow:24, galSort:"new"};
 
 function renderMenus(){
   $("#menuGrid").innerHTML = MENUS.map((m, i) => {
@@ -2330,8 +2356,7 @@ function renderSubAdmin(){
   $("#subAdmin").innerHTML = [...state.subs].sort((a, b) => a.createdAtMs - b.createdAtMs).map(s => `<div class="gala" data-id="${s.id}">
       <img src="${s.thumb}" alt="">
       <span class="by">${esc(s.by || "보낸 분 미기재")} · ${fmtTime(s.createdAtMs)}</span>
-      <input data-g="period" value="${esc(s.period || "")}" maxlength="20" placeholder="시기" aria-label="시기">
-      <input data-g="caption" value="${esc(s.caption || "")}" maxlength="60" placeholder="설명" aria-label="설명">
+      ${photoFields(s)}
       <div class="gala-acts"><button class="btn btn-sm btn-primary" data-sa="ok">갤러리에 게시</button><button class="btn btn-sm" data-sa="no">싣지 않기</button></div>
     </div>`).join("");
 }
@@ -2404,7 +2429,28 @@ function renderGuestAdmin(){
 }
 
 /* ═════════ 5-3. 추억 갤러리 ═════════ */
-const sortedPhotos = () => [...state.photos].sort((a, b) => (a.createdAtMs || 0) - (b.createdAtMs || 0));
+/* 사진 연도: 새 사진은 year 칸, 예전 사진은 '시기' 글에서 네 자리 연도를 찾아 쓴다 */
+const photoYear = p => Number(p.year) || Number((String(p.period || "").match(/(?:19|20)\d{2}/) || [])[0]) || 0;
+const photoTag = p => p.year ? `${p.year}년` : (p.period || "");
+const normYear = v => { const y = Number(String(v || "").replace(/\D/g, "")); return y >= 1900 && y <= 2100 ? y : null; };
+const byReg = (a, b) => (a.createdAtMs || 0) - (b.createdAtMs || 0);
+/* 관리 화면 사진 카드의 입력칸: 연도 · 제목 · 메모 */
+const photoFields = p => `
+      <input data-g="year" value="${photoYear(p) || ""}" inputmode="numeric" maxlength="4" placeholder="사진 연도 (예: 1985)" aria-label="사진 연도">
+      <input data-g="caption" value="${esc(p.caption || "")}" maxlength="60" placeholder="사진 제목 (예: 첫 졸업생 기념 촬영)" aria-label="사진 제목">
+      <textarea data-g="memo" maxlength="200" placeholder="메모 (선택)" aria-label="메모">${esc(p.memo || "")}</textarea>`;
+const readPhotoFields = card => ({
+  year: normYear(card.querySelector('[data-g="year"]').value),
+  caption: card.querySelector('[data-g="caption"]').value.trim().slice(0, 60),
+  memo: card.querySelector('[data-g="memo"]').value.trim().slice(0, 200)
+});
+/* 등록순 · 최신순 · 사진 연도순(오래된 사진부터, 연도 모르는 사진은 맨 뒤) */
+const sortedPhotos = () => {
+  const l = [...state.photos].sort(byReg);
+  if(state.galSort === "new") return l.reverse();
+  if(state.galSort === "year") return l.sort((a, b) => (photoYear(a) || 9999) - (photoYear(b) || 9999) || byReg(a, b));
+  return l;
+};
 function renderGallery(){
   const list = sortedPhotos();
   const icon = svgI('<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/>');
@@ -2413,11 +2459,11 @@ function renderGallery(){
   $("#galMore").hidden = list.length <= state.galShow;
   $("#galGrid").innerHTML = list.length ? list.slice(0, state.galShow).map((p, i) => `<button class="ph" data-ph="${i}" aria-label="${esc(p.caption || "사진")} 크게 보기">
       <img src="${p.thumb}" alt="${esc(p.caption || "")}" loading="lazy">
-      ${p.period ? `<span class="ph-tag">${esc(p.period)}</span>` : ""}
+      ${photoTag(p) ? `<span class="ph-tag">${esc(photoTag(p))}</span>` : ""}
       ${p.caption || p.by ? `<figcaption>${esc(p.caption || "")}${p.by ? `<small>제보 ${esc(p.by)}</small>` : ""}</figcaption>` : ""}
     </button>`).join("") : `<div class="gal-empty">${icon}
       <b>사진을 모으고 있습니다</b><span>소장하신 옛 교정·졸업·행사 사진이 있다면 '추억 사진 제보'로 보내 주세요.</span></div>`;
-  const lite = [...list].reverse().slice(0, 4);
+  const lite = [...state.photos].sort(byReg).reverse().slice(0, 4);   // 첫 화면 미리보기는 정렬과 상관없이 새로 올라온 4장
   $("#galLite").innerHTML = lite.length ? lite.map(p => `<button class="lite-ph" data-ph="${list.indexOf(p)}" aria-label="${esc(p.caption || "사진")} 크게 보기"><img src="${p.thumb}" alt="" loading="lazy"></button>`).join("")
     : `<button class="lite-empty-ph" type="button" data-open="sub"><i class="lite-ic">${icon}</i><b>추억 사진을 모으고 있습니다</b><span>옛 교정·졸업·행사 사진을 보내 주세요</span></button>`;
 }
@@ -2426,7 +2472,7 @@ async function openPhoto(i){
   state.lbIndex = (i + list.length) % list.length;
   const p = list[state.lbIndex];
   $("#lbImg").src = p.thumb; $("#lbImg").alt = p.caption || "";
-  $("#lbCap").innerHTML = `${p.period ? `<b>${esc(p.period)}</b>` : ""}${esc(p.caption || "")}${p.by ? ` <span style="opacity:.7">· 제보 ${esc(p.by)}</span>` : ""}`;
+  $("#lbCap").innerHTML = `${photoTag(p) ? `<b>${esc(photoTag(p))}</b>` : ""}${esc(p.caption || "")}${p.by ? ` <span style="opacity:.7">· 제보 ${esc(p.by)}</span>` : ""}${p.memo ? `<small>${esc(p.memo)}</small>` : ""}`;
   $("#lbPrev").hidden = $("#lbNext").hidden = list.length < 2;
   if(!$("#photoDialog").open) $("#photoDialog").showModal();
   let big = state.photoCache.get(p.id);
@@ -2435,11 +2481,10 @@ async function openPhoto(i){
 }
 function renderGalleryAdmin(){
   if(state.view !== "dash" || state.tab !== "gallery") return;
-  const list = sortedPhotos();
+  const list = [...state.photos].sort(byReg);
   $("#galAdmin").innerHTML = list.length ? list.map(p => `<div class="gala" data-id="${p.id}">
       <img src="${p.thumb}" alt="">
-      <input data-g="period" value="${esc(p.period || "")}" maxlength="20" placeholder="시기 (예: 1985년 입학식)" aria-label="시기">
-      <input data-g="caption" value="${esc(p.caption || "")}" maxlength="60" placeholder="설명 (예: 첫 졸업생 기념 촬영)" aria-label="설명">
+      ${photoFields(p)}
       <div class="gala-acts"><button class="btn btn-sm btn-primary" data-ga="save">저장</button><button class="btn btn-sm" data-ga="del">삭제</button></div>
     </div>`).join("") : `<p class="dash-empty">아직 올린 사진이 없습니다. 오른쪽 위 '사진 올리기'를 눌러 추가하세요.</p>`;
 }
@@ -2605,6 +2650,18 @@ api.onAuth(setAdmin);
 if(!state.unsubGuest) watchGuests();
 api.watchGallery(list => { state.photos = list; renderGallery(); renderGalleryAdmin(); });
 track.start();
+/* 첫 화면 방문자 수: 한 기기는 하루에 한 번만 센다 (관리자 기기는 세지 않음) */
+(async () => {
+  const day = ymdDash(new Date()), COUNTED_LS = "jinsun50-counted";
+  const add = !DEMO && !lsGet(SKIP_LS) && lsGet(COUNTED_LS) !== day;
+  try{
+    const c = await api.countVisit(day, add);
+    if(add) lsSet(COUNTED_LS, day);
+    $("#visitToday").textContent = c.today.toLocaleString("ko-KR");
+    $("#visitTotal").textContent = c.total.toLocaleString("ko-KR");
+    $("#visitCount").hidden = !c.total;
+  }catch(e){ console.warn("방문자 수", e.code || e.message); }
+})();
 watchSections();
 
 /* 30명이 넘으면 전광판처럼 자동으로 다음 화면 */
@@ -2673,25 +2730,32 @@ $("#photoDialog").addEventListener("keydown", e => {
   if(e.key === "ArrowLeft") openPhoto(state.lbIndex - 1);
   if(e.key === "ArrowRight") openPhoto(state.lbIndex + 1);
 });
-$("#galFile").addEventListener("change", async e => {
-  const files = [...e.target.files]; e.target.value = "";
+$("#galFile").addEventListener("change", e => { const files = [...e.target.files]; e.target.value = ""; uploadPhotos(files); });
+/* 붙여넣은(Ctrl+V) 사진 파일만 골라낸다. 글자만 붙여 넣을 때는 빈 배열 */
+const pastedImages = e => [...(e.clipboardData?.items || [])].filter(i => i.kind === "file" && i.type.startsWith("image/")).map(i => i.getAsFile()).filter(Boolean);
+document.addEventListener("paste", e => {
+  if(!state.isAdmin || state.view !== "dash" || state.tab !== "gallery") return;
+  const files = pastedImages(e); if(!files.length) return;
+  e.preventDefault(); uploadPhotos(files);
+});
+async function uploadPhotos(files){
   let ok = 0;
   for(const [i, f] of files.entries()){
     toast(`사진 올리는 중… (${i + 1} / ${files.length})`);
     try{
       const [thumb, full] = await Promise.all([shrinkImage(f, 560, .72, 150000), shrinkImage(f, 1800, .85, 880000)]);
-      await api.addPhoto({thumb, caption: "", period: ""}, full);
+      await api.addPhoto({thumb, caption: "", year: null, memo: ""}, full);
       ok++;
     }catch(err){ toast(`${f.name}: 올리지 못했습니다 (${err?.code || "JPG·PNG 사진인지 확인해 주세요"})`); await new Promise(r => setTimeout(r, 1800)); }
   }
-  if(ok) toast(`사진 ${ok}장을 올렸습니다. 설명과 시기를 적고 저장하세요`);
-});
+  if(ok) toast(`사진 ${ok}장을 올렸습니다. 연도와 제목을 적고 저장하세요`);
+}
 $("#galAdmin").addEventListener("click", async e => {
   const b = e.target.closest("[data-ga]"); if(!b) return;
   const card = b.closest("[data-id]"), id = card.dataset.id;
   try{
     if(b.dataset.ga === "save"){
-      await api.setPhoto(id, {period: card.querySelector('[data-g="period"]').value.trim(), caption: card.querySelector('[data-g="caption"]').value.trim()});
+      await api.setPhoto(id, readPhotoFields(card));
       toast("저장했습니다");
     }
     if(b.dataset.ga === "del"){ if(!confirm("이 사진을 삭제할까요?")) return; await api.removePhoto(id); state.photoCache.delete(id); toast("삭제했습니다"); }
@@ -2725,13 +2789,24 @@ document.addEventListener("click", e => {
 /* 사진 제보 */
 let subPicked = null;
 $("#subOpen").addEventListener("click", () => { $("#submitDialog").showModal(); });
-$("#subFile").addEventListener("change", e => {
-  const f = e.target.files[0]; if(!f) return;
+$("#subFile").addEventListener("change", e => pickSubPhoto(e.target.files[0]));
+$("#submitDialog").addEventListener("paste", e => {
+  const [f] = pastedImages(e); if(!f) return;
+  e.preventDefault(); pickSubPhoto(f); toast("붙여 넣은 사진을 골랐습니다");
+});
+$("#galSort").addEventListener("click", e => {
+  const b = e.target.closest("[data-gs]"); if(!b) return;
+  state.galSort = b.dataset.gs;
+  document.querySelectorAll("#galSort .pick").forEach(x => x.setAttribute("aria-pressed", x === b));
+  renderGallery();
+});
+function pickSubPhoto(f){
+  if(!f) return;
   subPicked = f;
   const url = URL.createObjectURL(f);
   $("#subPrev").onload = () => URL.revokeObjectURL(url);
   $("#subPrev").src = url; $("#subPrev").hidden = false; $("#subHint").hidden = true;
-});
+}
 $("#subForm").addEventListener("submit", async e => {
   e.preventDefault();
   if(!subPicked){ toast("먼저 사진을 골라 주세요"); return; }
@@ -2741,7 +2816,8 @@ $("#subForm").addEventListener("submit", async e => {
   const btn = e.target.querySelector('[type="submit"]'); btn.disabled = true; btn.textContent = "보내는 중…";
   try{
     const [thumb, full] = await Promise.all([shrinkImage(subPicked, 560, .72, 150000), shrinkImage(subPicked, 1800, .85, 880000)]);
-    await api.addSubmission({thumb, caption: $("#subCaption").value.trim().slice(0, 60), period: $("#subPeriod").value.trim().slice(0, 20), by: $("#subBy").value.trim().slice(0, 20)}, full);
+    await api.addSubmission({thumb, year: normYear($("#subYear").value), caption: $("#subCaption").value.trim().slice(0, 60),
+      memo: $("#subMemo").value.trim().slice(0, 200), by: $("#subBy").value.trim().slice(0, 20)}, full);
     lsSet("jinsun50-sub-last", String(Date.now()));
     e.target.reset(); subPicked = null; $("#subPrev").hidden = true; $("#subHint").hidden = false;
     $("#submitDialog").close();
@@ -2755,7 +2831,7 @@ $("#subAdmin").addEventListener("click", async e => {
   try{
     if(b.dataset.sa === "ok"){
       b.disabled = true;
-      await api.approveSubmission(s, {period: card.querySelector('[data-g="period"]').value.trim(), caption: card.querySelector('[data-g="caption"]').value.trim()});
+      await api.approveSubmission(s, readPhotoFields(card));
       toast("갤러리에 게시했습니다");
     }else{
       if(!confirm("이 제보 사진을 싣지 않고 지울까요?")) return;
