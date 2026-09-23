@@ -150,13 +150,17 @@ h2{font-family:var(--f-head);font-weight:var(--head-w);font-size:clamp(1.75rem,3
 .tile-status::before{content:"";width:7px;height:7px;border-radius:50%;background:#F08A24;box-shadow:0 0 0 3px color-mix(in srgb,#F08A24 22%,transparent)}
 .tile-status.ready{color:var(--accent);font-weight:700}
 .tile-status.ready::before{background:#2E9E5B;box-shadow:0 0 0 3px color-mix(in srgb,#2E9E5B 22%,transparent)}
-.tile-more{display:inline-flex;align-items:center;gap:10px;font-size:.74rem;letter-spacing:.14em;color:var(--muted);transition:color .3s}
-/* 자세히: 얇은 금빛 원 안의 짧은 화살표, 올리면 원이 채워지며 화살표가 살짝 나아감 */
-.more-dot{display:grid;place-items:center;width:28px;height:28px;border:1px solid color-mix(in srgb,var(--gold) 55%,transparent);border-radius:50%;color:var(--gold);transition:background .3s,border-color .3s,color .3s}
-.tile-more svg{width:13px;height:13px;transition:transform .3s}
-.tile:hover .tile-more{color:var(--accent)}
-.tile:hover .more-dot{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
-.tile:hover .tile-more svg{transform:translateX(2px)}
+.tile-more{display:inline-flex;align-items:center;gap:10px;font-size:.74rem;font-weight:700;letter-spacing:.16em}
+/* 자세히: 금박 글자 + 금박 두 겹 원 (메인 50처럼 7초마다 빛이 지나감), 올리면 원 안이 금으로 차오름 */
+.more-tx,.more-seal i{background:var(--foil);background-size:220% 100%;animation:shine 7s ease-in-out infinite}
+.more-tx{-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.more-seal{position:relative;flex:none;width:30px;height:30px}
+.more-seal i{position:absolute;inset:0}
+.ms-ring{--r:radial-gradient(circle closest-side,transparent 10.6px,#000 11px,#000 11.6px,transparent 12px,transparent 14px,#000 14.4px,#000 15px,transparent 15.4px);-webkit-mask:var(--r);mask:var(--r)}
+.more-seal .ms-disc{inset:4px;border-radius:50%;transform:scale(0);transition:transform .45s ease}
+.more-seal .ms-ar{z-index:1;--a:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 8h9.5M9 4.5 12.5 8 9 11.5'/%3E%3C/svg%3E");-webkit-mask:var(--a) center/12px no-repeat;mask:var(--a) center/12px no-repeat;transition:transform .35s}
+.tile:hover .ms-disc{transform:scale(1)}
+.tile:hover .more-seal .ms-ar{background:var(--tile-bg);animation:none;transform:translateX(2px)}
 body[data-theme="album"] .tile:hover{transform:translateY(-4px)}
 /* 휴대폰: 기념 사업 2개씩 4줄, 간단히 */
 @media (max-width:600px){
@@ -176,8 +180,7 @@ body[data-theme="album"] .tile:hover{transform:translateY(-4px)}
   .tile-memo.none{font-size:.72rem}
   .tile-status{gap:5px;font-size:.68rem;letter-spacing:.04em}
   .tile-more{gap:0;font-size:0}
-  .more-dot{width:24px;height:24px}
-  .tile-more svg{width:11px;height:11px}
+  .more-seal{transform:scale(.85)}
 }
 
 /* ───────── 후원금 전광판 (한 화면 30명) ───────── */
@@ -1953,7 +1956,7 @@ function renderMenus(){
                : `<span class="tile-memo none">세부 일정은 추후 안내합니다</span>`}
       <span class="tile-foot">
         <span class="tile-status ${has ? "ready" : ""}">${has ? "안내 있음" : "준비중"}</span>
-        <span class="tile-more">자세히<span class="more-dot"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h9.5M9 4.5 12.5 8 9 11.5"/></svg></span></span>
+        <span class="tile-more"><span class="more-tx">자세히</span><span class="more-seal" aria-hidden="true"><i class="ms-ring"></i><i class="ms-disc"></i><i class="ms-ar"></i></span></span>
       </span>
     </button>`;
   }).join("");
