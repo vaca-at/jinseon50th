@@ -177,25 +177,17 @@
   }
 
   /* ───────── 시계 + D-Day ───────── */
-  .clock-dday-widget{ position:fixed; right:16px; z-index:20; width:76px; border-radius:14px; overflow:hidden; background:var(--surface);
-    border:1px solid color-mix(in srgb,var(--gold) 45%,var(--line)); box-shadow:0 8px 20px -10px rgba(0,0,0,.35); display:flex; flex-direction:column; }
-  .cw-time-wrap{ padding:9px 0 7px; display:flex; flex-direction:column; align-items:center; gap:1px; }
-  .cw-date{ font-family:'Pretendard',sans-serif; font-size:9px; font-weight:600; color:var(--muted); }
-  .cw-time{ font-family:'Pretendard',sans-serif; font-size:17px; font-weight:800; color:var(--ink); letter-spacing:-0.5px; font-variant-numeric:tabular-nums; }
-  .cw-dday{ display:none; align-items:center; justify-content:center; padding:4px 0; background:var(--foil); background-size:220% 100%; animation:shine 7s ease-in-out infinite;
-    font-family:'Pretendard',sans-serif; font-size:12px; font-weight:800; color:#2A1A04; }
-  /* 휴대폰: 대표 화면 안 가로 칩 (날짜・시각 | D-Day) */
-  @media (max-width:600px){
-    .hero-in{ padding-right:20px; }
-    .hero-in .clock-dday-widget{ position:static; display:inline-flex; flex-direction:row; align-items:stretch; width:auto; margin-top:16px; border-radius:999px; }
-    .hero-in .cw-time-wrap{ flex-direction:row; gap:8px; padding:7px 12px 7px 14px; align-items:baseline; }
-    .hero-in .cw-date{ font-size:12px; }
-    .hero-in .cw-time{ font-size:15px; }
-    .hero-in .cw-dday{ padding:0 14px; font-size:13px; }
-  }
-
+  /* 시계 + D-Day: 대표 화면 안, 기간(부제) 바로 아래 작은 가로 칩 (휴대폰・컴퓨터 같음, 기간 줄보다 길지 않게) */
+  .clock-dday-widget{ display:inline-flex; align-items:stretch; margin-top:12px; border-radius:999px; overflow:hidden; background:var(--surface);
+    border:1px solid color-mix(in srgb,var(--gold) 45%,var(--line)); box-shadow:0 6px 16px -10px rgba(0,0,0,.35); max-width:100%; }
+  .cw-time-wrap{ display:flex; align-items:baseline; gap:5px; padding:4px 8px 4px 11px; white-space:nowrap; }
+  .cw-date{ font-family:'Pretendard',sans-serif; font-size:11px; font-weight:600; color:var(--muted); }
+  .cw-time{ font-family:'Pretendard',sans-serif; font-size:13px; font-weight:800; color:var(--ink); letter-spacing:-0.3px; font-variant-numeric:tabular-nums; }
+  .cw-dday{ display:none; align-items:center; justify-content:center; padding:0 10px; background:var(--foil); background-size:220% 100%; animation:shine 7s ease-in-out infinite;
+    font-family:'Pretendard',sans-serif; font-size:12px; font-weight:800; color:#2A1A04; white-space:nowrap; }
+  .hero-in{ padding-right:20px; }
   /* ───────── 메모 ───────── */
-  .memo-section{ max-width:760px; margin:22px auto 0; padding:0 16px; }
+  .memo-section{ max-width:1000px; margin:22px auto 0; padding:0 16px; }
   .memo-card{ position:relative; background:var(--surface); border:1px solid color-mix(in srgb,var(--gold) 28%,var(--line)); border-radius:var(--radius);
     padding:14px 16px 14px 44px; margin-bottom:12px; box-shadow:0 12px 30px -26px rgba(0,0,0,.5); }
   .memo-card::after{ content:""; position:absolute; inset:5px; border:1px solid color-mix(in srgb,var(--gold) 14%,transparent); border-radius:calc(var(--radius) - 3px); pointer-events:none; }
@@ -212,7 +204,7 @@
   .memo-content{ margin:0; font-size:calc(15px * var(--body-scale)); line-height:1.65; white-space:pre-line; }
   .memo-date{ font-family:'Pretendard',sans-serif; font-weight:800; color:var(--gold); margin-right:8px; font-size:13px; }
 
-  main{ max-width:760px; margin:20px auto; padding:0 16px 4px; }
+  main{ max-width:1000px; margin:20px auto; padding:0 16px 4px; }
 
   /* ───────── 카테고리 타일 ───────── */
   .cat-grid{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:12px; margin-bottom:16px; }
@@ -320,7 +312,8 @@
   .error-banner{ background:var(--danger-bg); color:var(--danger); border:1px solid var(--danger); border-radius:10px; padding:16px 18px; margin:16px 0; font-size:14px; line-height:1.6; font-family:'Pretendard',sans-serif; }
 
   /* ───────── 날씨・환율 카드 (타일 아래 2단) ───────── */
-  .info-cards{ max-width:760px; margin:0 auto; padding:0 16px 48px; display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:12px; }
+  .info-cards{ max-width:1000px; margin:0 auto; padding:0 16px 48px; display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:12px; }
+  @media (max-width:900px){ .info-cards{ grid-template-columns:repeat(2, minmax(0,1fr)); } .info-cards .jp-card{ grid-column:1 / -1; } }
   @media (max-width:600px){ .info-cards{ grid-template-columns:1fr; } }
   .info-card{ position:relative; display:flex; flex-direction:column; gap:12px; padding:16px; background:var(--tile); color:var(--ink);
     border:1px solid color-mix(in srgb,var(--gold) 24%,var(--line)); border-radius:var(--radius); box-shadow:0 12px 30px -28px rgba(0,0,0,.5); min-width:0; }
@@ -342,16 +335,38 @@
   .wx-day .ti{ font-size:20px; color:var(--ink); }
   .wx-day b{ color:var(--ink); font-size:12px; font-variant-numeric:tabular-nums; }
   .wx-day.trip{ background:var(--accent-soft); color:var(--ink); }
-  .info-foot{ margin-top:auto; font-family:'Pretendard',sans-serif; font-size:11px; color:var(--muted); line-height:1.5; }
+  /* 출처・안내 문구: 세 카드 모두 두 줄 높이로 맞추고 맨 아래에 정렬 */
+  .info-foot{ margin-top:auto; min-height:calc(3em + 9px); display:flex; align-items:flex-end; padding-top:8px; border-top:1px solid var(--line);
+    font-family:'Pretendard',sans-serif; font-size:11px; color:var(--muted); line-height:1.5; }
   .fx-row{ display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); align-items:center; gap:6px; }
   .fx-field{ display:flex; align-items:center; border:1px solid var(--line); border-radius:10px; background:var(--surface); padding:0 10px; min-width:0; }
   .fx-field:focus-within{ outline:2px solid var(--accent); outline-offset:-1px; }
   .fx-field input{ flex:1; min-width:0; border:none; background:none; color:var(--ink); font-family:'Pretendard',sans-serif; font-size:16px; font-weight:700; padding:10px 0; text-align:right; outline:none; font-variant-numeric:tabular-nums; }
   .fx-field span{ font-family:'Pretendard',sans-serif; font-size:13px; font-weight:700; color:var(--muted); margin-left:4px; }
   .fx-swap{ color:var(--gold); font-size:18px; }
-  .fx-chips{ display:flex; flex-wrap:wrap; gap:6px; }
-  .fx-chip{ border:1px solid var(--line); background:var(--surface); color:var(--ink); font-family:'Pretendard',sans-serif; font-size:12px; font-weight:600; padding:6px 10px; border-radius:999px; cursor:pointer; min-height:32px; }
+  .fx-chips{ display:flex; flex-wrap:nowrap; gap:6px; }
+  .fx-chip{ flex:1; min-width:0; white-space:nowrap; border:1px solid var(--line); background:var(--surface); color:var(--ink); font-family:'Pretendard',sans-serif; font-size:12px; font-weight:600; padding:6px 4px; border-radius:999px; cursor:pointer; min-height:32px; }
   .fx-chip:hover{ border-color:var(--accent); background:var(--accent-soft); }
+  /* 일본어 한마디 */
+  .jp-main{ display:flex; flex-direction:column; gap:4px; padding:4px 0 2px; }
+  .jp-text{ font-family:'Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo','Noto Sans JP',sans-serif; font-weight:700;
+    font-size:26px; line-height:1.3; letter-spacing:.02em; word-break:keep-all; overflow-wrap:anywhere; }
+  .jp-read{ font-family:'Pretendard',sans-serif; font-size:14px; font-weight:700; color:var(--accent); }
+  body[data-theme="yatai"] .jp-read{ color:var(--gold); }
+  .jp-mean{ font-family:var(--f-head); font-weight:var(--head-w); font-size:calc(20px * var(--head-scale)); margin-top:2px; }
+  .jp-actions{ display:flex; gap:8px; }
+  .jp-btn{ flex:1; display:inline-flex; align-items:center; justify-content:center; gap:6px; min-height:40px; border-radius:999px; cursor:pointer;
+    font-family:'Pretendard',sans-serif; font-size:13px; font-weight:700; border:1px solid var(--line); background:var(--surface); color:var(--ink); }
+  .jp-btn.primary{ background:var(--accent); border-color:var(--accent); color:var(--on-accent); }
+  .jp-btn:hover{ border-color:var(--accent); }
+  .jp-btn.speaking .ti{ animation:glow 1s ease-in-out infinite; }
+  .jp-dots{ display:flex; gap:5px; justify-content:center; }
+  .jp-dots i{ width:6px; height:6px; border-radius:50%; background:var(--line); }
+  .jp-dots{ flex-wrap:wrap; }
+  .jp-dots i.must{ background:color-mix(in srgb,var(--gold) 45%,var(--line)); }
+  .jp-dots i.on{ background:var(--accent); width:16px; border-radius:3px; }
+  .jp-must{ display:inline-block; vertical-align:3px; margin-left:4px; padding:1px 7px; border-radius:999px; background:var(--foil); background-size:220% 100%;
+    font-family:'Pretendard',sans-serif; font-size:11px; font-weight:800; color:#2A1A04; }
 
   /* ───────── 하단 ───────── */
   footer{ position:relative; background:var(--surface); border-top:1px solid var(--line); padding:26px 20px 22px; text-align:center; }
@@ -599,7 +614,7 @@
 
 <main id="main"><div class="loading">불러오는 중입니다...</div></main>
 
-<section class="info-cards" id="infoCards" aria-label="날씨와 환율">
+<section class="info-cards" id="infoCards" aria-label="날씨・환율・일본어 한마디">
   <article class="info-card" id="wxCard">
     <div class="info-head"><i class="ti ti-temperature" aria-hidden="true"></i><span class="info-title">후쿠오카 날씨</span><span class="info-sub" id="wxNow">불러오는 중</span></div>
     <div class="info-big">
@@ -628,6 +643,21 @@
     </div>
     <div class="fx-chips" id="fxChips"></div>
     <div class="info-foot">실제 환전・카드 결제 환율과는 조금 다를 수 있습니다. · 환율: ExchangeRate-API</div>
+  </article>
+  <article class="info-card jp-card" id="jpCard">
+    <div class="info-head"><i class="ti ti-language" aria-hidden="true"></i><span class="info-title">일본어 한마디</span><span class="info-sub" id="jpCount"></span></div>
+    <div class="jp-main" aria-live="polite">
+      <div class="jp-text" id="jpText" lang="ja"></div>
+      <div class="jp-read" id="jpRead"></div>
+      <div class="jp-mean" id="jpMean"></div>
+    </div>
+    <div class="info-tip"><i class="ti ti-bulb" aria-hidden="true"></i><span id="jpTip"></span></div>
+    <div class="jp-actions">
+      <button type="button" class="jp-btn primary" id="jpSpeak"><i class="ti ti-volume" aria-hidden="true"></i>듣기</button>
+      <button type="button" class="jp-btn" id="jpNext"><i class="ti ti-refresh" aria-hidden="true"></i>다음 표현</button>
+    </div>
+    <div class="jp-dots" id="jpDots" aria-hidden="true"></div>
+    <div class="info-foot">새로고침하면 다음 표현이 나옵니다. · 음성: 기기 내장 일본어 읽기</div>
   </article>
 </section>
 
@@ -750,18 +780,11 @@
   })();
 
   // ---------------- 시계 + D-Day 위젯 위치 ----------------
-  // 휴대폰에서는 떠 있는 상자가 제목・장식을 가리므로 대표 화면 안(부제 아래) 가로 칩으로 옮김
-  const clockMq = window.matchMedia('(max-width:600px)');
+  // 시계・D-Day는 떠 있는 상자 대신 대표 화면 안(기간 줄 아래) 가로 칩으로 — 제목・장식・카드를 가리지 않게
   function positionClockWidget() {
     const w = document.getElementById('clockWidget');
     const heroIn = document.querySelector('.hero-in');
-    if (clockMq.matches) {
-      if (w.parentNode !== heroIn) heroIn.appendChild(w);
-      w.style.top = '';
-    } else {
-      if (w.parentNode === heroIn) document.body.insertBefore(w, document.getElementById('memoSection'));
-      w.style.top = (document.getElementById('topbar').offsetHeight + 12) + 'px';
-    }
+    if (w.parentNode !== heroIn) heroIn.appendChild(w);
   }
   window.addEventListener('resize', positionClockWidget);
   window.addEventListener('load', positionClockWidget);
@@ -1433,11 +1456,74 @@
       document.getElementById('fxRate').textContent = '---원';
     });
   }
+  // 일본어 한마디: 꼭 알아야 할 7마디(must) + 여행 필수 표현
+  // 새로고침할 때마다, [다음 표현]을 누를 때마다 다음 표현으로 (마지막 본 번호를 기기에 기억)
+  const JP_PHRASES = [
+    { must: true, ja: 'ありがとうございます', read: '아리가토- 고자이마스', ko: '고맙습니다', tip: '가게・식당・호텔 어디서나. 친한 사이엔 짧게 "아리가토".' },
+    { must: true, ja: 'こんにちは', read: '곤니치와', ko: '안녕하세요', tip: '낮 인사예요. 아침엔 "오하요- 고자이마스", 저녁엔 "곰방와".' },
+    { must: true, ja: 'すみません', read: '스미마셍', ko: '죄송합니다', tip: '사과할 때도, 점원을 부를 때도, 길을 비켜 달라고 할 때도 써요.' },
+    { must: true, ja: 'いってきます', read: '잇테키마스', ko: '다녀오겠습니다', tip: '숙소를 나설 때. 직원이 "잇테랏샤이(다녀오세요)"로 답해 줘요.' },
+    { must: true, ja: 'ただいま', read: '다다이마', ko: '다녀왔습니다', tip: '숙소에 돌아왔을 때. 답은 "오카에리나사이(어서 와요)".' },
+    { must: true, ja: 'おいしいですね', read: '오이시- 데스네', ko: '맛있네요', tip: '식사 중에. 다 먹고 나갈 땐 "고치소-사마데시타(잘 먹었습니다)".' },
+    { must: true, ja: 'さようなら', read: '사요-나라', ko: '안녕히 계세요', tip: '헤어질 때. 가게를 나설 땐 "아리가토- 고자이마시타"가 더 자연스러워요.' },
+    { ja: 'おはようございます', read: '오하요- 고자이마스', ko: '좋은 아침입니다', tip: '아침 인사. 호텔 조식당에서 직원과 눈이 마주치면 건네 보세요.' },
+    { ja: 'これください', read: '코레 쿠다사이', ko: '이거 주세요', tip: '메뉴판이나 물건을 손가락으로 가리키며. 주문・쇼핑 만능 표현.' },
+    { ja: 'いくらですか', read: '이쿠라 데스카', ko: '얼마예요?', tip: '가격을 물을 때. 계산기를 보여 달라고 하면 숫자로 알려 줘요.' },
+    { ja: 'トイレはどこですか', read: '토이레와 도코 데스카', ko: '화장실은 어디예요?', tip: '역・백화점에선 "お手洗い(오테아라이)" 표지판을 찾아도 돼요.' },
+    { ja: 'お会計お願いします', read: '오카이케- 오네가이시마스', ko: '계산해 주세요', tip: '식당에서. 손가락으로 X자를 만들어 보여도 계산 신호예요.' },
+    { ja: 'いただきます', read: '이타다키마스', ko: '잘 먹겠습니다', tip: '먹기 전에 손을 모으고. 함께 식사하는 분들과 같이 말해요.' },
+    { ja: 'ごちそうさまでした', read: '고치소-사마데시타', ko: '잘 먹었습니다', tip: '다 먹고 나갈 때 점원에게. 식당 주인이 아주 좋아해요.' },
+    { ja: '写真を撮ってもいいですか', read: '샤신오 톳테모 이- 데스카', ko: '사진 찍어도 될까요?', tip: '신사・가게 안에서는 촬영 금지인 곳도 있으니 먼저 물어보세요.' },
+    { ja: '大丈夫です', read: '다이죠-부 데스', ko: '괜찮아요', tip: '"봉투 필요하세요?"처럼 사양할 때도, 괜찮다고 답할 때도 써요.' }
+  ];
+  let jpIdx = -1;
+  function showPhrase(i) {
+    jpIdx = i;
+    const p = JP_PHRASES[i];
+    document.getElementById('jpText').textContent = p.ja;
+    document.getElementById('jpRead').textContent = '[' + p.read + ']';
+    document.getElementById('jpMean').innerHTML = escapeHtml(p.ko) + (p.must ? ' <span class="jp-must">필수</span>' : '');
+    document.getElementById('jpTip').textContent = p.tip;
+    document.getElementById('jpCount').textContent = (i + 1) + ' / ' + JP_PHRASES.length;
+    const dots = document.getElementById('jpDots');
+    dots.innerHTML = '';
+    JP_PHRASES.forEach(function(q, k) {
+      const d = document.createElement('i');
+      d.className = (k === i ? 'on' : '') + (q.must ? ' must' : '');
+      dots.appendChild(d);
+    });
+    writePref('gtJpIdx', String(i));
+  }
+  function nextPhrase() {
+    showPhrase((jpIdx + 1) % JP_PHRASES.length);
+  }
+  // 휴대폰・PC에 들어 있는 일본어 음성으로 읽기 (인터넷 서비스 없음)
+  function speakPhrase() {
+    const btn = document.getElementById('jpSpeak');
+    if (!('speechSynthesis' in window)) { btn.disabled = true; btn.lastChild.textContent = '듣기 미지원'; return; }
+    const u = new SpeechSynthesisUtterance(JP_PHRASES[jpIdx].ja);
+    u.lang = 'ja-JP';
+    u.rate = 0.85;
+    const voice = speechSynthesis.getVoices().find(function(v) { return /^ja/i.test(v.lang); });
+    if (voice) u.voice = voice;
+    u.onstart = function() { btn.classList.add('speaking'); };
+    u.onend = u.onerror = function() { btn.classList.remove('speaking'); };
+    speechSynthesis.cancel();
+    speechSynthesis.speak(u);
+  }
+
   (function initInfoCards() {
+    // 새로고침하면 지난번 다음 표현부터 (처음 온 기기는 첫 표현부터)
+    const last = parseInt(readPref('gtJpIdx'), 10);
+    jpIdx = isNaN(last) ? -1 : last;
+    nextPhrase();
+    document.getElementById('jpNext').addEventListener('click', function() { if ('speechSynthesis' in window) speechSynthesis.cancel(); nextPhrase(); });
+    document.getElementById('jpSpeak').addEventListener('click', speakPhrase);
+    if ('speechSynthesis' in window) speechSynthesis.getVoices();   // 일부 브라우저는 목록을 미리 불러와야 함
     commaInput(document.getElementById('fxYen'), fxFromYen);
     commaInput(document.getElementById('fxWon'), fxFromWon);
     const chips = document.getElementById('fxChips');
-    [500, 1000, 3000, 5000, 10000].forEach(function(y) {
+    [500, 1000, 5000, 10000].forEach(function(y) {
       const b = document.createElement('button');
       b.type = 'button'; b.className = 'fx-chip'; b.textContent = fmtNum(y) + '엔';
       b.addEventListener('click', function() { document.getElementById('fxYen').value = fmtNum(y); fxFromYen(); });
