@@ -224,7 +224,6 @@
     .cat-grid .tile-top{ display:contents; }
     .cat-grid .tile-rule{ display:none; }
     .cat-grid .tile-icon{ grid-area:icon; width:42px; height:42px; }
-    .cat-grid .tile-title{ grid-area:title; font-size:calc(17px * var(--head-scale)); }
     .cat-grid .tile-meta{ grid-area:meta; }
     .cat-grid .tile-no{ grid-area:no; font-size:12px; opacity:.8; }
     .cat-grid .tile:hover{ transform:none; }
@@ -247,6 +246,26 @@
     color:var(--gold); font-size:19px; transition:background .35s,color .35s,border-color .35s; }
   .tile:hover .tile-icon, .tile.active .tile-icon{ background:var(--accent); border-color:var(--accent); color:var(--on-accent); }
   .tile-title{ font-family:var(--f-head); font-weight:var(--head-w); font-size:calc(18px * var(--head-scale)); line-height:1.3; }
+  /* 박스 제목 꾸밈: 금색 영문 머리글 + 금박 밑줄 + 흐린 큰 아이콘 */
+  .card-eyebrow{ font-family:'Pretendard',sans-serif; font-size:10px; font-weight:800; letter-spacing:.24em; color:var(--gold); line-height:1.2; }
+  .tile-heading{ display:flex; flex-direction:column; gap:5px; }
+  .tile-heading .tile-title{ font-size:calc(21px * var(--head-scale)); line-height:1.2; }
+  .tile-bar{ display:block; width:26px; height:2px; border-radius:2px; background:var(--foil); background-size:220% 100%; animation:shine 7s ease-in-out infinite;
+    transition:width .4s cubic-bezier(.2,.7,.2,1); }
+  .tile:hover .tile-bar, .tile.active .tile-bar{ width:60px; }
+  .card-watermark{ position:absolute; right:-14px; bottom:-26px; z-index:0; color:var(--gold); opacity:.07; pointer-events:none; line-height:1; }
+  .card-watermark .ti, .card-watermark span{ font-size:120px; }
+  .info-card > .card-watermark{ position:absolute; z-index:0; top:-18px; right:-18px; bottom:auto; }
+  .info-card > .card-watermark .ti{ font-size:110px; }
+  .tile > *:not(.card-watermark){ position:relative; z-index:1; }
+  body[data-theme="yatai"] .card-watermark{ opacity:.09; }
+  @media (max-width:600px){
+    .cat-grid .tile-heading{ grid-area:title; gap:2px; }
+    .cat-grid .tile-heading .tile-title{ font-size:calc(17px * var(--head-scale)); }
+    .cat-grid .tile-bar{ display:none; }
+    .cat-grid .card-watermark{ right:44px; bottom:-20px; }
+    .cat-grid .card-watermark .ti, .cat-grid .card-watermark span{ font-size:72px; }
+  }
   .tile-meta{ font-family:'Pretendard',sans-serif; font-size:11px; color:var(--muted); font-weight:600; letter-spacing:.02em; }
   .tile.is-hidden{ opacity:.45; }
 
@@ -325,9 +344,15 @@
   .info-card{ position:relative; display:flex; flex-direction:column; gap:12px; padding:16px; background:var(--tile); color:var(--ink);
     border:1px solid color-mix(in srgb,var(--gold) 24%,var(--line)); border-radius:var(--radius); box-shadow:0 12px 30px -28px rgba(0,0,0,.5); min-width:0; }
   .info-card::after{ content:""; position:absolute; inset:5px; border:1px solid color-mix(in srgb,var(--gold) 13%,transparent); border-radius:calc(var(--radius) - 3px); pointer-events:none; }
-  .info-head{ display:flex; align-items:center; gap:8px; }
-  .info-head .ti{ font-size:18px; color:var(--gold); }
-  .info-title{ font-family:var(--f-head); font-weight:var(--head-w); font-size:calc(17px * var(--head-scale)); }
+  .info-head{ position:relative; z-index:1; display:flex; align-items:center; gap:10px; padding-bottom:12px; }
+  .info-head::after{ content:""; position:absolute; left:0; right:0; bottom:0; height:1px; background:linear-gradient(90deg,color-mix(in srgb,var(--gold) 60%,transparent),transparent 85%); }
+  .info-ic{ flex:none; display:grid; place-items:center; width:38px; height:38px; border-radius:50%; border:1px solid color-mix(in srgb,var(--gold) 45%,transparent);
+    background:color-mix(in srgb,var(--gold) 7%,transparent); }
+  .info-head .info-ic .ti{ font-size:19px; color:var(--gold); }
+  .info-titles{ display:flex; flex-direction:column; gap:2px; min-width:0; }
+  .info-title{ font-family:var(--f-head); font-weight:var(--head-w); font-size:calc(19px * var(--head-scale)); line-height:1.2; }
+  .info-sub{ align-self:flex-start; margin-top:4px; }
+  .info-card > *{ position:relative; z-index:1; }
   .info-sub{ margin-left:auto; font-family:'Pretendard',sans-serif; font-size:11px; font-weight:600; color:var(--muted); }
   .info-big{ display:flex; align-items:center; gap:12px; }
   .info-big .wx-icon{ font-size:44px; color:var(--accent); line-height:1; }
@@ -623,7 +648,8 @@
 
 <section class="info-cards" id="infoCards" aria-label="날씨・환율・일본어 한마디">
   <article class="info-card" id="wxCard">
-    <div class="info-head"><i class="ti ti-temperature" aria-hidden="true"></i><span class="info-title">후쿠오카 날씨</span><span class="info-sub" id="wxNow">불러오는 중</span></div>
+    <span class="card-watermark" aria-hidden="true"><i class="ti ti-sun"></i></span>
+    <div class="info-head"><span class="info-ic"><i class="ti ti-temperature" aria-hidden="true"></i></span><span class="info-titles"><span class="card-eyebrow">WEATHER</span><span class="info-title">후쿠오카 날씨</span></span><span class="info-sub" id="wxNow">불러오는 중</span></div>
     <div class="info-big">
       <i class="ti ti-sun wx-icon" id="wxIcon" aria-hidden="true"></i>
       <div>
@@ -636,7 +662,8 @@
     <div class="info-foot" id="wxFoot">2월 후쿠오카는 평균 약 4~12℃로 쌀쌀합니다. · 날씨: Open-Meteo</div>
   </article>
   <article class="info-card" id="fxCard">
-    <div class="info-head"><i class="ti ti-currency-yen" aria-hidden="true"></i><span class="info-title">엔화 환율</span><span class="info-sub" id="fxDate">불러오는 중</span></div>
+    <span class="card-watermark" aria-hidden="true"><i class="ti ti-currency-yen"></i></span>
+    <div class="info-head"><span class="info-ic"><i class="ti ti-currency-yen" aria-hidden="true"></i></span><span class="info-titles"><span class="card-eyebrow">EXCHANGE</span><span class="info-title">엔화 환율</span></span><span class="info-sub" id="fxDate">불러오는 중</span></div>
     <div class="info-big">
       <div>
         <div class="info-desc">100엔 =</div>
@@ -652,7 +679,8 @@
     <div class="info-foot">실제 환전・카드 결제 환율과는 조금 다를 수 있습니다. · 환율: ExchangeRate-API</div>
   </article>
   <article class="info-card jp-card" id="jpCard">
-    <div class="info-head"><i class="ti ti-language" aria-hidden="true"></i><span class="info-title">일본어 한마디</span><span class="info-sub" id="jpCount"></span></div>
+    <span class="card-watermark" aria-hidden="true"><i class="ti ti-language"></i></span>
+    <div class="info-head"><span class="info-ic"><i class="ti ti-language" aria-hidden="true"></i></span><span class="info-titles"><span class="card-eyebrow">JAPANESE</span><span class="info-title">일본어 한마디</span></span><span class="info-sub" id="jpCount"></span></div>
     <div class="jp-main" aria-live="polite">
       <div class="jp-text" id="jpText" lang="ja"></div>
       <div class="jp-read" id="jpRead"></div>
@@ -844,6 +872,7 @@
     table:    { label: '표', icon: 'table', desc: '자유 형식 표. 칸 이름을 직접 정합니다.', columns: null }
   };
   const TYPE_ORDER = ['schedule', 'people', 'map', 'table'];
+  const TYPE_EYEBROW = { schedule: 'SCHEDULE', people: 'MEMBERS', map: 'PLACES', table: 'INFO' };
   function catType(cat) {
     if (cat.type && TYPES[cat.type]) return cat.type;
     const cols = cat.columns || [];
@@ -973,9 +1002,11 @@
     const tile = document.createElement('button');
     tile.className = 'tile';
     tile.innerHTML =
+      '<span class="card-watermark" aria-hidden="true">' + iconHtml(cat.icon, type) + '</span>' +
       '<span class="tile-top"><span class="tile-no">' + String(idx + 1).padStart(2, '0') + '</span><span class="tile-rule"></span>' +
       '<span class="tile-icon">' + iconHtml(cat.icon, type) + '</span></span>' +
-      '<span class="tile-title">' + escapeHtml(cat.name || '') + '</span>' +
+      '<span class="tile-heading"><span class="card-eyebrow">' + TYPE_EYEBROW[type] + '</span>' +
+      '<span class="tile-title">' + escapeHtml(cat.name || '') + '</span><span class="tile-bar"></span></span>' +
       '<span class="tile-meta">' + TYPES[type].label + (count ? ' · ' + count + (type === 'people' ? '명' : '개') : '') + '</span>';
     return tile;
   }
