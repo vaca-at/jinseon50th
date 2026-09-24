@@ -121,6 +121,13 @@
   .hero h1{ margin:0; font-family:var(--f-head); font-weight:var(--head-w); font-size:calc(clamp(30px,8vw,52px) * var(--head-scale)); line-height:1.18; letter-spacing:-.01em;
     background:var(--foil); background-size:220% 100%; -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; animation:shine 7s ease-in-out infinite; filter:var(--foil-shadow); }
   .hero .subtitle{ margin:12px 0 0; padding-left:12px; border-left:2px solid color-mix(in srgb,var(--gold) 55%,transparent); color:var(--muted); font-size:calc(15px * var(--body-scale)); line-height:1.6; }
+  /* 휴대폰: 제목 끝의 괄호 부분 "(GT)"를 다음 줄로, 앞부분은 한 줄에 들어가게 글자 크기 조절 */
+  .hero h1 .t-main, .hero h1 .t-tail{ -webkit-text-fill-color:transparent; }
+  @media (max-width:600px){
+    .hero h1{ font-size:min(6.3vw, 30px); line-height:1.25; }
+    .hero h1 .t-main{ white-space:nowrap; }
+    .hero h1 .t-tail{ display:block; }
+  }
   .hero .subtitle:empty{ display:none; }
 
   .spark{ position:absolute; z-index:1; width:14px; height:14px; background:var(--foil); background-size:200% 100%; pointer-events:none; opacity:0;
@@ -907,7 +914,11 @@
   // ---------------- 렌더링 ----------------
   function renderAll() {
     const title = settings.title || '50주년 해외연수(GT)';
-    document.getElementById('pageTitle').textContent = title;
+    // 끝에 괄호가 있으면 "개교 50주년 교직원 해외연수" + "(GT)"로 나눠서 휴대폰에서만 줄바꿈
+    const tm = /^(.*\S)\s*(\([^()]*\))$/.exec(title);
+    const h1 = document.getElementById('pageTitle');
+    if (tm) h1.innerHTML = '<span class="t-main">' + escapeHtml(tm[1]) + '</span><span class="t-tail">' + escapeHtml(tm[2]) + '</span>';
+    else h1.textContent = title;
     document.title = title;
     document.getElementById('pageKicker').textContent = settings.kicker || DEFAULT_KICKER;
     document.getElementById('pageSubtitle').textContent = settings.subtitle || '';
