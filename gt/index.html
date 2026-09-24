@@ -6,7 +6,7 @@
 <title>50주년 해외연수(GT)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gaegu:wght@400;700&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gaegu:wght@400;700&family=Gowun+Dodum&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -61,10 +61,10 @@
   }
 
   /* ───────── 글꼴 조합 (제목 / 본문) ─────────
-     고운바탕 + 윤탱이와 친구들. 손글씨 조합은 제목=온글잎 글꼴, 본문=개구 (윤탱체 조합과 같은 짝) */
+     고운바탕 / 윤탱체+개구(손글씨 본문) / 류뚱체+고운돋움(동글한 정자 본문) */
   :root, body[data-font="classic"]{ --f-head:'Gowun Batang',serif; --f-body:'Gowun Batang',serif; --head-w:700; --head-scale:1; --body-scale:1; }
   body[data-font="yuntaeng"]{ --f-head:'OwnglyphYuntaeng','Nanum Pen Script',cursive; --f-body:'Gaegu',cursive; --head-w:400; --head-scale:1.2; --body-scale:1.15; }
-  body[data-font="ryudung"]{ --f-head:'OngleipRyudung','Nanum Pen Script',cursive; --f-body:'Gaegu',cursive; --head-w:400; --head-scale:1.15; --body-scale:1.15; }
+  body[data-font="ryudung"]{ --f-head:'OngleipRyudung','Nanum Pen Script',cursive; --f-body:'Gowun Dodum',sans-serif; --head-w:400; --head-scale:1.15; --body-scale:1.05; }
 
   *{box-sizing:border-box;}
   body{ margin:0; font-family:var(--f-body); background-color:var(--bg); background-image:var(--bg-img); background-size:420px 420px; background-attachment:fixed;
@@ -184,7 +184,15 @@
   .cw-time{ font-family:'Pretendard',sans-serif; font-size:17px; font-weight:800; color:var(--ink); letter-spacing:-0.5px; font-variant-numeric:tabular-nums; }
   .cw-dday{ display:none; align-items:center; justify-content:center; padding:4px 0; background:var(--foil); background-size:220% 100%; animation:shine 7s ease-in-out infinite;
     font-family:'Pretendard',sans-serif; font-size:12px; font-weight:800; color:#2A1A04; }
-  @media (max-width:480px){ .clock-dday-widget{ width:64px; } .cw-time{ font-size:14px; } .cw-dday{ font-size:11px; } }
+  /* 휴대폰: 대표 화면 안 가로 칩 (날짜・시각 | D-Day) */
+  @media (max-width:600px){
+    .hero-in{ padding-right:20px; }
+    .hero-in .clock-dday-widget{ position:static; display:inline-flex; flex-direction:row; align-items:stretch; width:auto; margin-top:16px; border-radius:999px; }
+    .hero-in .cw-time-wrap{ flex-direction:row; gap:8px; padding:7px 12px 7px 14px; align-items:baseline; }
+    .hero-in .cw-date{ font-size:12px; }
+    .hero-in .cw-time{ font-size:15px; }
+    .hero-in .cw-dday{ padding:0 14px; font-size:13px; }
+  }
 
   /* ───────── 메모 ───────── */
   .memo-section{ max-width:760px; margin:22px auto 0; padding:0 16px; }
@@ -209,6 +217,19 @@
   /* ───────── 카테고리 타일 ───────── */
   .cat-grid{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:12px; margin-bottom:16px; }
   @media (min-width:640px){ .cat-grid{ grid-template-columns:repeat(3, minmax(0,1fr)); } }
+  /* 휴대폰: 타일을 한 줄에 하나씩 가로 막대로 (아이콘 | 이름・개수 | 번호) */
+  @media (max-width:600px){
+    .cat-grid{ grid-template-columns:1fr; gap:8px; }
+    .cat-grid .tile{ display:grid; grid-template-columns:auto minmax(0,1fr) auto; grid-template-areas:"icon title no" "icon meta no";
+      align-items:center; column-gap:14px; row-gap:2px; min-height:0; padding:12px 16px; }
+    .cat-grid .tile-top{ display:contents; }
+    .cat-grid .tile-rule{ display:none; }
+    .cat-grid .tile-icon{ grid-area:icon; width:42px; height:42px; }
+    .cat-grid .tile-title{ grid-area:title; font-size:calc(17px * var(--head-scale)); }
+    .cat-grid .tile-meta{ grid-area:meta; }
+    .cat-grid .tile-no{ grid-area:no; font-size:12px; opacity:.8; }
+    .cat-grid .tile:hover{ transform:none; }
+  }
   .tile{ position:relative; overflow:hidden; display:flex; flex-direction:column; gap:12px; padding:16px 16px 14px; text-align:left; cursor:pointer;
     background:var(--tile); color:var(--ink); border:1px solid color-mix(in srgb,var(--gold) 24%,var(--line)); border-radius:var(--radius);
     box-shadow:0 12px 30px -28px rgba(0,0,0,.5); transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s,border-color .35s; min-height:118px; }
@@ -692,7 +713,7 @@
   const FONTS = [
     { id: 'classic',    name: '고운바탕 · 단정한 명조', face: "'Gowun Batang',serif" },
     { id: 'yuntaeng',   name: '윤탱체 + 개구', face: "'OwnglyphYuntaeng','Nanum Pen Script',cursive" },
-    { id: 'ryudung',    name: '류뚱체 + 개구', face: "'OngleipRyudung','Nanum Pen Script',cursive" }
+    { id: 'ryudung',    name: '류뚱체 + 고운돋움', face: "'OngleipRyudung','Nanum Pen Script',cursive" }
   ];
   function readPref(key) { try { return localStorage.getItem(key) || ''; } catch(e) { return ''; } }
   function writePref(key, v) { try { localStorage.setItem(key, v); } catch(e) {} }
@@ -729,9 +750,18 @@
   })();
 
   // ---------------- 시계 + D-Day 위젯 위치 ----------------
+  // 휴대폰에서는 떠 있는 상자가 제목・장식을 가리므로 대표 화면 안(부제 아래) 가로 칩으로 옮김
+  const clockMq = window.matchMedia('(max-width:600px)');
   function positionClockWidget() {
-    const bar = document.getElementById('topbar');
-    document.getElementById('clockWidget').style.top = (bar.offsetHeight + 12) + 'px';
+    const w = document.getElementById('clockWidget');
+    const heroIn = document.querySelector('.hero-in');
+    if (clockMq.matches) {
+      if (w.parentNode !== heroIn) heroIn.appendChild(w);
+      w.style.top = '';
+    } else {
+      if (w.parentNode === heroIn) document.body.insertBefore(w, document.getElementById('memoSection'));
+      w.style.top = (document.getElementById('topbar').offsetHeight + 12) + 'px';
+    }
   }
   window.addEventListener('resize', positionClockWidget);
   window.addEventListener('load', positionClockWidget);
@@ -1136,7 +1166,9 @@
     if (g === '행정실장' || isChief) return n + ' 행정실장님';
     if (g === '행정실') return n + ' 행정실선생님';
     if (!g) return n + '선생님';
-    return escapeHtml(g) + ' ' + n + '선생님';
+    // 긴 교과명은 '과'를 빼서 한 줄에 들어가게 (예체능과 → 예체능)
+    const gShort = (Array.from(g).length >= 4 && /과$/.test(g)) ? g.slice(0, -1) : g;
+    return escapeHtml(gShort) + ' ' + n + '선생님';
   }
   function buildPeopleView(catItems) {
     const container = document.createElement('div');
