@@ -445,9 +445,17 @@
   .dash-cat-tabs{ display:contents; }
   .dash-tab.muted-tab{ opacity:.6; }
   .dash-body{ flex:1; overflow-y:auto; }
-  /* 바닥글: 이용약관 · 개인정보 처리방침 */
-  .policy-links{ margin:10px 0 0; font-family:'Pretendard',sans-serif; font-size:11px; color:var(--muted); }
-  .policy-links a{ color:inherit; text-underline-offset:2px; }
+  /* 맨 아래 이용약관 · 개인정보 처리방침 (누르면 펼쳐짐) */
+  .policy-foot{max-width:760px;margin:10px auto 0;padding:0 16px;font-size:11.5px;font-family:'Pretendard',sans-serif;line-height:1.7;color:var(--muted);word-break:keep-all;}
+  .policy-foot summary{cursor:pointer;text-align:center;list-style:none;opacity:.85;}
+  .policy-foot summary::-webkit-details-marker{display:none;}
+  .policy-foot summary:hover{text-decoration:underline;}
+  .policy-foot .pol{margin-top:10px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--surface);text-align:left;}
+  .policy-foot h4{margin:8px 0 2px;font-size:13px;}
+  .policy-foot ul{margin:4px 0;padding-left:1.2em;}
+  .policy-foot table{width:100%;border-collapse:collapse;margin:6px 0;}
+  .policy-foot th,.policy-foot td{border:1px solid var(--line);padding:4px 6px;text-align:left;vertical-align:top;}
+  .policy-foot .small{opacity:.7;font-size:11px;}
   /* ===== 공통 관리자 틀 — 모든 웹앱 관리자 화면이 같은 구조
      ① 위쪽 막대: 앱 이름 + 관리자 표시 / [사이트 보기] [관리자 허브] [로그아웃]
      ② 탭: 그림 + 이름, 고른 탭은 밑줄   ③ 본문: 큰 제목 + 한 줄 설명 ===== */
@@ -727,7 +735,20 @@
     <span class="footer-text">진선여자고등학교</span>
     <img id="schoolLogo" src="https://i.namu.wiki/i/hP1GNe8Hf1UQ8C6vi0_Ea5OyKnDIXc8iAkt6yAiCWe04MXoBw6muW4LhUTb8QB0rcwPsJeYz22t1WALiKg18lH_AeaWx1QmCaiJ70tYiwFeepzaK_61QVVGk2JW-f05icUe8x1pU0Me4HCflLcXUms6Y2XleHdjhMy134Bt50jg.webp" alt="진선여자고등학교 로고">
   </div>
-  <p class="policy-links"><a href="https://moontr.site/policy/#gt" target="_blank" rel="noopener">이용약관</a> · <a href="https://moontr.site/policy/#gt" target="_blank" rel="noopener"><b>개인정보 처리방침</b></a> · 문의 anstjsdud@sen.go.kr</p>
+  <div class="policy-foot">
+    <details>
+      <summary>50주년 해외연수 · 이용약관 · <b>개인정보 처리방침</b></summary>
+      <div class="pol">
+        <h4>이용약관</h4>
+        <ul><li>연수 안내를 보기 위한 목적으로만 이용해 주세요.</li><li>안내 내용(명단·일정 등)을 외부에 옮기지 마세요.</li></ul>
+        <h4>개인정보 처리방침</h4>
+        <table><tr><th>받는 정보</th><th>쓰임</th><th>보관</th></tr><tr><td>익명 접속 기록 (방문·열어 본 카테고리 이름·시각)</td><td>많이 보는 안내 파악</td><td>연수가 끝나면 지웁니다</td></tr><tr><td>참가자 명단 (이름·구분)</td><td>연수 안내 · 이름 전체는 관리자만 보는 저장소에 보관</td><td>연수가 끝나면 지웁니다</td></tr></table>
+        <ul><li>일반 화면의 명단에는 이름을 "이*호"처럼 가려서 보여 줍니다.</li><li>화면 모양·글꼴 선택은 이 기기의 브라우저에만 저장됩니다.</li><li>저장 위치: Google Firebase · 지도는 외부 지도 서비스로 열립니다.</li><li>왼쪽 아래 방문 수는 횟수만 세고, 누가 들어왔는지는 남기지 않습니다.</li></ul>
+        <p>기록을 보거나 지우고 싶을 때, 궁금한 점: anstjsdud@sen.go.kr</p>
+        <p class="small">마지막 수정일 2026년 9월 25일 · 현재 운영 방식을 정리한 안내로, 법률 검토를 거친 문서가 아닙니다.</p>
+      </div>
+    </details>
+  </div>
 
   <button class="admin-toggle" id="adminToggleBtn">관리자 모드</button>
   <div class="admin-login-panel" id="adminLoginPanel">
