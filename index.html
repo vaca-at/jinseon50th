@@ -2669,7 +2669,12 @@ api.watchSettings(s => {
   renderAccount();
   if(!loadLocal() && s?.theme) applyStyle(s.theme, s.font);
 });
-api.onAuth(setAdmin);
+/* 관리자 허브(moontr.site/admin)에서 #admin 으로 들어오면 대시보드(로그인 전이면 로그인 창)를 한 번 엽니다 */
+let adminHashDone = location.hash !== "#admin";
+api.onAuth(on => {
+  setAdmin(on);
+  if(!adminHashDone){ adminHashDone = true; $("#adminFab").click(); }
+});
 if(!state.unsubGuest) watchGuests();
 api.watchGallery(list => { state.photos = list; renderGallery(); renderGalleryAdmin(); });
 track.start();

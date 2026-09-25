@@ -1644,7 +1644,10 @@
     adminToggleBtn.textContent = isAdmin ? '관리자 대시보드' : '관리자 모드';
     logVisitOnce();
     renderCategories();
+    /* 관리자 허브(moontr.site/admin)에서 #admin 으로 들어오면 대시보드(로그인 전이면 로그인 칸)를 한 번 엽니다 */
+    if (location.hash === '#admin' && !adminHashDone) { adminHashDone = true; adminToggleBtn.click(); }
   });
+  let adminHashDone = false;
 
   function startAdminData() {
     if (!unsubPrivate) {
