@@ -445,7 +445,26 @@
   .dash-cat-tabs{ display:contents; }
   .dash-tab.muted-tab{ opacity:.6; }
   .dash-body{ flex:1; overflow-y:auto; }
-  .dash-body-inner{ max-width:1000px; margin:0 auto; padding:18px 16px 80px; font-size:13px; }
+  /* 바닥글: 이용약관 · 개인정보 처리방침 */
+  .policy-links{ margin:10px 0 0; font-family:'Pretendard',sans-serif; font-size:11px; color:var(--muted); }
+  .policy-links a{ color:inherit; text-underline-offset:2px; }
+  /* ===== 공통 관리자 틀 — 모든 웹앱 관리자 화면이 같은 구조
+     ① 위쪽 막대: 앱 이름 + 관리자 표시 / [사이트 보기] [관리자 허브] [로그아웃]
+     ② 탭: 그림 + 이름, 고른 탭은 밑줄   ③ 본문: 큰 제목 + 한 줄 설명 ===== */
+  .dash-head-inner{ max-width:1200px !important; padding:10px 20px 0 !important; }
+  .dash-brand{ display:flex; align-items:center; gap:10px; }
+  .ka-logo{ display:grid; place-items:center; width:36px; height:36px; border-radius:10px; background:var(--accent); color:var(--on-accent); font-weight:800; font-size:13px; }
+  .ka-badge{ font-size:11px; font-weight:800; padding:3px 9px; border-radius:999px; background:var(--accent-soft); color:var(--accent); }
+  .dash-title{ font-size:17px !important; }
+  .dash-actions .btn{ display:inline-flex; align-items:center; gap:6px; min-height:36px; padding:0 14px; border-radius:999px; font-weight:700; text-decoration:none; }
+  .dash-tab{ font-size:14px !important; padding:12px !important; }
+  .dash-tab.active{ color:var(--accent) !important; }
+  .ka-head{ max-width:1200px; margin:0 auto; padding:24px 20px 0; }
+  .ka-head h1{ margin:0; font-size:28px; font-weight:800; letter-spacing:-.02em; }
+  .ka-head p{ margin:6px 0 0; font-size:14px; color:var(--muted); }
+  html.in-hub .ka-hub{ display:none !important; }
+  @media (max-width:640px){ .dash-actions .btn .t{ display:none; } .ka-head h1{ font-size:22px; } }
+  .dash-body-inner{ max-width:1200px; padding-left:20px !important; padding-right:20px !important; margin:0 auto; padding:18px 16px 80px; font-size:13px; }
 
   .btn{ border:1px solid var(--line); background:var(--surface); color:var(--ink); font-size:12px; font-weight:700; padding:7px 11px; border-radius:8px; cursor:pointer;
     white-space:nowrap; font-family:inherit; display:inline-flex; align-items:center; gap:4px; }
@@ -583,6 +602,7 @@
     font-size:13px; padding:10px 16px; border-radius:10px; box-shadow:0 4px 14px rgba(0,0,0,0.25); display:none; max-width:calc(100% - 32px); text-align:center; }
   .toast.error{ background:var(--danger); color:#fff; }
 </style>
+<script>try{ if(window.top !== window) document.documentElement.classList.add('in-hub'); }catch(e){ document.documentElement.classList.add('in-hub'); }</script>
 </head>
 <body data-theme="ume" data-font="classic">
 
@@ -707,6 +727,7 @@
     <span class="footer-text">진선여자고등학교</span>
     <img id="schoolLogo" src="https://i.namu.wiki/i/hP1GNe8Hf1UQ8C6vi0_Ea5OyKnDIXc8iAkt6yAiCWe04MXoBw6muW4LhUTb8QB0rcwPsJeYz22t1WALiKg18lH_AeaWx1QmCaiJ70tYiwFeepzaK_61QVVGk2JW-f05icUe8x1pU0Me4HCflLcXUms6Y2XleHdjhMy134Bt50jg.webp" alt="진선여자고등학교 로고">
   </div>
+  <p class="policy-links"><a href="https://moontr.site/policy/#gt" target="_blank" rel="noopener">이용약관</a> · <a href="https://moontr.site/policy/#gt" target="_blank" rel="noopener"><b>개인정보 처리방침</b></a> · 문의 anstjsdud@sen.go.kr</p>
 
   <button class="admin-toggle" id="adminToggleBtn">관리자 모드</button>
   <div class="admin-login-panel" id="adminLoginPanel">
@@ -721,13 +742,17 @@
   <div class="dash-head">
     <div class="dash-head-inner">
       <div class="dash-title-row">
-        <div>
-          <h2 class="dash-title">관리자 대시보드</h2>
-          <div class="dash-user" id="dashUser"></div>
+        <div class="dash-brand">
+          <span class="ka-logo">GT</span>
+          <div>
+            <h2 class="dash-title">50주년 해외연수 <span class="ka-badge">관리자</span></h2>
+            <div class="dash-user" id="dashUser"></div>
+          </div>
         </div>
         <div class="dash-actions">
-          <button class="btn dash-site" id="dashCloseBtn"><i class="ti ti-eye"></i>사이트 보기</button>
-          <button class="btn" id="dashLogoutBtn"><i class="ti ti-logout"></i>로그아웃</button>
+          <button class="btn dash-site" id="dashCloseBtn"><i class="ti ti-eye"></i><span class="t">사이트 보기</span></button>
+          <a class="btn ka-hub" href="https://moontr.site/admin/"><i class="ti ti-layout-grid"></i><span class="t">관리자 허브</span></a>
+          <button class="btn" id="dashLogoutBtn"><i class="ti ti-logout"></i><span class="t">로그아웃</span></button>
         </div>
       </div>
       <nav class="dash-tabs" id="dashTabs">
@@ -739,7 +764,7 @@
       </nav>
     </div>
   </div>
-  <div class="dash-body" id="dashBody"><div class="dash-body-inner" id="dashBodyInner"></div></div>
+  <div class="dash-body" id="dashBody"><div class="ka-head"><h1 id="kaTitle">개요</h1><p id="kaDesc"></p></div><div class="dash-body-inner" id="dashBodyInner"></div></div>
 </div>
 
 <datalist id="gubunList"><option value="교장"></option><option value="교감"></option><option value="행정실장"></option><option value="부장"></option><option value="국어과"></option><option value="영어과"></option><option value="수학과"></option><option value="교사"></option></datalist>
@@ -1799,7 +1824,21 @@
     renderDash();
   }
   function destroyAdminMap() { if (adminMap) { try { adminMap.remove(); } catch(e) {} adminMap = null; } }
+  const KA_DESC = {
+    overview: '방문 기록과 카테고리별 관심도를 한눈에 봅니다.',
+    settings: '사이트 이름·디자인·글꼴 같은 기본 설정입니다.',
+    categories: '첫 화면 카테고리 타일을 추가하고 순서를 바꿉니다.',
+    items: '이 카테고리에 들어가는 내용을 고칩니다.',
+    memos: '공지와 메모를 올리고 고칩니다.'
+  };
+  function kaHead() {
+    const t = document.querySelector('.dash-tab.active');
+    document.getElementById('kaTitle').textContent = t ? t.textContent.trim() : '관리자';
+    document.getElementById('kaDesc').textContent = KA_DESC[dashTab] || '';
+  }
   function renderDash() {
+    markActiveTab();
+    kaHead();
     const scroll = dashBody.scrollTop;
     destroyAdminMap();
     dashBodyInner.innerHTML = '';
@@ -3048,5 +3087,7 @@
     dashBodyInner.appendChild(addCard);
   }
 </script>
+<!-- 방문 수 세기 + 왼쪽 아래 작은 표시 (오늘 · 누적) -->
+<script type="module" src="https://moontr.site/visit.js?app=jinseon-gt"></script>
 </body>
 </html>
