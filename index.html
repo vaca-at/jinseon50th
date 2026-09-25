@@ -775,6 +775,9 @@ dialog.lightbox::backdrop{background:transparent}
 .dash-links,.dash-acts{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
 .dash-acts .btn{display:inline-flex;align-items:center;gap:6px}
 .dash-acts svg{width:15px;height:15px}
+/* 사이트 보기: 방문객 화면으로 돌아가는 버튼이라 눈에 띄게 (색을 채우고 그림자) */
+.dash-site{padding:6px 16px;font-weight:700;border-radius:999px;box-shadow:0 6px 16px -8px var(--accent)}
+.dash-site:hover{filter:brightness(1.12);border-color:var(--accent)}
 .dash-tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
 .dash-tab{display:inline-flex;align-items:center;gap:7px;padding:12px 14px 10px;border:none;border-bottom:3px solid transparent;background:none;color:var(--muted);cursor:pointer;white-space:nowrap;font-size:.95rem}
 .dash-tab svg{width:17px;height:17px}
@@ -884,8 +887,9 @@ dialog.lightbox::backdrop{background:transparent}
 .gala-acts .btn{flex:1}
 .me-state{margin-left:auto;align-self:center;font-size:.8rem;color:var(--muted)}
 
-.admin-fab{position:fixed;left:12px;bottom:12px;z-index:50;cursor:pointer;font-size:.72rem;padding:5px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);opacity:.65}
+.admin-fab{position:fixed;right:14px;bottom:14px;z-index:50;cursor:pointer;font-size:.72rem;padding:5px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);opacity:.65}
 .admin-fab:hover{opacity:1}
+@media (max-width:760px){.admin-fab{bottom:72px}}
 .is-admin .admin-fab{background:var(--accent);color:var(--on-accent);border-color:var(--accent);opacity:1}
 
 dialog{border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);color:var(--ink);padding:0;width:min(660px,calc(100% - 24px));max-height:86vh}
@@ -1125,7 +1129,7 @@ dialog.wide{width:min(1100px,calc(100% - 24px))}
         <a class="fav" href="https://www.band.us/band/82268288/post" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="5.5" fill="#00DE6A"/><g fill="#062E17"><rect x="5.2" y="3.6" width="4.4" height="11"/><circle cx="11" cy="14.4" r="5.8"/></g><path d="M7.4 3.6v10.8a3.6 3.6 0 1 0 3.6-3.6" fill="none" stroke="#00DE6A" stroke-width=".75"/><circle cx="11" cy="14.4" r="1.7" fill="#00DE6A"/></svg>총동문회 밴드</a>
       </nav>
       <div class="dash-acts">
-        <button class="btn btn-sm" id="dashToSite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>사이트 보기</button>
+        <button class="btn btn-sm btn-primary dash-site" id="dashToSite"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>사이트 보기</button>
         <button class="btn btn-sm" id="dashLogout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>로그아웃</button>
       </div>
     </div>

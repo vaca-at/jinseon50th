@@ -414,8 +414,13 @@
   }
 
   /* ───────── 관리자 로그인 ───────── */
-  .admin-toggle{ display:block; margin:12px auto 0; background:none; border:none; color:var(--muted); font-family:'Pretendard',sans-serif; font-size:11px; text-decoration:underline; cursor:pointer; }
-  .admin-login-panel{ display:none; margin:10px auto 0; padding:12px; border:1px solid var(--line); border-radius:10px; background:var(--accent-soft); text-align:left; max-width:240px; font-family:'Pretendard',sans-serif; }
+  /* 관리자 버튼: 오른쪽 아래에 작게 (스크롤해도 따라다님) */
+  .admin-toggle{ position:fixed; right:14px; bottom:calc(14px + env(safe-area-inset-bottom,0px)); z-index:60; padding:5px 12px; border-radius:999px; border:1px solid var(--line); background:var(--surface); color:var(--muted); font-family:'Pretendard',sans-serif; font-size:11px; cursor:pointer; opacity:.55; transition:opacity .15s; }
+  .admin-toggle:hover, .admin-toggle:focus-visible{ opacity:1; }
+  /* 대시보드 [사이트 보기]: 방문객 화면으로 돌아가는 버튼이라 눈에 띄게 (색을 채우고 그림자) */
+  .dash-actions .btn.dash-site{ background:var(--accent); border-color:var(--accent); color:var(--on-accent); font-weight:700; border-radius:999px; box-shadow:0 6px 16px -8px var(--accent); }
+  .dash-actions .btn.dash-site:hover{ filter:brightness(1.1); }
+  .admin-login-panel{ display:none; position:fixed; right:14px; bottom:calc(52px + env(safe-area-inset-bottom,0px)); z-index:60; width:240px; box-shadow:0 12px 28px -12px rgba(0,0,0,.35); margin:0; padding:12px; border:1px solid var(--line); border-radius:10px; background:var(--accent-soft); text-align:left; max-width:240px; font-family:'Pretendard',sans-serif; }
   .admin-login-panel input{ width:100%; margin-bottom:8px; font-size:12px; padding:7px 8px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--ink); }
   .admin-login-panel input[readonly]{ color:var(--muted); }
   .admin-login-panel button{ font-size:12px; padding:6px 12px; border-radius:6px; border:1px solid var(--line); background:var(--surface); cursor:pointer; color:var(--ink); }
@@ -721,7 +726,7 @@
           <div class="dash-user" id="dashUser"></div>
         </div>
         <div class="dash-actions">
-          <button class="btn" id="dashCloseBtn"><i class="ti ti-eye"></i>사이트 보기</button>
+          <button class="btn dash-site" id="dashCloseBtn"><i class="ti ti-eye"></i>사이트 보기</button>
           <button class="btn" id="dashLogoutBtn"><i class="ti ti-logout"></i>로그아웃</button>
         </div>
       </div>
