@@ -863,6 +863,8 @@ html.in-hub .ka-hub{display:none !important}
 .me-item{display:flex;align-items:center;gap:10px;text-align:left;padding:9px 12px;border:1px solid var(--line);border-radius:var(--radius-sm);background:var(--surface);cursor:pointer}
 .me-item:hover{border-color:var(--accent)}
 .me-item[aria-current="true"]{border-color:var(--accent);box-shadow:inset 3px 0 0 var(--accent)}
+.me-item .me-hidden{margin-left:auto;color:var(--muted,#888);border:1px dashed currentColor}
+.me-item .me-hidden+.tile-status{margin-left:6px}
 .me-item .tile-icon{flex:none;width:34px;height:34px}
 .me-item .tile-icon svg{width:18px;height:18px}
 .me-t{flex:1;min-width:0;font-size:.9rem;line-height:1.35}
@@ -1019,7 +1021,7 @@ dialog.wide{width:min(1100px,calc(100% - 24px))}
   <section class="band" id="projects" aria-labelledby="menuTitle" data-track="menus">
     <div class="wrap proj-wrap">
       <div class="proj-main">
-        <header class="sec-head"><span class="eyebrow">Projects</span><h2 id="menuTitle">기념 사업</h2><p class="note">개교 50주년을 맞아 준비하는 여덟 가지 사업입니다. 항목을 누르면 자세한 안내를 볼 수 있습니다.</p></header>
+        <header class="sec-head"><span class="eyebrow">Projects</span><h2 id="menuTitle">기념 사업</h2><p class="note">개교 50주년을 맞아 준비하는 <span id="menuCount">일곱</span> 가지 사업입니다. 항목을 누르면 자세한 안내를 볼 수 있습니다.</p></header>
         <div class="menu-grid" id="menuGrid"></div>
       </div>
     </div>
@@ -1234,6 +1236,7 @@ dialog.wide{width:min(1100px,calc(100% - 24px))}
           <div class="editor-actions">
             <button class="btn btn-primary" id="meSave">저장</button>
             <button class="btn" id="meClear">준비중으로 되돌리기</button>
+            <button class="btn" id="meHide"></button>
             <span class="me-state" id="meState"></span>
           </div>
         </div>
@@ -1967,8 +1970,16 @@ const state = {menus:{}, donations:[], sort:"reg", page:0, pages:1, paused:false
   view:"site", tab:"stats", period:"7", visits:[], account:null, meId:null, meDirty:false,
   guests:[], gbShow:12, gbFilter:"wait", unsubGuest:null, photos:[], lbIndex:0, photoCache:new Map(), tlAll:true, subs:[], unsubSub:null, galShow:24, galSort:"new"};
 
+/* 첫 화면에서 숨길 사업: 관리자 > 기념 사업에서 켜고 끕니다 (settings/app 의 hiddenMenus).
+   아직 한 번도 정하지 않았으면 해외연수만 숨깁니다. 숨기면 뒤 번호가 앞으로 당겨집니다. */
+const DEFAULT_HIDDEN = ["overseas"];
+const hiddenMenus = () => Array.isArray(state.defaults?.hiddenMenus) ? state.defaults.hiddenMenus : DEFAULT_HIDDEN;
+const shownMenus = () => MENUS.filter(m => !hiddenMenus().includes(m.id));
+const KOR_NUM = ["", "한", "두", "세", "네", "다섯", "여섯", "일곱", "여덟", "아홉", "열"];
 function renderMenus(){
-  $("#menuGrid").innerHTML = MENUS.map((m, i) => {
+  const list = shownMenus();
+  $("#menuCount").textContent = KOR_NUM[list.length] || String(list.length);
+  $("#menuGrid").innerHTML = list.map((m, i) => {
     const has = (state.menus[m.id] || "").trim();
     return `<button class="tile" data-id="${m.id}">
       <span class="tile-top">
@@ -2268,11 +2279,13 @@ function renderMenuEditor(){
     return `<button class="me-item" data-me="${m.id}" aria-current="${m.id === state.meId}">
       <span class="tile-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${m.icon}</svg></span>
       <span class="me-t">${esc(m.title)}</span>
-      <span class="tile-status ${has ? "ready" : ""}">${has ? "입력됨" : "준비중"}</span></button>`;
+      ${hiddenMenus().includes(m.id) ? `<span class="tile-status me-hidden">숨김</span>` : ""}<span class="tile-status ${has ? "ready" : ""}">${has ? "입력됨" : "준비중"}</span></button>`;
   }).join("");
   $("#meTitle").textContent = MENUS.find(x => x.id === state.meId).title;
   if(!state.meDirty) $("#meText").value = state.menus[state.meId] || "";
   $("#meState").textContent = state.meDirty ? "저장하지 않은 내용이 있습니다" : "";
+  const hid = hiddenMenus().includes(state.meId);
+  $("#meHide").textContent = hid ? "첫 화면에 다시 보이기" : "첫 화면에서 숨기기";
 }
 
 /* ─── 사이트 설정 ─── */
@@ -2674,6 +2687,8 @@ api.watchMenus(o => {
 api.watchDonations(d => { state.donations = d; renderDonations(); renderMgr(); });
 api.watchSettings(s => {
   state.defaults = s;
+  renderMenus();
+  if(state.view === "dash" && state.tab === "menus") renderMenuEditor();
   state.account = s && "account" in s ? s.account : DEFAULT_ACCOUNT;
   renderAccount();
   if(!loadLocal() && s?.theme) applyStyle(s.theme, s.font);
@@ -3015,6 +3030,13 @@ $("#meClear").addEventListener("click", async () => {
   if(!confirm("이 메뉴의 내용을 지우고 '준비중'으로 되돌릴까요?")) return;
   try{ await api.saveMenu(state.meId, ""); state.meDirty = false; $("#meText").value = ""; renderMenuEditor(); toast("준비중으로 되돌렸습니다"); }
   catch(e){ toast("되돌리지 못했습니다 (" + (e.code || e.message) + ")"); }
+});
+$("#meHide").addEventListener("click", async () => {
+  const cur = hiddenMenus(), hid = cur.includes(state.meId);
+  const next = hid ? cur.filter(x => x !== state.meId) : [...cur, state.meId];
+  if(!hid && next.length >= MENUS.length){ toast("사업을 모두 숨길 수는 없습니다"); return; }
+  try{ await api.saveSettings({hiddenMenus: next}); toast(hid ? "첫 화면에 다시 보입니다" : "첫 화면에서 숨겼습니다. 뒤 번호가 앞으로 당겨집니다"); }
+  catch(e){ toast("바꾸지 못했습니다 (" + (e.code || e.message) + ")"); }
 });
 
 document.querySelector(".sortbar").addEventListener("click", e => {
