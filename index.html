@@ -336,6 +336,11 @@ body{--lotus:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' v
 .donate-title h3{margin:0;font-family:var(--f-head);font-weight:var(--head-w);font-size:1.3rem;color:var(--d-main)}
 .donate-org{margin:4px 0 0;font-size:.9rem;opacity:.8}
 .donate-badge{flex:0 0 auto;padding:5px 10px;border:1.5px solid var(--d-main);border-radius:4px;font-size:.78rem;font-weight:700;color:var(--d-main);transform:rotate(-4deg)}
+/* 후원금 사용처: 계좌 위에 눈에 띄게 */
+.donate-use{display:flex;align-items:center;gap:14px;margin:18px 0 0;padding:14px 18px;border-radius:8px;border:1.5px solid var(--d-gold);border-left:6px solid var(--d-main);background:color-mix(in srgb,var(--d-gold) 14%,transparent)}
+.donate-use-k{flex:none;padding:5px 12px;border-radius:999px;background:var(--d-main);color:var(--tile-bg);font-size:.8rem;font-weight:800;letter-spacing:.04em;white-space:nowrap}
+.donate-use p{margin:0;font-size:1rem;line-height:1.6;font-weight:500}
+.donate-use b{color:var(--d-main);font-weight:800}
 .donate-info{margin:18px 0 0}
 .donate-info .row{display:grid;grid-template-columns:96px 1fr;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid color-mix(in srgb,var(--d-gold) 25%,transparent)}
 .donate-info dt{font-size:.85rem;opacity:.7}
@@ -353,6 +358,8 @@ body{--lotus:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' v
   .donate-head{flex-wrap:wrap}
   .donate-badge{order:-1;margin-left:auto}
   .donate-info .row{grid-template-columns:1fr;gap:4px}
+  .donate-use{flex-direction:column;align-items:flex-start;gap:8px;padding:12px 14px}
+  .donate-use .pc-br{display:none}
   .donate-info .acct{font-size:1.2rem}
   .donate-contact{text-align:left}
 }
@@ -1029,7 +1036,7 @@ dialog.wide{width:min(1100px,calc(100% - 24px))}
 
   <section class="band" id="donate" aria-labelledby="donateTitle" data-track="donate">
     <div class="wrap">
-      <header class="sec-head"><span class="eyebrow">Donation</span><h2 id="donateTitle">후원금 현황</h2><p class="note">개교 50주년을 위해 마음을 보태 주신 분들께 감사드립니다.</p></header>
+      <header class="sec-head"><span class="eyebrow">Donation</span><h2 id="donateTitle">후원금 현황</h2><p class="note">개교 50주년을 위해 마음을 보태 주신 분들께 감사드립니다. 후원금은 <b>개교 50주년 기념 체육관 건립 기금</b>으로 조성됩니다.</p></header>
       <div id="accountSlot"></div>
       <div class="summary">
         <div><b id="sumTotal">0원</b><span>모인 금액</span></div>
@@ -1557,6 +1564,8 @@ const DEMO = firebaseConfig.apiKey.startsWith("여기에");
 const MENUS = [
   {id:"book",          title:"진선 50년사 책자 발간", memo:[["발간일","2027년 5월"]],
    icon:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V2H6.5A2.5 2.5 0 0 0 4 4.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5M9 7h7"/>'},
+  {id:"people-50",     title:"진선을 빛낸 50명 인물 선정",
+   icon:'<circle cx="12" cy="8" r="6"/><path d="M15.5 13.2 17 22l-5-3-5 3 1.5-8.8"/><path d="m12 5.2.9 1.8 2 .3-1.4 1.4.3 2-1.8-.9-1.8.9.3-2-1.4-1.4 2-.3z"/>'},
   {id:"anniversary",   title:"2027 개교기념일 행사", memo:[["날짜","2027년 5월 20일(목)"]],
    icon:'<path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1M2 21h20M7 8v3M12 8v3M17 8v3M7 4h.01M12 4h.01M17 4h.01"/>'},
   {id:"festival",      title:"2027 학교 축제", memo:[["날짜","2027년 10월 22일(금)"]],
@@ -2084,7 +2093,7 @@ function setAdmin(on){
 }
 
 /* ═════════ 5-1. 관리자 대시보드 ═════════ */
-const SHORT = {"overseas":"교직원 해외연수","history-hall":"역사 홀","book":"50년사 책","anniversary":"개교기념일",
+const SHORT = {"people-50":"빛낸 50인","overseas":"교직원 해외연수","history-hall":"역사 홀","book":"50년사 책","anniversary":"개교기념일",
   "festival":"학교 축제","alumni-night":"진선인의 밤","souvenir":"기념품 제작","video-contest":"홍보 영상 대회"};
 const SEC_NAMES = {top:"첫 화면", menus:"기념 사업 목록", donate:"후원금 현황", history:"50년 발자취", community:"갤러리·방명록 미리보기", gallery:"추억 갤러리", guest:"축하 방명록"};
 const svgI = p => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
@@ -2249,6 +2258,10 @@ function accountHTML(a){
         <p class="donate-org">진선여자고등학교 ${esc(owner)}</p>
       </div>
       <span class="donate-badge">공식 모금</span>
+    </div>
+    <div class="donate-use" role="note">
+      <span class="donate-use-k">후원금 사용처</span>
+      <p>보내 주시는 후원금은 <b>진선여자고등학교 개교 50주년 기념 체육관 건립 기금</b>으로 조성되어,<br class="pc-br"> 체육관 건립을 위하여 소중히 사용됩니다.</p>
     </div>
     <dl class="donate-info">
       <div class="row"><dt>입금 은행</dt><dd>${esc(a.bank || "")}</dd></div>
