@@ -1019,12 +1019,20 @@
   }
   function fieldOf(it, col) { return (it.fields && it.fields[col] !== undefined && it.fields[col] !== null) ? String(it.fields[col]) : ''; }
   // 일정: 날짜 → 시간 → 입력 순서
+  // 시간이 없는 일정은 같은 날 바로 앞(입력 순서) 일정의 시간을 따라가요. 그날 맨 앞이면 맨 위.
+  // → 관리자 화면 ▲▼ 단추로 시간 없는 일정(예: '오전 자유 일정')을 원하는 자리에 둘 수 있어요
   function sortSchedule(list) {
+    const eff = new Map(), lastTime = {};
+    list.slice().sort(function(a, b) { return (a.order||0) - (b.order||0); }).forEach(function(it) {
+      const d = fieldOf(it, '날짜'), t = fieldOf(it, '시간');
+      if (t) lastTime[d] = t;
+      eff.set(it, t || lastTime[d] || '');
+    });
     return list.slice().sort(function(a, b) {
       const da = fieldOf(a, '날짜'), dbb = fieldOf(b, '날짜');
       if (da !== dbb) { if (!da) return 1; if (!dbb) return -1; return da < dbb ? -1 : 1; }
-      const ta = fieldOf(a, '시간'), tb = fieldOf(b, '시간');
-      if (ta !== tb) { if (!ta) return 1; if (!tb) return -1; return ta < tb ? -1 : 1; }
+      const ta = eff.get(a), tb = eff.get(b);
+      if (ta !== tb) return ta < tb ? -1 : 1;
       return (a.order||0) - (b.order||0);
     });
   }
@@ -2205,6 +2213,20 @@
     const tmp = copy[idx]; copy[idx] = copy[to]; copy[to] = tmp;
     return copy;
   }
+  // 일정 ▲▼: 시간이 적힌 일정끼리는 시간 순서가 먼저라, 옮겨도 화면이 그대로면 단추를 흐리게 해요
+  function scheduleMoveButtons(list, idx) {
+    const ids = function(l) { return l.map(function(x) { return x.id; }).join(','); };
+    const changes = function(dir) {
+      const m = moveInList(list, idx, dir); if (!m) return false;
+      return ids(sortSchedule(m.map(function(it, i) { return Object.assign({}, it, { order: i + 1 }); }))) !== ids(list);
+    };
+    const box = moveButtons(list, idx, function(m) { run(renumber('gt_items', m, function(i) { return i + 1; })); });
+    const btns = box.querySelectorAll('button');
+    [[btns[0], -1], [btns[1], 1]].forEach(function(p) {
+      if (!p[0].disabled && !changes(p[1])) { p[0].disabled = true; p[0].title = '시간이 적힌 일정은 시간 순서대로 놓여요. 시간을 지우거나 고치면 옮길 수 있어요.'; }
+    });
+    return box;
+  }
   function moveButtons(list, idx, onMove) {
     const up = el('button', { class: 'btn icon', title: '위로', 'aria-label': '위로', disabled: idx === 0 }, [icon('chevron-up')]);
     const down = el('button', { class: 'btn icon', title: '아래로', 'aria-label': '아래로', disabled: idx === list.length - 1 }, [icon('chevron-down')]);
@@ -2441,7 +2463,7 @@
   }
 
   const TYPE_HINTS = {
-    schedule: '날짜와 시간을 넣으면 방문자 화면에서 날짜별(1일차, 2일차…)로 묶이고 시간 순으로 정렬됩니다. 새 줄의 날짜는 마지막 일정 날짜로 미리 채워집니다.',
+    schedule: '날짜와 시간을 넣으면 방문자 화면에서 날짜별(1일차, 2일차…)로 묶이고 시간 순으로 정렬됩니다. 시간이 없는 일정은 ▲▼ 단추로 자리를 옮길 수 있어요. 새 줄의 날짜는 마지막 일정 날짜로 미리 채워집니다.',
     people: '이름은 전체를 입력하세요. 관리자 화면에는 전체 이름이 보이고, 방문자 화면과 공개 데이터에는 가운데를 가린 이름(정*상)만 남습니다. 전체 이름은 관리자만 읽을 수 있는 곳에 따로 저장됩니다. "정*상 교장선생님", "이*아 교감선생님", "이*호 부장선생님", "김*식 행정실장님", "김*우 행정실선생님", 그 밖에는 "국어과 손*현선생님"처럼 보입니다. 행정실장은 구분을 "행정실장"으로 쓰거나, 교장・교감 바로 다음 줄에 "행정실"로 두면 됩니다. 화살표로 순서를 바꿉니다.',
     map: '장소명을 쓰고 [검색]을 누르면 좌표가 채워집니다. 또는 [지도에서 찍기]를 누른 뒤 위 지도를 클릭하세요. 구글 지도에서 복사한 "33.59, 130.40" 형식을 위도 칸에 붙여넣어도 됩니다. 링크는 비워 두면 [길찾기]가 좌표로 구글 지도를 엽니다. 줄의 🔗 버튼이나 표 위 [빈 링크 채우기]를 누르면 그 링크가 칸에 들어갑니다. 링크 칸은 두 번 눌러야 고칠 수 있고, 구글 지도 링크를 붙여넣으면 위도・경도가 자동으로 바뀝니다. 확인은 [링크 열기](새 창)로 하세요.',
     table: '칸 안의 내용이 http:// 또는 https:// 로 시작하면 방문자 화면에 "바로가기" 링크와 복사 버튼으로 보입니다.'
@@ -2731,6 +2753,7 @@
       });
       const acts = el('div', { class: 'acts' });
       if (type !== 'schedule') acts.appendChild(moveButtons(catItems, idx, function(m) { run(renumber('gt_items', m, function(i) { return i + 1; })); }));
+      else acts.appendChild(scheduleMoveButtons(catItems, idx));
       extra.forEach(function(b) { acts.appendChild(b); });
       acts.appendChild(saveBtn);
       acts.appendChild(delBtn);
