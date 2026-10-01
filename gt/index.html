@@ -166,7 +166,7 @@
   .lanterns i:nth-child(5){ animation-delay:-2s,-4s; } .lanterns i:nth-child(6){ animation-delay:-5s,-.5s; } .lanterns i:nth-child(7){ animation-delay:-.8s,-2.5s; }
   .lanterns i::before{ content:""; position:absolute; left:50%; bottom:100%; width:1px; height:40px; background:rgba(255,255,255,.22); }
   .lanterns i::after{ content:""; position:absolute; left:3px; right:3px; top:8px; bottom:8px; border-top:1px solid rgba(90,40,10,.35); border-bottom:1px solid rgba(90,40,10,.35); }
-  @keyframes bob{ from{ transform:translateY(-3px); } to{ transform:translateY(5px); } }
+  @keyframes bob{ from{ transform:translateY(-6px); } to{ transform:translateY(8px); } }
   @keyframes glow{ 0%,100%{ opacity:1; } 50%{ opacity:.85; } }
 
   /* 겨울 바다: 잔잔한 물결 + 천천히 지는 해 */
@@ -408,9 +408,11 @@
   footer img{ height:32px; opacity:0.9; }
   .loading{ text-align:center; color:var(--muted); padding:60px 0; font-size:14px; }
 
+  /* 기기에서 '동작 줄이기(애니메이션 효과 끄기)'를 켜도 배경 장면(해 · 물결 · 등불 · 꽃 · 꽃잎)은 천천히 움직여요.
+     반짝이는 금박 글씨 · 도는 장식 · 화면 전환 같은 나머지 움직임만 멈춰요 */
   @media (prefers-reduced-motion: reduce){
-    *, *::before, *::after{ animation:none !important; transition:none !important; }
-    .petals, .spark{ display:none !important; }
+    *:not(.sun, .waves, .lanterns i, .blossom, .petals i), *::before, *::after{ animation:none !important; transition:none !important; }
+    .spark{ display:none !important; }
   }
 
   /* ───────── 관리자 로그인 ───────── */
