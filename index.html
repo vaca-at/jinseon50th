@@ -687,6 +687,9 @@ dialog.board-dlg[open]{display:flex}
 .gal-masonry .ph figcaption{opacity:0;transition:opacity .25s}
 .gal-masonry .ph:hover figcaption,.gal-masonry .ph:focus-visible figcaption{opacity:1}
 .ph figcaption small{display:block;margin-top:2px;font-size:.72rem;opacity:.8}
+.ph-views{position:absolute;top:10px;right:10px;padding:2px 9px;border-radius:999px;background:rgba(0,0,0,.55);color:#fff;font-size:.72rem;font-weight:600;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.lb-views{opacity:.75}
+.gala-views{display:block;margin:4px 0;color:#6b7280;font-size:.8rem}
 .ph-tag{position:absolute;top:10px;left:10px;padding:2px 10px;border-radius:999px;background:rgba(0,0,0,.55);color:#fff;font-size:.72rem;font-weight:600;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
 .gal-masonry .gal-empty{column-span:all}
 .gal-empty svg{flex:none}
@@ -1862,7 +1865,10 @@ async function firebaseApi(){
       await b.commit();
     },
     setPhoto: (id, o) => fs.updateDoc(ref("gallery", id), o),
-    removePhoto: async id => { const b = fs.writeBatch(db); b.delete(ref("gallery", id)); b.delete(ref("gallery_full", id)); await b.commit(); },
+    removePhoto: async id => { const b = fs.writeBatch(db); b.delete(ref("gallery", id)); b.delete(ref("gallery_full", id)); b.delete(ref("gallery_views", id)); await b.commit(); },
+    /* 사진별 조회수: 누구나 보고, 사진을 크게 볼 때 1씩만 올린다 */
+    watchViews: cb => fs.onSnapshot(col("gallery_views"), s => { const o = {}; s.forEach(d => o[d.id] = d.data().n || 0); cb(o); }, e => console.warn("조회수", e.code)),
+    addView: id => fs.setDoc(ref("gallery_views", id), {n: fs.increment(1)}, {merge:true}),
     /* 사진 제보: 방문자가 올리고, 관리자만 보고 게시·삭제 */
     watchSubmissions: cb => fs.onSnapshot(col("submissions"), s => cb(s.docs.map(d => ({id:d.id, ...d.data()}))), e => console.warn("제보", e.code)),
     addSubmission: async (meta, data) => {
@@ -1994,7 +2000,7 @@ function demoApi(){
 const state = {menus:{}, donations:[], sort:"reg", page:0, pages:1, paused:false, isAdmin:false, openId:null, defaults:null,
   priv:{}, unsubPriv:null, mgrKey:"no", mgrDir:"asc", editId:null, search:"", sel:new Set(),
   view:"site", tab:"stats", period:"7", visits:[], account:null, meId:null, meDirty:false,
-  guests:[], gbShow:12, gbFilter:"wait", unsubGuest:null, photos:[], lbIndex:0, photoCache:new Map(), tlAll:true, subs:[], unsubSub:null, galShow:24, galSort:"new"};
+  guests:[], gbShow:12, gbFilter:"wait", unsubGuest:null, photos:[], lbIndex:0, photoCache:new Map(), tlAll:true, subs:[], unsubSub:null, galShow:24, galSort:"new", views:{}};
 
 /* 첫 화면에서 숨길 사업: 관리자 > 기념 사업에서 켜고 끕니다 (settings/app 의 hiddenMenus).
    아직 한 번도 정하지 않았으면 해외연수만 숨깁니다. 숨기면 뒤 번호가 앞으로 당겨집니다. */
@@ -2509,6 +2515,15 @@ const photoYear = p => Number(p.year) || Number((String(p.period || "").match(/(
 const photoTag = p => p.year ? `${p.year}년` : (p.period || "");
 const normYear = v => { const y = Number(String(v || "").replace(/\D/g, "")); return y >= 1900 && y <= 2100 ? y : null; };
 const byReg = (a, b) => (a.createdAtMs || 0) - (b.createdAtMs || 0);
+/* 조회수: 같은 기기에서 같은 사진은 하루에 한 번만 센다 */
+const viewsOf = p => state.views[p.id] || 0;
+const eyeTag = n => `<span class="ph-views" aria-label="조회 ${n}회">👁 ${n.toLocaleString("ko-KR")}</span>`;
+function countView(p){
+  const k = "jinsun50_view_" + p.id, today = new Date().toISOString().slice(0, 10);
+  try{ if(localStorage.getItem(k) === today) return; localStorage.setItem(k, today); }catch{ return; }
+  state.views[p.id] = viewsOf(p) + 1;
+  api.addView(p.id).catch(e => console.warn("조회수 저장", e.code || e.message));
+}
 /* 관리 화면 사진 카드의 입력칸: 연도 · 제목 · 메모 */
 const photoFields = p => `
       <input data-g="year" value="${photoYear(p) || ""}" inputmode="numeric" maxlength="4" placeholder="사진 연도 (예: 1985)" aria-label="사진 연도">
@@ -2535,6 +2550,7 @@ function renderGallery(){
   $("#galGrid").innerHTML = list.length ? list.slice(0, state.galShow).map((p, i) => `<button class="ph" data-ph="${i}" aria-label="${esc(p.caption || "사진")} 크게 보기">
       <img src="${p.thumb}" alt="${esc(p.caption || "")}" loading="lazy">
       ${photoTag(p) ? `<span class="ph-tag">${esc(photoTag(p))}</span>` : ""}
+      ${viewsOf(p) ? eyeTag(viewsOf(p)) : ""}
       ${p.caption || p.by ? `<figcaption>${esc(p.caption || "")}${p.by ? `<small>제보 ${esc(p.by)}</small>` : ""}</figcaption>` : ""}
     </button>`).join("") : `<div class="gal-empty">${icon}
       <b>사진을 모으고 있습니다</b><span>소장하신 옛 교정·졸업·행사 사진이 있다면 '추억 사진 제보'로 보내 주세요.</span></div>`;
@@ -2546,8 +2562,9 @@ async function openPhoto(i){
   const list = sortedPhotos(); if(!list.length) return;
   state.lbIndex = (i + list.length) % list.length;
   const p = list[state.lbIndex];
+  countView(p);
   $("#lbImg").src = p.thumb; $("#lbImg").alt = p.caption || "";
-  $("#lbCap").innerHTML = `${photoTag(p) ? `<b>${esc(photoTag(p))}</b>` : ""}${esc(p.caption || "")}${p.by ? ` <span style="opacity:.7">· 제보 ${esc(p.by)}</span>` : ""}${p.memo ? `<small>${esc(p.memo)}</small>` : ""}`;
+  $("#lbCap").innerHTML = `${photoTag(p) ? `<b>${esc(photoTag(p))}</b>` : ""}${esc(p.caption || "")}${p.by ? ` <span style="opacity:.7">· 제보 ${esc(p.by)}</span>` : ""}${p.memo ? `<small>${esc(p.memo)}</small>` : ""}<small class="lb-views">👁 조회 ${viewsOf(p).toLocaleString("ko-KR")}회</small>`;
   $("#lbPrev").hidden = $("#lbNext").hidden = list.length < 2;
   if(!$("#photoDialog").open) $("#photoDialog").showModal();
   let big = state.photoCache.get(p.id);
@@ -2559,6 +2576,7 @@ function renderGalleryAdmin(){
   const list = [...state.photos].sort(byReg);
   $("#galAdmin").innerHTML = list.length ? list.map(p => `<div class="gala" data-id="${p.id}">
       <img src="${p.thumb}" alt="">
+      <small class="gala-views">👁 조회 ${viewsOf(p).toLocaleString("ko-KR")}회</small>
       ${photoFields(p)}
       <div class="gala-acts"><button class="btn btn-sm btn-primary" data-ga="save">저장</button><button class="btn btn-sm" data-ga="del">삭제</button></div>
     </div>`).join("") : `<p class="dash-empty">아직 올린 사진이 없습니다. 오른쪽 위 '사진 올리기'를 눌러 추가하세요.</p>`;
@@ -2731,6 +2749,7 @@ api.onAuth(on => {
 });
 if(!state.unsubGuest) watchGuests();
 api.watchGallery(list => { state.photos = list; renderGallery(); renderGalleryAdmin(); });
+api.watchViews(o => { state.views = o; renderGallery(); renderGalleryAdmin(); });
 track.start();
 /* 첫 화면 방문자 수: 한 기기는 하루에 한 번만 센다 (관리자 기기는 세지 않음) */
 (async () => {
