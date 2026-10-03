@@ -1867,7 +1867,8 @@ async function firebaseApi(){
     setPhoto: (id, o) => fs.updateDoc(ref("gallery", id), o),
     removePhoto: async id => { const b = fs.writeBatch(db); b.delete(ref("gallery", id)); b.delete(ref("gallery_full", id)); b.delete(ref("gallery_views", id)); await b.commit(); },
     /* 사진별 조회수: 누구나 보고, 사진을 크게 볼 때 1씩만 올린다 */
-    watchViews: cb => fs.onSnapshot(col("gallery_views"), s => { const o = {}; s.forEach(d => o[d.id] = d.data().n || 0); cb(o); }, e => console.warn("조회수", e.code)),
+    /* 실패하면(예: 규칙 게시 전) 30초 뒤 다시 듣기 */
+    watchViews: function w(cb){ fs.onSnapshot(col("gallery_views"), s => { const o = {}; s.forEach(d => o[d.id] = d.data().n || 0); cb(o); }, e => { console.warn("조회수", e.code); setTimeout(() => w(cb), 30000); }); },
     addView: id => fs.setDoc(ref("gallery_views", id), {n: fs.increment(1)}, {merge:true}),
     /* 사진 제보: 방문자가 올리고, 관리자만 보고 게시·삭제 */
     watchSubmissions: cb => fs.onSnapshot(col("submissions"), s => cb(s.docs.map(d => ({id:d.id, ...d.data()}))), e => console.warn("제보", e.code)),
@@ -2521,8 +2522,8 @@ const eyeTag = n => `<span class="ph-views" aria-label="조회 ${n}회">👁 ${n
 function countView(p){
   const k = "jinsun50_view_" + p.id, today = new Date().toISOString().slice(0, 10);
   try{ if(localStorage.getItem(k) === today) return; localStorage.setItem(k, today); }catch{ return; }
-  state.views[p.id] = viewsOf(p) + 1;
-  api.addView(p.id).catch(e => console.warn("조회수 저장", e.code || e.message));
+  state.views[p.id] = viewsOf(p) + 1; renderGallery(); renderGalleryAdmin();   // 갤러리 칸 숫자도 바로
+  api.addView(p.id).catch(e => { console.warn("조회수 저장", e.code || e.message); try{ localStorage.removeItem(k); }catch{} });   // 못 저장했으면 다음에 다시 세요
 }
 /* 관리 화면 사진 카드의 입력칸: 연도 · 제목 · 메모 */
 const photoFields = p => `
