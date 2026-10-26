@@ -771,9 +771,7 @@
 
   <button class="admin-toggle" id="adminToggleBtn">관리자 모드</button>
   <div class="admin-login-panel" id="adminLoginPanel">
-    <input type="email" id="adminEmailInput" readonly aria-label="관리자 이메일">
-    <input type="password" id="adminPwInput" placeholder="비밀번호" autocomplete="current-password" aria-label="비밀번호">
-    <button id="adminLoginBtn">로그인</button>
+    <button id="adminLoginBtn">G 구글 계정(bellachord)으로 로그인</button>
     <div class="admin-status" id="adminLoginStatus"></div>
   </div>
 </footer>
@@ -824,8 +822,10 @@
   const db = firebase.firestore();
   const auth = firebase.auth();
 
-  // 관리자 계정 (Firebase Authentication 이메일/비밀번호 사용자. /idea, /app 과 같은 계정)
+  // 관리자 계정: 구글 로그인 bellachord (moontr.site 와 같아요). 보안 규칙 isTeacher() 와 같게 센메일도 목록에 남겨 둬요
   const ADMIN_EMAIL = 'anstjsdud@sen.go.kr';
+  const ADMIN_LOGIN = 'bellachord@gmail.com';
+  const isAdminEmail = function(e) { return [ADMIN_LOGIN, ADMIN_EMAIL].indexOf(String(e || '').toLowerCase()) >= 0; };
   let isAdmin = false;
 
   const DEFAULT_LOGO = document.getElementById('schoolLogo').src;
@@ -1667,11 +1667,8 @@
   // ---------------- 관리자: 로그인 (Firebase Authentication) ----------------
   const adminToggleBtn = document.getElementById('adminToggleBtn');
   const adminLoginPanel = document.getElementById('adminLoginPanel');
-  const adminEmailInput = document.getElementById('adminEmailInput');
-  const adminPwInput = document.getElementById('adminPwInput');
   const adminLoginBtn = document.getElementById('adminLoginBtn');
   const adminLoginStatus = document.getElementById('adminLoginStatus');
-  adminEmailInput.value = ADMIN_EMAIL;
 
   function setLoginStatus(msg, isError) {
     adminLoginStatus.textContent = msg;
@@ -1682,34 +1679,34 @@
     if (isAdmin) { openDashboard(dashTab || 'overview'); return; }
     const show = adminLoginPanel.style.display !== 'block';
     adminLoginPanel.style.display = show ? 'block' : 'none';
-    if (show) adminPwInput.focus();
+    if (show) adminLoginBtn.focus();
   });
 
+  // 관리자 로그인: 구글 계정(bellachord) 팝업. 관리자가 아닌 계정이면 아래 onAuthStateChanged 가 바로 로그아웃해요
   function doLogin() {
-    const pw = adminPwInput.value;
-    if (!pw) { setLoginStatus('비밀번호를 입력하세요.', true); return; }
     adminLoginBtn.disabled = true;
     setLoginStatus('확인 중...', false);
-    auth.signInWithEmailAndPassword(ADMIN_EMAIL, pw).then(function() {
-      adminPwInput.value = '';
+    const p = new firebase.auth.GoogleAuthProvider();
+    p.setCustomParameters({ login_hint: ADMIN_LOGIN });
+    auth.signInWithPopup(p).then(function(r) {
+      if (!r.user || !isAdminEmail(r.user.email)) { setLoginStatus('관리자 구글 계정(bellachord)으로 골라 주세요.', true); return; }
       setLoginStatus('', false);
       adminLoginPanel.style.display = 'none';
       openDashboard('overview');
     }).catch(function(err) {
       const code = err && err.code;
       let msg = '로그인에 실패했습니다. (' + (code || err) + ')';
-      if (code === 'auth/invalid-credential' || code === 'auth/wrong-password' || code === 'auth/invalid-login-credentials') msg = '비밀번호가 틀렸습니다.';
-      else if (code === 'auth/too-many-requests') msg = '시도가 너무 많습니다. 잠시 후 다시 해주세요.';
+      if (code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request') msg = '';
+      else if (code === 'auth/popup-blocked') msg = '팝업이 막혔어요. 팝업을 허용해 주세요.';
       else if (code === 'auth/network-request-failed') msg = '네트워크 연결을 확인하세요.';
       else if (code === 'auth/unauthorized-domain') msg = '이 도메인이 Firebase 승인 도메인에 없습니다.';
-      setLoginStatus(msg, true);
+      setLoginStatus(msg, !!msg);
     }).finally(function() { adminLoginBtn.disabled = false; });
   }
   adminLoginBtn.addEventListener('click', doLogin);
-  adminPwInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') doLogin(); });
 
   auth.onAuthStateChanged(function(user) {
-    if (user && user.email === ADMIN_EMAIL) {
+    if (user && isAdminEmail(user.email)) {
       isAdmin = true;
       document.getElementById('dashUser').textContent = user.email + ' 로 로그인됨';
       startAdminData();

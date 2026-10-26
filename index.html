@@ -1340,12 +1340,9 @@ dialog.wide{width:min(1100px,calc(100% - 24px))}
     <button class="btn btn-sm" data-close>닫기</button>
   </div>
   <form class="dlg-body login-form" id="loginForm">
-    <label for="adminEmail">관리자 계정</label>
-    <input id="adminEmail" readonly>
-    <label for="adminPw">비밀번호</label>
-    <input id="adminPw" type="password" autocomplete="current-password" required>
+    <p class="note" style="margin:0 0 4px">관리자 구글 계정(bellachord)으로 로그인해 주세요. 한 번 로그인하면 이 기기에서는 다음부터 저절로 들어가요.</p>
     <p class="err" id="loginErr"></p>
-    <button class="btn btn-primary" type="submit" style="width:100%;margin-top:6px">로그인</button>
+    <button class="btn btn-primary" type="submit" style="width:100%;margin-top:6px">G 구글 계정(bellachord)으로 로그인</button>
   </form>
 </dialog>
 
@@ -1575,7 +1572,10 @@ const firebaseConfig = {
   appId: "1:126636401536:web:25b8a8296ec42b86f99765"
 };
 const ADMIN_EMAIL = "anstjsdud@sen.go.kr";
-const CONTACT_EMAIL = ADMIN_EMAIL;   // 푸터·개인정보처리방침에 보이는 문의 메일
+const CONTACT_EMAIL = ADMIN_EMAIL;   // 푸터·개인정보처리방침에 보이는 문의 메일 (로그인과는 상관없어요)
+const ADMIN_LOGIN = "bellachord@gmail.com";   // 관리자 로그인 = 이 구글 계정 (moontr.site 와 같아요)
+const ADMIN_EMAILS = [ADMIN_LOGIN, ADMIN_EMAIL];   // 보안 규칙 isTeacher() 와 같게
+const isAdminEmail = e => ADMIN_EMAILS.includes(String(e || "").toLowerCase());
 /* 관리자 모드 '후원 계좌'에서 한 번도 저장하지 않았을 때 보이는 계좌 (저장하면 그 값이 우선) */
 const DEFAULT_ACCOUNT = {bank:"카카오뱅크", number:"3333-35-2849815", holder:"조O해", org:"개교50주년준비위원회", note:""};
 const PREFIX = "jinsun50_";          // 다른 웹앱과 컬렉션이 섞이지 않도록 붙이는 이름표
@@ -1931,9 +1931,14 @@ async function firebaseApi(){
       }
       return ids.length;
     },
-    login: pw => au.signInWithEmailAndPassword(auth, ADMIN_EMAIL, pw),
+    // 관리자 로그인은 구글 계정(bellachord) 하나예요. 관리자가 아닌 계정이면 바로 로그아웃해요
+    login: async () => {
+      const p = new au.GoogleAuthProvider(); p.setCustomParameters({login_hint: ADMIN_LOGIN});
+      const r = await au.signInWithPopup(auth, p);
+      if(!isAdminEmail(r.user.email)){ await au.signOut(auth); throw {code: "not-admin"}; }
+    },
     logout: () => au.signOut(auth),
-    onAuth: cb => au.onAuthStateChanged(auth, u => cb(!!u && u.email === ADMIN_EMAIL))
+    onAuth: cb => au.onAuthStateChanged(auth, u => cb(!!u && isAdminEmail(u.email)))
   };
 }
 function demoApi(){
@@ -2334,7 +2339,7 @@ function fillSettings(){
   }
   $("#sTheme").value = validTheme(state.defaults?.theme);
   $("#sFont").value = validFont(state.defaults?.font);
-  $("#sAdmin").textContent = ADMIN_EMAIL;
+  $("#sAdmin").textContent = ADMIN_LOGIN + " (구글 로그인)";
 }
 
 /* ═════════ 5-1b. 50년 발자취 · 홈페이지 틀 ═════════ */
@@ -2722,7 +2727,6 @@ const local = loadLocal();
 applyStyle(local?.theme, local?.font);
 renderMenus(); renderDonations(); renderTimeline(); renderLeaders(); renderNumbers(); renderPress(); renderDday(); initHomepage(); initHistoryTabs();
 document.body.classList.add("layout-" + LAYOUT);
-$("#adminEmail").value = ADMIN_EMAIL;
 document.querySelectorAll(".contact-mail").forEach(a => { a.href = "mailto:" + CONTACT_EMAIL; a.textContent = CONTACT_EMAIL; });
 if(DEMO) $("#demoBanner").hidden = false;
 
@@ -3166,19 +3170,20 @@ $("#mgrBody").addEventListener("click", async e => {
 });
 $("#adminFab").addEventListener("click", () => {
   if(state.isAdmin){ showDash(true); return; }
-  $("#loginErr").textContent = ""; $("#adminPw").value = "";
-  $("#loginDialog").showModal(); $("#adminPw").focus();
+  $("#loginErr").textContent = "";
+  $("#loginDialog").showModal();
 });
 $("#loginForm").addEventListener("submit", async e => {
   e.preventDefault();
   state.justLogin = true;
-  try{ await api.login($("#adminPw").value); $("#loginDialog").close(); if(state.view !== "dash") showDash(true); toast("관리자 대시보드입니다"); }
+  try{ await api.login(); $("#loginDialog").close(); if(state.view !== "dash") showDash(true); toast("관리자 대시보드입니다"); }
   catch(err){
     state.justLogin = false;
     const c = err.code || "";
     $("#loginErr").textContent =
-      c.includes("invalid-credential") || c.includes("wrong-password") ? "비밀번호가 맞지 않습니다." :
-      c.includes("too-many-requests") ? "시도가 너무 많습니다. 잠시 후 다시 해 보세요." :
+      c === "not-admin" ? "관리자 구글 계정(bellachord)으로 골라 주세요." :
+      c.includes("popup-closed") || c.includes("cancelled-popup") ? "" :
+      c.includes("popup-blocked") ? "팝업이 막혔어요. 팝업을 허용해 주세요." :
       "로그인하지 못했습니다 (" + (c || err.message) + ")";
   }
 });
