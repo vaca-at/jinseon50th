@@ -1340,9 +1340,9 @@ dialog.wide{width:min(1100px,calc(100% - 24px))}
     <button class="btn btn-sm" data-close>닫기</button>
   </div>
   <form class="dlg-body login-form" id="loginForm">
-    <p class="note" style="margin:0 0 4px">관리자 구글 계정(bellachord)으로 로그인해 주세요. 한 번 로그인하면 이 기기에서는 다음부터 저절로 들어가요.</p>
+    <p class="note" style="margin:0 0 4px">관리자 구글 계정으로 로그인해 주세요. 한 번 로그인하면 이 기기에서는 다음부터 저절로 들어가요.</p>
     <p class="err" id="loginErr"></p>
-    <button class="btn btn-primary" type="submit" style="width:100%;margin-top:6px">G 구글 계정(bellachord)으로 로그인</button>
+    <button class="btn btn-primary" type="submit" style="width:100%;margin-top:6px">G 구글 계정으로 로그인</button>
   </form>
 </dialog>
 
@@ -1931,9 +1931,9 @@ async function firebaseApi(){
       }
       return ids.length;
     },
-    // 관리자 로그인은 구글 계정(bellachord) 하나예요. 관리자가 아닌 계정이면 바로 로그아웃해요
+    // 관리자 로그인은 관리자 구글 계정 하나예요. 관리자가 아닌 계정이면 바로 로그아웃해요
     login: async () => {
-      const p = new au.GoogleAuthProvider(); p.setCustomParameters({login_hint: ADMIN_LOGIN});
+      const p = new au.GoogleAuthProvider(); p.setCustomParameters({prompt: "select_account"});
       const r = await au.signInWithPopup(auth, p);
       if(!isAdminEmail(r.user.email)){ await au.signOut(auth); throw {code: "not-admin"}; }
     },
@@ -2339,7 +2339,7 @@ function fillSettings(){
   }
   $("#sTheme").value = validTheme(state.defaults?.theme);
   $("#sFont").value = validFont(state.defaults?.font);
-  $("#sAdmin").textContent = ADMIN_LOGIN + " (구글 로그인)";
+  $("#sAdmin").textContent = "관리자 구글 계정으로 로그인했어요";
 }
 
 /* ═════════ 5-1b. 50년 발자취 · 홈페이지 틀 ═════════ */
@@ -3181,7 +3181,7 @@ $("#loginForm").addEventListener("submit", async e => {
     state.justLogin = false;
     const c = err.code || "";
     $("#loginErr").textContent =
-      c === "not-admin" ? "관리자 구글 계정(bellachord)으로 골라 주세요." :
+      c === "not-admin" ? "관리자 구글 계정으로 골라 주세요." :
       c.includes("popup-closed") || c.includes("cancelled-popup") ? "" :
       c.includes("popup-blocked") ? "팝업이 막혔어요. 팝업을 허용해 주세요." :
       "로그인하지 못했습니다 (" + (c || err.message) + ")";
