@@ -148,7 +148,8 @@ h2{font-family:var(--f-head);font-weight:var(--head-w);font-size:clamp(1.75rem,3
 .tile-memo span:last-child{border-bottom:1px solid var(--line)}
 .tile-memo em{flex:none;min-width:4.6em;font-style:normal;font-size:.74rem;font-weight:700;letter-spacing:.06em;color:var(--gold)}
 .tile-memo b{font-weight:400;color:var(--ink)}
-.tile-memo.none{justify-content:center;color:var(--muted);font-size:.8rem}
+/* 안내가 없는 칸도 날짜 칸처럼 위아래 줄 사이에 문구를 둠 */
+.tile-memo.none{color:var(--muted);font-size:.8rem}
 .tile-foot{margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:8px}
 .tile-status{display:inline-flex;align-items:center;gap:7px;font-size:.74rem;letter-spacing:.12em;color:var(--muted)}
 .tile-status::before{content:"";width:7px;height:7px;border-radius:50%;background:#F08A24;box-shadow:0 0 0 3px color-mix(in srgb,#F08A24 22%,transparent)}
@@ -2022,7 +2023,7 @@ function renderMenus(){
       </span>
       <span class="tile-title">${esc(m.title)}</span>
       ${m.memo ? `<span class="tile-memo">${m.memo.map(([k, v]) => `<span><em>${esc(k)}</em><b>${esc(v)}</b></span>`).join("")}</span>`
-               : `<span class="tile-memo none">세부 일정은 추후 안내합니다</span>`}
+               : `<span class="tile-memo none"><span>세부 일정은 추후 안내합니다</span></span>`}
       <span class="tile-foot">
         <span class="tile-status ${has ? "ready" : ""}">${has ? "안내 있음" : "준비중"}</span>
         <span class="tile-more"><span class="more-tx">자세히</span><span class="more-seal" aria-hidden="true"><i class="ms-ring"></i><i class="ms-disc"></i><i class="ms-ar"></i></span></span>
